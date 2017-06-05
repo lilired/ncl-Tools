@@ -1,25 +1,37 @@
-Project: CENAPRED
-NCL
+# **Project: CENAPRED**
+
+## NCL
 
 It will be done a version in ncl for the variables:
 
 
 Air temperature at 2 mts (T2)
+
 Precipitation (PREC2)
+
 Wind at multiple levels
+
 Relative humidity
+
 Sensible heat flux
+
 Latent heat flux
+
 Shortwave radiation
+
 Longwave radiation
+
 Total radiation
+
 Boundary layer height
+
 Cloud coverage
+
 Evaporation
 
 Identify variables in the original WRF:
 
-*variable: Air Temperature al 2 mts 
+**-variable: Air Temperature al 2 mts**
 
 float T2(Time, south_north, west_east) ;
 		T2:FieldType = 104 ;
@@ -30,7 +42,7 @@ float T2(Time, south_north, west_east) ;
 		T2:coordinates = "XLONG XLAT XTIME" ;
 
 
-*variable: Precipitation 
+**-variable: Precipitation** 
 
 float RAINC(Time, south_north, west_east) ;
 		RAINC:FieldType = 104 ;
@@ -40,7 +52,7 @@ float RAINC(Time, south_north, west_east) ;
 		RAINC:stagger = "" ;
 		RAINC:coordinates = "XLONG XLAT XTIME" ;
 
-*variable: Wind at multiple levels
+**-variable: Wind at multiple levels**
 
 float U10(Time, south_north, west_east) ;
 		U10:FieldType = 104 ;
@@ -83,7 +95,7 @@ float W(Time, bottom_top_stag, south_north, west_east) ;
 		W:coordinates = "XLONG XLAT XTIME" ;
 
 
-*variable: relative humidity(rh)
+**-variable: relative humidity(rh)**
 
 float QVAPOR(Time, bottom_top, south_north, west_east) ;
 		QVAPOR:FieldType = 104 ;
@@ -94,7 +106,7 @@ float QVAPOR(Time, bottom_top, south_north, west_east) ;
 		QVAPOR:coordinates = "XLONG XLAT XTIME" ;
 
 
-*variable: sensible heat flux 
+**-variable: sensible heat flux** 
 	float HFX_FORCE(Time) ;
 		HFX_FORCE:FieldType = 104 ;
 		HFX_FORCE:MemoryOrder = "0  " ;
@@ -103,7 +115,7 @@ float QVAPOR(Time, bottom_top, south_north, west_east) ;
 		HFX_FORCE:stagger = "" ;
 
 
-*variable: sensible heat flux 
+**-variable: sensible heat flux** 
 	float LH_FORCE(Time) ;
 		LH_FORCE:FieldType = 104 ;
 		LH_FORCE:MemoryOrder = "0  " ;
@@ -112,7 +124,7 @@ float QVAPOR(Time, bottom_top, south_north, west_east) ;
 		LH_FORCE:stagger = "" ;
 
 
-*variable: cloud coverage
+**-variable: cloud coverage**
 
 float QCLOUD(Time, bottom_top, south_north, west_east) ;
 		QCLOUD:FieldType = 104 ;
@@ -123,7 +135,7 @@ float QCLOUD(Time, bottom_top, south_north, west_east) ;
 		QCLOUD:coordinates = "XLONG XLAT XTIME" ;
 
 
-*variable: boundary layer height
+**-variable: boundary layer height**
 
 float PBLH(Time, south_north, west_east) ;
 		PBLH:FieldType = 104 ;
@@ -134,7 +146,7 @@ float PBLH(Time, south_north, west_east) ;
 		PBLH:coordinates = "XLONG XLAT XTIME" ;
 
 
-*variable:Short wave radiation
+**-variable:Short wave radiation**
 
 float SWDOWN(Time, south_north, west_east) ;
 		SWDOWN:FieldType = 104 ;
@@ -153,7 +165,7 @@ float SWNORM(Time, south_north, west_east) ;
 		SWNORM:coordinates = "XLONG XLAT XTIME" ;
 
 
-*variable:Long wave radiation
+**-variable:Long wave radiation**
 
 float GLW(Time, south_north, west_east) ;
 		GLW:FieldType = 104 ;
@@ -172,8 +184,8 @@ float OLR(Time, south_north, west_east) ;
 		OLR:coordinates = "XLONG XLAT XTIME" ;
 
 
-*variable: total radiation
+**-variable: total radiation**
 
 
-*variable: evaporation
+**-variable: evaporation**
 
