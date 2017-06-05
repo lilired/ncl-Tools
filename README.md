@@ -1,5 +1,5 @@
-#_Project: CENAPRED_
-_NCL_
+Project: CENAPRED
+NCL
 
 It will be done a version in ncl for the variables:
 
