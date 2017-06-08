@@ -1,0 +1,9 @@
+#!/bin/bash
+
+/usr/local/ncl/bin/ncl /ServerScripts/WRF_to_NetCDF/WRF_for_OWGIS.ncl
+
+DATE=`date --date="1 day ago" +%Y-%m-%d`
+COMMAND="ls -d -1 /ServerData/WRF_OWGIS/* | grep -v '$DATE' | xargs rm -f"
+echo "Removing files with: $COMMAND"
+eval $COMMAND
+
