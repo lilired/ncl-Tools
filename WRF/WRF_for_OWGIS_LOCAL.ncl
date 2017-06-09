@@ -30,7 +30,7 @@ months=(/"01_enero","02_febrero","03_marzo","04_abril","05_mayo","06_junio","07_
 
 
 
-Ruta_wrf= rfile ;"/home/pron_meteo/scripts/ncl/wrf_salidas/"
+Ruta_wrf= rfile ;
 
 ruta_com=Ruta_wrf
 
