@@ -98,46 +98,46 @@ do dominio=1,2
 
 	; ---------- Adding 3D variables from file
 	;varNames= (/ "T2","RAINC","U10","V10","SST"/)
-	varNames= (/ "U10","V10"/)
-	add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
-
+	;varNames= (/ "U10","V10"/)
+	;add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
+;
 	; ------- Adding 3D composed variables 
-	delete(varNames)
-	varNames = (/ "WS10", "PREC2", "T2C", "SSTC", "PREC2B" /)
-	add3DComposedVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
+	;delete(varNames)
+	;varNames = (/ "WS10", "PREC2", "T2C", "SSTC", "PREC2B" /)
+	;add3DComposedVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
 
 	; ------- Adding interpolated Winds  -------------------
-	addInter(fin,fout,dim_time, dim_lat, dim_lon)
+	;addInter(fin,fout,dim_time, dim_lat, dim_lon)
 
 	; ---------------- Define time for Precipitation every hour ---------------
-	print("Adding PRECH y TimePRECH...")
-	prech = addPRECH(fin,fout,Time, dim_time, dim_lat, dim_lon)
-	print("Done!")
-
+	;print("Adding PRECH y TimePRECH...")
+	;prech = addPRECH(fin,fout,Time, dim_time, dim_lat, dim_lon)
+	;print("Done!")
+;
 	; ----------------- Add the PRECA3 variable ------
-	print("Adding PRECA3....")
-	preca3 = addPrecAcu3(prech,fout, dim_lat, dim_lon)
-	print("Done!")
+	;print("Adding PRECA3....")
+	;preca3 = addPrecAcu3(prech,fout, dim_lat, dim_lon)
+	;print("Done!")
 
 	; ----------------- Add the PRECA6 variable ------
-	print("Adding PRECA6....")
-	preca6 = addPrecAcu6(prech,fout, dim_lat, dim_lon)
-	print("Done!")
+	;print("Adding PRECA6....")
+	;preca6 = addPrecAcu6(prech,fout, dim_lat, dim_lon)
+	;print("Done!")
 
 	; ---------- Adding 4D variables from file -------------------
-	delete(varNames)
-	varNames= (/"P"/)
+	;delete(varNames)
+	varNames= (/"QVAPOR","QCLOUD"/)
 	add4DVars(varNames, fin,fout,dim_time, dim_depth, dim_lat, dim_lon)
 
 	; ------- Adding 4D composed variables  -------------------
-	delete(varNames)
-	varNames = (/ "PA"/)
-	add4DComposedVars(varNames, fin,fout,dim_time, dim_depth, dim_lat, dim_lon)
+	;delete(varNames)
+	;varNames = (/ "PA","RH"/)
+	;add4DComposedVars(varNames, fin,fout,dim_time, dim_depth, dim_lat, dim_lon)
 
 	delete(varNames)
-	delete(prech)
-	delete(preca3)
-	delete(preca6)
+	;delete(prech)
+	;delete(preca3)
+	;delete(preca6)
 	delete(dim_lon)
 	delete(dim_lat)
 	delete(Time)

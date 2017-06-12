@@ -6,7 +6,20 @@ procedure add4DVars(varNames,fin,fout,dim_time, dim_depth, dim_lat, dim_lon) beg
         newVar = new((/dim_time, dim_depth, dim_lat, dim_lon/), "float", 0)
         newVar(:,:,:,:) = (/origVar/)
 
-        filevardef(fout, varNames(varIdx) ,typeof(newVar), (/"Time","Depth","Latitude","Longitude" /) ) ; time dimension
+
+; --- Add specific attributes ----
+        ; ---------- For P ----------
+      ;  if(varNames(varIdx) .eq. "QVAPOR") then
+	;		newVar@units = "kg kg-1" ;
+	;		newVar@long_name= "Relative Humidity"
+	;		newVar@standard_name = "Water vapor mixing ratio" ;
+	;		varNames(varIdx) = "qv"
+        ;	print("Adding as "+varNames(varIdx)+"...")
+        ;end if
+
+
+
+       filevardef(fout, varNames(varIdx) ,typeof(newVar), (/"Time","Depth","Latitude","Longitude" /) ) ; time dimension
         copy_VarAtts(origVar,newVar) ; Copy origial attributes
         delete_VarAtts(newVar, (/"coordinates"/))
 
