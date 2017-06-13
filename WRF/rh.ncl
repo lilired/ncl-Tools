@@ -44,6 +44,9 @@ print("imprimir theta")
   TK = wrf_tk (P, theta)
   RH = wrf_rh (qv, P, TK)
 
-
   printVarSummary(RH)
+
+
+return_val@description = "Relative Humidity"
+return_val@units = "%" 
 end

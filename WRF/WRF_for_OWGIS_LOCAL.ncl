@@ -65,7 +65,7 @@ do dominio=1,2
 	print("Reading this file:"+ inputFile)
 	print("Writing to this file:"+ outputFile)
 
-	fin = addfile(inputFile,"r"); Abre el archivo NetCDF 
+	fin = addfile(inputFile,"r"); Abre el archivo wrf
 	system("rm -f " +outputFile)    ; remove if exists
 	fout = addfile(outputFile,"c"); Abre el archivo NetCDF 
 
@@ -76,6 +76,7 @@ do dominio=1,2
 	; Explicitly declare file definition mode. Improve efficiency.
 	setfileoption(fout,"DefineMode",True)
 
+
 	;------------ Creating Time dimension --------------------------------------
 	print("Adding Time dimension....")
 	Time = addTime(fout, dim_time)
@@ -85,7 +86,7 @@ do dominio=1,2
 	print("Adding latitude...")
 	dim_lat = addLat(fin,fout)
 	print("Done!")
-
+ 
 	;------------ Creating Longitude dimension --------------------------------------
 	print("Adding longitude...")
 	dim_lon = addLon(fin,fout)
@@ -96,11 +97,11 @@ do dominio=1,2
 	dim_depth = addDepth(fin,fout)
 	print("Done!")
 
-	; ---------- Adding 3D variables from file
+        ; ---------- Adding 3D variables from file
 	;varNames= (/ "T2","RAINC","U10","V10","SST"/)
-	;varNames= (/ "U10","V10"/)
-	;add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
-;
+        ;varNames=(/"U10","V10"/)
+        ;add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
+
 	; ------- Adding 3D composed variables 
 	;delete(varNames)
 	;varNames = (/ "WS10", "PREC2", "T2C", "SSTC", "PREC2B" /)
@@ -113,7 +114,7 @@ do dominio=1,2
 	;print("Adding PRECH y TimePRECH...")
 	;prech = addPRECH(fin,fout,Time, dim_time, dim_lat, dim_lon)
 	;print("Done!")
-;
+
 	; ----------------- Add the PRECA3 variable ------
 	;print("Adding PRECA3....")
 	;preca3 = addPrecAcu3(prech,fout, dim_lat, dim_lon)
@@ -124,10 +125,16 @@ do dominio=1,2
 	;preca6 = addPrecAcu6(prech,fout, dim_lat, dim_lon)
 	;print("Done!")
 
+print(dim_time)
+print(dim_depth)
+print(dim_lat)
+print(dim_lon)
+
 	; ---------- Adding 4D variables from file -------------------
 	;delete(varNames)
-	varNames= (/"QVAPOR","QCLOUD"/)
-	add4DVars(varNames, fin,fout,dim_time, dim_depth, dim_lat, dim_lon)
+	;varNames= (/"QVAPOR","QCLOUD"/)
+	varNames= (/"U"/)
+        add4DVars(varNames,dominio,fin,fout,dim_time,dim_depth,dim_lat,dim_lon)
 
 	; ------- Adding 4D composed variables  -------------------
 	;delete(varNames)
