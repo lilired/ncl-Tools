@@ -6,6 +6,7 @@ load "createLat.ncl"
 load "createLon.ncl"
 load "createDepth.ncl"
 load "add3DVars.ncl"
+load "add3DVars4.ncl"
 load "add3DComposedVars.ncl"
 load "addInterpolatedWinds.ncl"
 load "addPRECH.ncl"
@@ -13,6 +14,7 @@ load "addPreca3.ncl"
 load "addPreca6.ncl"
 load "add4DVars.ncl"
 load "add4DComposedVars.ncl"
+load "addVar.ncl"
 print("Done!")
 
 ;------- Setting the proper input and output filenames ------
@@ -99,10 +101,21 @@ do dominio=1,2
 
         ; ---------- Adding 3D variables from file
 	;varNames= (/ "T2","RAINC","U10","V10","SST"/)
-        ;varNames=(/"U10","V10"/)
-        ;add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
+        varNames=(/"U10","V10","PBLH","SWDOWN","GLW"/)
+        add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
 
-	; ------- Adding 3D composed variables 
+        ; ---------- Adding 4D variables from file wind
+
+	;varNames=(/"U","V"/)
+        ;add3DVars4(varNames, fin,fout,dim_time,dim_depth,dim_lat, dim_lon)
+
+        ; ------- Adding time composed variables 																																																																																																																									
+	delete(varNames)
+	varNames = (/"HFX_FORCE","LH_FORCE"/)
+	addVar(varNames, fin,fout,dim_time)
+
+        ; ------- Adding 3D composed variable 
+																																																																																																										
 	;delete(varNames)
 	;varNames = (/ "WS10", "PREC2", "T2C", "SSTC", "PREC2B" /)
 	;add3DComposedVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
@@ -125,21 +138,15 @@ do dominio=1,2
 	;preca6 = addPrecAcu6(prech,fout, dim_lat, dim_lon)
 	;print("Done!")
 
-print(dim_time)
-print(dim_depth)
-print(dim_lat)
-print(dim_lon)
-
 	; ---------- Adding 4D variables from file -------------------
-	;delete(varNames)
-	;varNames= (/"QVAPOR","QCLOUD"/)
-	varNames= (/"U"/)
-        add4DVars(varNames,dominio,fin,fout,dim_time,dim_depth,dim_lat,dim_lon)
+	delete(varNames)
+	varNames= (/"P","QVAPOR","QCLOUD"/)
+	add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat,dim_lon)
 
 	; ------- Adding 4D composed variables  -------------------
-	;delete(varNames)
-	;varNames = (/ "PA","RH"/)
-	;add4DComposedVars(varNames, fin,fout,dim_time, dim_depth, dim_lat, dim_lon)
+	delete(varNames)
+	varNames = (/"RH"/)
+	add4DComposedVars(varNames, fin,fout,dim_time, dim_depth, dim_lat, dim_lon)
 
 	delete(varNames)
 	;delete(prech)

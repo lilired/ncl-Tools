@@ -12,6 +12,26 @@ procedure add4DComposedVars(varNames, fin,fout, dim_time, dim_depth, dim_lat, di
             newVar = p+pb
         end if
 
+ 
+       ; ---------- For RH ----------
+        if(varNames(varIdx) .eq. "RH") then
+            qv= fin->QVAPOR
+            theta = fin->T                  ; perturbation potential temperature (theta+t0)
+            P=fin->P
+            theta = theta + 300
+
+            TK = wrf_tk (P, theta)
+            RH = wrf_rh (qv, P, TK)
+
+            printVarSummary(RH)
+
+            newVar = new( (/dim_time, dim_depth, dim_lat, dim_lon/),"float", 0)
+            newVar = RH
+
+                  
+        end if
+
+ 
         filevardef(fout, varNames(varIdx) ,typeof(newVar), (/"Time","Depth","Latitude","Longitude" /) ) ; time dimension
         filevarattdef(fout,varNames(varIdx),newVar); copy T attributes
         fout->$varNames(varIdx)$ = (/newVar/)
