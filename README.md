@@ -189,3 +189,6 @@ float OLR(Time, south_north, west_east) ;
 
 **-variable: evaporation**
 
+ncl  rfile=\"/home/lili/Escritorio/repos/ncl/\"  WRF_for_OWGIS_LOCAL.ncl 
+
+
