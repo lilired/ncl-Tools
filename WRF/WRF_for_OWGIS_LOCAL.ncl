@@ -56,10 +56,10 @@ outputFolder=ruta_com
 dim_time = 121
 
 ; Iterate over the 2 domains
-do dominio=1,2
+do dominio=2,2
 
 	; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
-	thisDay = (/2016,11,07/)
+	thisDay = (/2016,10,24/)
 
 	inputFile= inputFolder+"wrfout_d0"+dominio+"_"+toint(thisDay(0))+"-"+toint(thisDay(1))+"-"+sprintf("%02g",toint(thisDay(2)))+"_00.nc"
 	outputFile= outputFolder+"Dom"+dominio+"_"+toint(thisDay(0))+"-"+toint(thisDay(1))+"-"+sprintf("%02g",toint(thisDay(2)))+".nc"
