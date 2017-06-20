@@ -1,17 +1,20 @@
 ;----------- Reading ncl Files --------
 print("Loading files.....")
+
 load "tools.ncl"
-load "createTime.ncl"
-load "createLat.ncl"
-load "createLon.ncl"
-load "createDepth.ncl"
+loadscript ("/home/lili/Escritorio/repos/ncl-Tools/WRF/init/createTime.ncl")
+loadscript ("/home/lili/Escritorio/repos/ncl-Tools/WRF/init/createLon.ncl")
+loadscript ("/home/lili/Escritorio/repos/ncl-Tools/WRF/init/createLat.ncl")
+loadscript ("/home/lili/Escritorio/repos/ncl-Tools/WRF/init/createDepth.ncl")
+loadscript ("/home/lili/Escritorio/repos/ncl-Tools/WRF/prec/addPRECH.ncl")
+loadscript ("/home/lili/Escritorio/repos/ncl-Tools/WRF/prec/addPreca3.ncl")
+loadscript ("/home/lili/Escritorio/repos/ncl-Tools/WRF/prec/addPreca6.ncl")
+
+
 load "add3DVars.ncl"
 load "add3DVars4.ncl"
 load "add3DComposedVars.ncl"
 load "addInterpolatedWinds.ncl"
-load "addPRECH.ncl"
-load "addPreca3.ncl"
-load "addPreca6.ncl"
 load "add4DVars.ncl"
 load "add4DComposedVars.ncl"
 load "addVar.ncl"
@@ -59,10 +62,14 @@ dim_time = 121
 do dominio=2,2
 
 	; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
-	thisDay = (/2016,10,24/)
-
-	inputFile= inputFolder+"wrfout_d0"+dominio+"_"+toint(thisDay(0))+"-"+toint(thisDay(1))+"-"+sprintf("%02g",toint(thisDay(2)))+"_00.nc"
-	outputFile= outputFolder+"Dom"+dominio+"_"+toint(thisDay(0))+"-"+toint(thisDay(1))+"-"+sprintf("%02g",toint(thisDay(2)))+".nc"
+	;thisDay = (ani,mes,dia);(/2016,10,24/)
+        ;print(thisDay)
+anio=2017
+mes=06
+dia=19
+inputFile= inputFolder+"wrfout_d0"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+"_00.nc"
+print(inputFile)	
+outputFile= outputFolder+"Dom"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"
 
 	print("Reading this file:"+ inputFile)
 	print("Writing to this file:"+ outputFile)
@@ -140,7 +147,7 @@ do dominio=2,2
 
 	; ---------- Adding 4D variables from file -------------------
 	delete(varNames)
-	varNames= (/"P","QVAPOR","QCLOUD"/)
+	varNames= (/"P","QVAPOR","QCLOUD","U"/)
 	add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat,dim_lon)
 
 	; ------- Adding 4D composed variables  -------------------
@@ -156,4 +163,6 @@ do dominio=2,2
 	delete(dim_lat)
 	delete(Time)
 end do
-quit
+quit(34)+rfile_prec+"addPreca6.ncl"+inttochar(34)	
+;print(addPreca6)
+

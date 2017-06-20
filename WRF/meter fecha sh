@@ -8,6 +8,7 @@ DIA_INI=`date +%d`
 
 # Escribir el archivo con las fechas
 cat > fechas.sh  << EOF
+
 #!/bin/bash
 
 ANIO_INI=$ANIO_INI

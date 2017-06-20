@@ -4,9 +4,9 @@
 
 #/home/lili/Escritorio/repos/ncl-Tools/WRF/WRF_for_OWGIS_LOCAL.ncl
 
-dia=`date --date="1 day ago" +%d`
-mes=`date --date="1 day ago" +%m`
-anio=`date --date="1 day ago" +%Y`
+dia=`date  +%d`
+mes=`date  +%m`
+anio=`date +%Y`
 
 
 rfile_prec=rfile=\"/home/pron_meteo/scripts/ncl/wrf_salidas/\"
@@ -15,7 +15,7 @@ rfile_prec=rfile=\"/home/pron_meteo/scripts/ncl/wrf_salidas/\"
 #COMMAND= "ncl DATE rfile WRF_for_OWGIS_LOCAL.ncl"
 #COMMAND="ls -d -1 /home/lili/Escritorio/repos/ncl-Tools/WRF/* | grep -v '$DATE' | xargs rm -f"
 #echo "Removing files with: $COMMAND"
-COMMAND= ncl rfile=\"/home/lili/Escritorio/repos/ncl/\" dia=$dia mes=$mes anio=$anio rfile_prec=\"/home/lili/Escritorio/repos/ncl-Tools/WRF/prec/\" rfile_prec=\"/home/lili/Escritorio/repos/ncl-Tools/WRF/init/\" WRF_for_OWGIS_LOCAL.ncl
+COMMAND= ncl rfile=\"/home/lili/Escritorio/repos/ncl/\" dia=$dia mes=$mes anio=$anio rfile_init=\"/home/lili/Escritorio/repos/ncl-Tools/WRF/init/\" rfile_prec=\"/home/lili/Escritorio/repos/ncl-Tools/WRF/init/\" WRF_for_OWGIS_LOCAL.ncl
 eval $COMMAND
 
 

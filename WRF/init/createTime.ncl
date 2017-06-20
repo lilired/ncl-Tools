@@ -15,5 +15,6 @@ function addTime(fout, dim_time) begin
     filevardef(fout, "Time" ,typeof(Time),"Time") ; Time dimension
     filevarattdef(fout,"Time",Time)                  ; copy Longitude attributes
     fout->Time   = (/Time/)     
+print("funciona")
     return Time
 end
