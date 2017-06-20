@@ -64,9 +64,7 @@ do dominio=2,2
 	; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
 	;thisDay = (ani,mes,dia);(/2016,10,24/)
         ;print(thisDay)
-anio=2017
-mes=06
-dia=19
+
 inputFile= inputFolder+"wrfout_d0"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+"_00.nc"
 print(inputFile)	
 outputFile= outputFolder+"Dom"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"
@@ -147,7 +145,7 @@ outputFile= outputFolder+"Dom"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+spri
 
 	; ---------- Adding 4D variables from file -------------------
 	delete(varNames)
-	varNames= (/"P","QVAPOR","QCLOUD","U"/)
+	varNames= (/"P","QVAPOR","QCLOUD"/)
 	add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat,dim_lon)
 
 	; ------- Adding 4D composed variables  -------------------
@@ -163,6 +161,4 @@ outputFile= outputFolder+"Dom"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+spri
 	delete(dim_lat)
 	delete(Time)
 end do
-quit(34)+rfile_prec+"addPreca6.ncl"+inttochar(34)	
-;print(addPreca6)
 
