@@ -10,7 +10,7 @@ loadscript ("./prec/addPreca3.ncl")
 loadscript ("./prec/addPreca6.ncl")
 loadscript ("./init/createLonU.ncl")
 loadscript ("./init/createLatV.ncl")
-loadscript ("./init/createDepthW.ncl")
+;loadscript ("./init/createDepthW.ncl")
 
 load "add3DVars.ncl"
 load "add3DVars4.ncl"
@@ -37,9 +37,6 @@ outputFolder=out
 inputFolder=dataFolder+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
 ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
 dim_time = 121
-dia=20
-mes=06
-anio=2017
 ; Iterate over the 2 domains
 do dominio=2,2
     ; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
