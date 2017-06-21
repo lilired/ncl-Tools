@@ -1,7 +1,4 @@
-function addTime(fout, dim_time) begin
-    TodayDate = systemfunc("date -I")
-    thisDay = getDate(TodayDate)
-
+function addTime(fout, dim_time, thisDay) begin
     ; TODO REMOVE HARD CODED TIME LENGHT
     Time = createArray(dim_time) ;Total Time steps
     Time@standard_name = "Time"
@@ -15,6 +12,5 @@ function addTime(fout, dim_time) begin
     filevardef(fout, "Time" ,typeof(Time),"Time") ; Time dimension
     filevarattdef(fout,"Time",Time)                  ; copy Longitude attributes
     fout->Time   = (/Time/)     
-print("funciona")
     return Time
 end
