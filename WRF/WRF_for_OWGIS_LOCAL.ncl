@@ -2,10 +2,17 @@
 print("Loading files.....")
 
 load "tools.ncl"
+
 loadscript ("/home/lili/Escritorio/repos/ncl-Tools/WRF/init/createTime.ncl")
+
 loadscript ("/home/lili/Escritorio/repos/ncl-Tools/WRF/init/createLon.ncl")
 loadscript ("/home/lili/Escritorio/repos/ncl-Tools/WRF/init/createLat.ncl")
 loadscript ("/home/lili/Escritorio/repos/ncl-Tools/WRF/init/createDepth.ncl")
+
+loadscript ("/home/lili/Escritorio/repos/ncl-Tools/WRF/init/createLonU.ncl")
+loadscript ("/home/lili/Escritorio/repos/ncl-Tools/WRF/init/createLatV.ncl")
+loadscript ("/home/lili/Escritorio/repos/ncl-Tools/WRF/init/createDepthW.ncl")
+
 loadscript ("/home/lili/Escritorio/repos/ncl-Tools/WRF/prec/addPRECH.ncl")
 loadscript ("/home/lili/Escritorio/repos/ncl-Tools/WRF/prec/addPreca3.ncl")
 loadscript ("/home/lili/Escritorio/repos/ncl-Tools/WRF/prec/addPreca6.ncl")
@@ -18,6 +25,7 @@ load "addInterpolatedWinds.ncl"
 load "add4DVars.ncl"
 load "add4DComposedVars.ncl"
 load "addVar.ncl"
+
 print("Done!")
 
 ;------- Setting the proper input and output filenames ------
@@ -30,13 +38,9 @@ months=(/"01_enero","02_febrero","03_marzo","04_abril","05_mayo","06_junio","07_
 
 ; Reads all the files
 
-;inputFolder="/ServerData/WRF/"+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
-;outputFolder="/ServerData/WRF_OWGIS/"
-
-
+;Start parameters
 
 Ruta_wrf= rfile ;
-
 ruta_com=Ruta_wrf
 
 
@@ -47,7 +51,6 @@ outputFolder=ruta_com
 ; TODO comment this lines in server 
 ;inputFolder="/media/storageBK/storageBK/"
 ;outputFolder="/media/storageBK/storageBK/"
-
 ;inputFolder="/home/lili/Escritorio/repos/ncl/"
 ;outputFolder="/home/lili/Escritorio/repos/ncl/"
 
@@ -57,17 +60,17 @@ outputFolder=ruta_com
 
 ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
 dim_time = 121
-
+dia=20
+mes=06
+anio=2017
 ; Iterate over the 2 domains
 do dominio=2,2
 
 	; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
-	;thisDay = (ani,mes,dia);(/2016,10,24/)
-        ;print(thisDay)
 
-inputFile= inputFolder+"wrfout_d0"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+"_00.nc"
-print(inputFile)	
-outputFile= outputFolder+"Dom"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"
+        inputFile= inputFolder+"wrfout_d0"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+"_00.nc"
+        print(inputFile)	
+        outputFile= outputFolder+"Dom"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"
 
 	print("Reading this file:"+ inputFile)
 	print("Writing to this file:"+ outputFile)
@@ -104,10 +107,12 @@ outputFile= outputFolder+"Dom"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+spri
 	dim_depth = addDepth(fin,fout)
 	print("Done!")
 
+    
+
         ; ---------- Adding 3D variables from file
 	;varNames= (/ "T2","RAINC","U10","V10","SST"/)
-        varNames=(/"U10","V10","PBLH","SWDOWN","GLW"/)
-        add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
+        ;varNames=(/"U10","V10","PBLH","SWDOWN","GLW"/)
+        ;add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
 
         ; ---------- Adding 4D variables from file wind
 
@@ -115,9 +120,9 @@ outputFile= outputFolder+"Dom"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+spri
         ;add3DVars4(varNames, fin,fout,dim_time,dim_depth,dim_lat, dim_lon)
 
         ; ------- Adding time composed variables 																																																																																																																									
-	delete(varNames)
-	varNames = (/"HFX_FORCE","LH_FORCE"/)
-	addVar(varNames, fin,fout,dim_time)
+	;delete(varNames)
+	;varNames = (/"HFX_FORCE","LH_FORCE"/)
+	;addVar(varNames, fin,fout,dim_time)
 
         ; ------- Adding 3D composed variable 
 																																																																																																										
@@ -144,15 +149,40 @@ outputFile= outputFolder+"Dom"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+spri
 	;print("Done!")
 
 	; ---------- Adding 4D variables from file -------------------
-	delete(varNames)
-	varNames= (/"P","QVAPOR","QCLOUD"/)
-	add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat,dim_lon)
+	;delete(varNames)
+	;varNames= (/"P","QVAPOR","QCLOUD"/)
+	;add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat,dim_lon)
+
+	; ---------- Adding 4D variables from file for U,V,W,T -------------------
+	;delete(varNames)
+
+
+
+    ;------------ Creating Latitude dimension U--------------------------------------
+	print("Adding latitude V...")
+	dim_latU = addLatU(fin,fout)
+	print("Done!")
+ 
+	;------------ Creating Longitude dimension U--------------------------------------
+	print("Adding longitude U...")
+	dim_lonU = addLonU(fin,fout)
+	print("Done!")
+
+	;------------ Creating Depth dimension U--------------------------------------
+	print("Adding depth ...")
+	dim_depthU = addDepthW(fin,fout)
+	print("Done!")
+
+
+	varNames= (/"V"/);,"V","W","T"/)
+	add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_latU,dim_lonU)
+
 
 	; ------- Adding 4D composed variables  -------------------
-	delete(varNames)
-	varNames = (/"RH"/)
-	add4DComposedVars(varNames, fin,fout,dim_time, dim_depth, dim_lat, dim_lon)
-
+;	delete(varNames)
+;	varNames = (/"RH"/)
+;	add4DComposedVars(varNames, fin,fout,dim_time, dim_depth, dim_lat, dim_lon)
+;
 	delete(varNames)
 	;delete(prech)
 	;delete(preca3)
