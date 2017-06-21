@@ -8,6 +8,9 @@ loadscript ("./init/createDepth.ncl")
 loadscript ("./prec/addPRECH.ncl")
 loadscript ("./prec/addPreca3.ncl")
 loadscript ("./prec/addPreca6.ncl")
+loadscript ("./init/createLonU.ncl")
+loadscript ("./init/createLatV.ncl")
+loadscript ("./init/createDepthW.ncl")
 
 load "add3DVars.ncl"
 load "add3DVars4.ncl"
@@ -16,6 +19,7 @@ load "addInterpolatedWinds.ncl"
 load "add4DVars.ncl"
 load "add4DComposedVars.ncl"
 load "addVar.ncl"
+
 print("Done!")
 
 ;------- Setting the proper input and output filenames ------
@@ -33,7 +37,9 @@ outputFolder=out
 inputFolder=dataFolder+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
 ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
 dim_time = 121
-
+dia=20
+mes=06
+anio=2017
 ; Iterate over the 2 domains
 do dominio=2,2
     ; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
@@ -74,6 +80,7 @@ do dominio=2,2
     print("Adding depth ...")
     dim_depth = addDepth(fin,fout)
     print("Done!")
+
 
     ; ---------- Adding 3D variables from file
     ;varNames= (/ "T2","RAINC","U10","V10","SST"/)
@@ -118,6 +125,24 @@ do dominio=2,2
     ;varNames= (/"P","QVAPOR","QCLOUD","U"/)
     varNames= (/"P"/)
     add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat,dim_lon)
+
+    ;------------ Creating Latitude dimension U--------------------------------------
+    print("Adding latitude V...")
+    dim_latU = addLatU(fin,fout)
+    print("Done!")
+
+    ;------------ Creating Longitude dimension U--------------------------------------
+    print("Adding longitude U...")
+    dim_lonU = addLonU(fin,fout)
+    print("Done!")
+
+    ;------------ Creating Depth dimension U--------------------------------------
+    print("Adding depth ...")
+    dim_depthU = addDepthW(fin,fout)
+    print("Done!")
+
+    varNames= (/"V"/);,"V","W","T"/)
+    add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_latU,dim_lonU)
 
     ; ------- Adding 4D composed variables  -------------------
     delete(varNames)
