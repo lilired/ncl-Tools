@@ -4,10 +4,13 @@ dia=`date  +%d`
 mes=`date  +%m`
 anio=`date +%Y`
 
-<<<<<<< HEAD
+#<<<<<<< HEAD
 in=\"/home/lili/Escritorio/repos/ncl/\"
+out=\"/home/lili/Escritorio/repos/ncl/out/\"
+
 #in=\"/DATA/WRF/\"
-out=\"/DATA/OUT/WRF/\"
+#out=\"/DATA/OUT/WRF/\"
+
 
 #COMMAND= "ncl DATE rfile WRF_for_OWGIS_LOCAL.ncl"
 #COMMAND="ls -d -1 /home/lili/Escritorio/repos/ncl-Tools/WRF/* | grep -v '$DATE' | xargs rm -f"

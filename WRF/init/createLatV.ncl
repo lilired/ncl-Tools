@@ -10,7 +10,7 @@ function addLatV(fin,fout) begin
     latV@long_name= "Latitude"
     latV@units = "degrees_north"
     filedimdef(fout, (/"Latitude_V"/), dim_latV , (/ False /))
-    filevardef(fout, "Latitude_V" ,typeof(latV),"Latitude") ; lat dimension
+    filevardef(fout, "Latitude_V" ,typeof(latV),"Latitude_V") ; lat dimension
     filevarattdef(fout,"Latitude_V",latV)                  ; copy latitude attributes
     fout->Latitude_V = (/latV/)
     return dim_latV

@@ -9,11 +9,13 @@ loadscript ("./prec/addPRECH.ncl")
 loadscript ("./prec/addPreca3.ncl")
 loadscript ("./prec/addPreca6.ncl")
 loadscript ("./init/createLonU.ncl")
+loadscript ("./init/createLatU.ncl")
+loadscript ("./init/createDepthU.ncl")
+loadscript ("./init/createLonV.ncl")
 loadscript ("./init/createLatV.ncl")
-;loadscript ("./init/createDepthW.ncl")
+
 
 load "add3DVars.ncl"
-load "add3DVars4.ncl"
 load "add3DComposedVars.ncl"
 load "addInterpolatedWinds.ncl"
 load "add4DVars.ncl"
@@ -24,8 +26,8 @@ print("Done!")
 
 ;------- Setting the proper input and output filenames ------
 print("Configuring file names...")
-begTime = get_cpu_time()
-
+;begTime = get_cpu_time()
+dia=21
 thisDay = (/anio,mes,dia/);(/2016,10,24/)
 months=(/"01_enero","02_febrero","03_marzo","04_abril","05_mayo","06_junio","07_julio","08_agosto","09_septiembre","10_octubre","11_noviembre","12_diciembre"/)
 
@@ -36,6 +38,7 @@ outputFolder=out
 
 inputFolder=dataFolder+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
 ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
+print(inputFolder)
 
 dim_time = 121
 
@@ -59,7 +62,6 @@ do dominio=1,2
 
     ; Explicitly declare file definition mode. Improve efficiency.
     setfileoption(fout,"DefineMode",True)
-
 
     ;------------ Creating Time dimension --------------------------------------
     print("Adding Time dimension....")
@@ -108,18 +110,14 @@ do dominio=1,2
 
     ; ---------- Adding 3D variables from file
     ;varNames= (/ "T2","RAINC","U10","V10","SST"/)
-    ;varNames=(/"U10","V10","PBLH","SWDOWN","GLW"/)
-    varNames=(/"U10","V10"/)
+    varNames=(/"U10","V10","PBLH","SWDOWN","GLW","RAINC","T2","SST"/)
+    ;varNames=(/"U10","V10"/)
     add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
 
-    ; ---------- Adding 4D variables from file wind
-    ;varNames=(/"U","V"/)
-    ;add3DVars4(varNames, fin,fout,dim_time,dim_depth,dim_lat, dim_lon)
-
-    ; ------- Adding time composed variables 																																																																																																																									
-    ;delete(varNames)
-    ;varNames = (/"HFX_FORCE","LH_FORCE"/)
-    ;addVar(varNames, fin,fout,dim_time)
+    ; ------- Adding time composed variables 																																																																																																																							
+    delete(varNames)
+    varNames = (/"HFX_FORCE","LH_FORCE"/)
+    addVar(varNames, fin,fout,dim_time)
 
     ; ------- Adding 3D composed variable 
     delete(varNames)
@@ -128,7 +126,7 @@ do dominio=1,2
 
     ; ------- Adding interpolated Winds  -------------------
     addInter(fin,fout,dim_time, dim_lat, dim_lon)
-
+    
     ; ---------------- Define time for Precipitation every hour ---------------
     print("Adding PRECH y TimePRECH...")
     prech = addPRECH(fin,fout,Time, dim_time, dim_lat, dim_lon)
@@ -146,19 +144,17 @@ do dominio=1,2
 
     ; ---------- Adding 4D variables from file -------------------
     delete(varNames)
-    ;varNames= (/"P","QVAPOR","QCLOUD","U"/)
-    varNames= (/"P"/)
-    add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat,dim_lon)
-
-
-    varNames= (/"V"/);,"V","W","T"/)
-    add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_latU,dim_lonU)
-
+    varNames= (/"U","V","P","QVAPOR","QCLOUD"/)
+    add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat, dim_lon,dim_latU, dim_lonU,dim_latV, dim_lonV)
+    print("Done!")
+       
     ; ------- Adding 4D composed variables  -------------------
     delete(varNames)
-    ;varNames = (/"RH"/)
-    varNames = (/"PA"/)
+    varNames = (/"RH"/)
+    ;varNames = (/"PA"/)
     add4DComposedVars(varNames, fin,fout,dim_time, dim_depth, dim_lat, dim_lon)
+    print("Done!")
+
 
     delete(varNames)
     delete(prech)
@@ -166,5 +162,9 @@ do dominio=1,2
     delete(preca6)
     delete(dim_lon)
     delete(dim_lat)
+    delete(dim_lonU)
+    delete(dim_latU)
+    delete(dim_lonV)
+    delete(dim_latV) 
     delete(Time)
 end do

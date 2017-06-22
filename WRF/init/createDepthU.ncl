@@ -5,7 +5,7 @@ function addDepthU(fin,fout) begin
     dim_depthU = temp(1)
     depthU = new(dim_depthU,float)
     depthU = ZNW(0,:)
-    delete_VarAtts(depthW,-1)
+    delete_VarAtts(depthU,-1)
     depthU@standard_name = "depthU"
     depthU@long_name= "ZNW"
     filedimdef(fout, (/"Depth_U"/), dim_depthU , (/ False /))

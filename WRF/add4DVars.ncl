@@ -1,10 +1,26 @@
-procedure add4DVars(varNames,fin,fout,dim_time, dim_depth, dim_latU, dim_lonU) begin
+procedure add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat, dim_lon,dim_latU, dim_lonU,dim_latV, dim_lonV) begin
     ; Iterate over all the files and add each variable
     do varIdx =0,dimsizes(varNames)-1,1 ; This loop iterates over the variables
         print("Adding "+varNames(varIdx)+"...")
         origVar = fin->$varNames(varIdx)$
+
+        newVar = new((/dim_time, dim_depth, dim_lat, dim_lon/), "float", 0)
+        newVar(:,:,:,:) = (/origVar/)
+
+    ; ---------- For U ----------
+        if(varNames(varIdx) .eq. "U") then
         newVar = new((/dim_time, dim_depth, dim_latU, dim_lonU/), "float", 0)
         newVar(:,:,:,:) = (/origVar/)
+
+end if
+
+     ; ---------- For V ----------
+        if(varNames(varIdx) .eq. "V") then
+
+        newVar = new((/dim_time, dim_depth, dim_latV, dim_lonV/), "float", 0)
+        newVar(:,:,:,:) = (/origVar/)
+end if
+
 
         filevardef(fout, varNames(varIdx) ,typeof(newVar), (/"Time","Depth","Latitude_U","Longitude_U" /) ) ; time dimension
         copy_VarAtts(origVar,newVar) ; Copy origial attributes
