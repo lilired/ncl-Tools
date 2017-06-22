@@ -18,6 +18,8 @@ loadscript ("./init/createLatV.ncl")
 load "add3DVars.ncl"
 load "add3DComposedVars.ncl"
 load "addInterpolatedWinds.ncl"
+load "add4DVarsU.ncl"
+load "add4DVarsV.ncl"
 load "add4DVars.ncl"
 load "add4DComposedVars.ncl"
 load "addVar.ncl"
@@ -84,7 +86,7 @@ do dominio=1,2
     print("Done!")
 
     ;------------ Creating Latitude dimension U--------------------------------------
-    print("Adding latitude V...")
+    print("Adding latitude U...")
     dim_latU = addLatU(fin,fout)
     print("Done!")
 
@@ -94,7 +96,7 @@ do dominio=1,2
     print("Done!")
 
     ;------------ Creating Depth dimension U--------------------------------------
-    print("Adding depth ...")
+    print("Adding depth U...")
     dim_depthU = addDepthU(fin,fout)
     print("Done!")
 
@@ -115,43 +117,57 @@ do dominio=1,2
     add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
 
     ; ------- Adding time composed variables 																																																																																																																							
-    delete(varNames)
-    varNames = (/"HFX_FORCE","LH_FORCE"/)
-    addVar(varNames, fin,fout,dim_time)
+   delete(varNames)
+   varNames = (/"HFX_FORCE","LH_FORCE"/)
+   addVar(varNames, fin,fout,dim_time)
 
     ; ------- Adding 3D composed variable 
-    delete(varNames)
-    varNames = (/ "WS10", "PREC2", "T2C", "SSTC", "PREC2B" /)
-    add3DComposedVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
+   delete(varNames)
+   varNames = (/ "WS10", "PREC2", "T2C", "SSTC", "PREC2B" /)
+   add3DComposedVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
 
     ; ------- Adding interpolated Winds  -------------------
-    addInter(fin,fout,dim_time, dim_lat, dim_lon)
+   addInter(fin,fout,dim_time, dim_lat, dim_lon)
     
     ; ---------------- Define time for Precipitation every hour ---------------
-    print("Adding PRECH y TimePRECH...")
-    prech = addPRECH(fin,fout,Time, dim_time, dim_lat, dim_lon)
-    print("Done!")
+   print("Adding PRECH y TimePRECH...")
+   prech = addPRECH(fin,fout,Time, dim_time, dim_lat, dim_lon)
+   print("Done!")
 
     ; ----------------- Add the PRECA3 variable ------
     print("Adding PRECA3....")
     preca3 = addPrecAcu3(prech,fout, dim_lat, dim_lon)
     print("Done!")
-
+;
     ; ----------------- Add the PRECA6 variable ------
     print("Adding PRECA6....")
     preca6 = addPrecAcu6(prech,fout, dim_lat, dim_lon)
     print("Done!")
+;
+    ; ---------- Adding 4D variable U from file -------------------
+   delete(varNames)
+   varNames= (/"U"/)
+   add4DVarsU(varNames,fin,fout,dim_time,dim_depth,dim_latU, dim_lonU)
+   print("Done!")
+
+    ; ---------- Adding 4D variable V from file -------------------
+    delete(varNames)
+    varNames= (/"V"/)
+    add4DVarsV(varNames,fin,fout,dim_time,dim_depth,dim_latV, dim_lonV)
+    print("Done!")
+
 
     ; ---------- Adding 4D variables from file -------------------
     delete(varNames)
-    varNames= (/"U","V","P","QVAPOR","QCLOUD"/)
-    add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat, dim_lon,dim_latU, dim_lonU,dim_latV, dim_lonV)
+    varNames= (/"P","QVAPOR","QCLOUD"/)
+    add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat, dim_lon)
     print("Done!")
-       
+         
+   
     ; ------- Adding 4D composed variables  -------------------
     delete(varNames)
     varNames = (/"RH"/)
-    ;varNames = (/"PA"/)
+    varNames = (/"PA"/)
     add4DComposedVars(varNames, fin,fout,dim_time, dim_depth, dim_lat, dim_lon)
     print("Done!")
 

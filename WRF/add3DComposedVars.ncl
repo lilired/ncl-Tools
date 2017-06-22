@@ -52,5 +52,6 @@ procedure add3DComposedVars(varNames, fin,fout, dim_time, dim_lat, dim_lon) begi
 
         delete(newVar)
         print("Done!")
+         print("termine add3C")
     end do
 end
