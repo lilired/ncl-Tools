@@ -1,17 +1,17 @@
-function addLatU(fin,fout) begin
+function addLatV(fin,fout) begin
     ; Adding latitude variable
-    XLATU = fin->XLAT_U
-    temp = dimsizes(XLATU)
-    dim_latU = temp(1)
-    latU = new(dim_latU,float)
-    latU = XLATU(0,:,0)
-    delete_VarAtts(latU,-1)
-    latU@standard_name = "latitude"
-    latU@long_name= "Latitude"
-    latU@units = "degrees_north"
-    filedimdef(fout, (/"Latitude_U"/), dim_latU , (/ False /))
-    filevardef(fout, "Latitude_U" ,typeof(latU),"Latitude") ; lat dimension
-    filevarattdef(fout,"Latitude_U",latU)                  ; copy latitude attributes
-    fout->Latitude_U = (/latU/)
-    return dim_latU
+    XLATV = fin->XLAT_V
+    temp = dimsizes(XLATV)
+    dim_latV = temp(1)
+    latV = new(dim_latV,float)
+    latV = XLATV(0,:,0)
+    delete_VarAtts(latV,-1)
+    latV@standard_name = "latitude"
+    latV@long_name= "Latitude"
+    latV@units = "degrees_north"
+    filedimdef(fout, (/"Latitude_V"/), dim_latV , (/ False /))
+    filevardef(fout, "Latitude_V" ,typeof(latV),"Latitude") ; lat dimension
+    filevarattdef(fout,"Latitude_V",latV)                  ; copy latitude attributes
+    fout->Latitude_V = (/latV/)
+    return dim_latV
 end

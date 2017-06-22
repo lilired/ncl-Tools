@@ -36,9 +36,12 @@ outputFolder=out
 
 inputFolder=dataFolder+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
 ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
+
 dim_time = 121
+
 ; Iterate over the 2 domains
-do dominio=2,2
+do dominio=1,2
+
     ; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
     inputFile= inputFolder+"wrfout_d0"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+"_00.nc"
     outputFile= outputFolder+"Dom"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"
@@ -78,6 +81,30 @@ do dominio=2,2
     dim_depth = addDepth(fin,fout)
     print("Done!")
 
+    ;------------ Creating Latitude dimension U--------------------------------------
+    print("Adding latitude V...")
+    dim_latU = addLatU(fin,fout)
+    print("Done!")
+
+    ;------------ Creating Longitude dimension U--------------------------------------
+    print("Adding longitude U...")
+    dim_lonU = addLonU(fin,fout)
+    print("Done!")
+
+    ;------------ Creating Depth dimension U--------------------------------------
+    print("Adding depth ...")
+    dim_depthU = addDepthU(fin,fout)
+    print("Done!")
+
+    ;------------ Creating Latitude dimension V--------------------------------------
+    print("Adding latitude V...")
+    dim_latV = addLatV(fin,fout)
+    print("Done!")
+
+    ;------------ Creating Longitude dimension V--------------------------------------
+    print("Adding longitude V...")
+    dim_lonV = addLonV(fin,fout)
+    print("Done!")
 
     ; ---------- Adding 3D variables from file
     ;varNames= (/ "T2","RAINC","U10","V10","SST"/)
@@ -123,20 +150,6 @@ do dominio=2,2
     varNames= (/"P"/)
     add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat,dim_lon)
 
-    ;------------ Creating Latitude dimension U--------------------------------------
-    print("Adding latitude V...")
-    dim_latU = addLatU(fin,fout)
-    print("Done!")
-
-    ;------------ Creating Longitude dimension U--------------------------------------
-    print("Adding longitude U...")
-    dim_lonU = addLonU(fin,fout)
-    print("Done!")
-
-    ;------------ Creating Depth dimension U--------------------------------------
-    print("Adding depth ...")
-    dim_depthU = addDepthW(fin,fout)
-    print("Done!")
 
     varNames= (/"V"/);,"V","W","T"/)
     add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_latU,dim_lonU)
