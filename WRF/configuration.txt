@@ -1,0 +1,2 @@
+*Possible variable in 3 coordinates(time, latitud , longitud): "U10","V10","PBLH","SWDOWN","GLW","RAINC","T2","SST"
+var3=(/"U10","V10","PBLH","SWDOWN","GLW","RAINC","T2","SST"/)

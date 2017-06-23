@@ -1,6 +1,7 @@
 ;----------- Reading ncl Files --------
 print("Loading files.....")
-load "tools.ncl"
+
+loadscript ("./init/tools.ncl")
 loadscript ("./init/createTime.ncl")
 loadscript ("./init/createLon.ncl")
 loadscript ("./init/createLat.ncl")
@@ -15,20 +16,20 @@ loadscript ("./init/createLonV.ncl")
 loadscript ("./init/createLatV.ncl")
 
 
-load "add3DVars.ncl"
-load "add3DComposedVars.ncl"
-load "addInterpolatedWinds.ncl"
-load "add4DVarsU.ncl"
-load "add4DVarsV.ncl"
-load "add4DVars.ncl"
-load "add4DComposedVars.ncl"
-load "addVar.ncl"
+loadscript ("./var_3_coordinates/add3DVars.ncl")
+loadscript ("./var_3_coordinates/add3DComposedVars.ncl")
+loadscript ("./Interpolated_Var/addInterpolatedWinds.ncl")
+loadscript ("./var_4_coordinates/add4DVarsU.ncl")
+loadscript ("./var_4_coordinates/add4DVarsV.ncl")
+loadscript ("./var_4_coordinates/add4DVars.ncl")
+loadscript ("./var_4_coordinates/add4DComposedVars.ncl")
+loadscript ("./var_1_coordinates/addVar.ncl")
 
 print("Done!")
 
 ;------- Setting the proper input and output filenames ------
 print("Configuring file names...")
-;begTime = get_cpu_time()
+begTime = get_cpu_time()
 dia=21
 thisDay = (/anio,mes,dia/);(/2016,10,24/)
 months=(/"01_enero","02_febrero","03_marzo","04_abril","05_mayo","06_junio","07_julio","08_agosto","09_septiembre","10_octubre","11_noviembre","12_diciembre"/)
@@ -57,6 +58,15 @@ do dominio=1,2
     fin = addfile(inputFile,"r"); Abre el archivo wrf
     system("rm -f " +outputFile)    ; remove if exists
     fout = addfile(outputFile,"c"); Abre el archivo NetCDF 
+
+
+    ;------- reading this file comfiguration.txt
+       inputFile_conf=("/home/lili/Escritorio/repos/ncl_Tools/WRF/configuration.txt")
+    config = addfile(inputFile_conf,"r"); Abre el archivo wrf
+var3=config->var3
+print(var3)
+
+
 
     ; ------- Setting global attributes for netCDF file -----
     fout@Conventions = "CF-1.6"
@@ -112,9 +122,9 @@ do dominio=1,2
 
     ; ---------- Adding 3D variables from file
     ;varNames= (/ "T2","RAINC","U10","V10","SST"/)
-    varNames=(/"U10","V10","PBLH","SWDOWN","GLW","RAINC","T2","SST"/)
+;  varNames=(/"U10","V10","PBLH","SWDOWN","GLW","RAINC","T2","SST"/)
     ;varNames=(/"U10","V10"/)
-    add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
+ ;   add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
 
     ; ------- Adding time composed variables 																																																																																																																							
    delete(varNames)
