@@ -1,6 +1,10 @@
 ;----------- Reading ncl Files --------
-print("Loading files.....")
+print("Loading file the configuration init.....")
+loadscript ("./configuration.txt")
+;print(var3)
+print("Done!")
 
+print("Loading files.....")
 loadscript ("./init/tools.ncl")
 loadscript ("./init/createTime.ncl")
 loadscript ("./init/createLon.ncl")
@@ -14,8 +18,6 @@ loadscript ("./init/createLatU.ncl")
 loadscript ("./init/createDepthU.ncl")
 loadscript ("./init/createLonV.ncl")
 loadscript ("./init/createLatV.ncl")
-
-
 loadscript ("./var_3_coordinates/add3DVars.ncl")
 loadscript ("./var_3_coordinates/add3DComposedVars.ncl")
 loadscript ("./Interpolated_Var/addInterpolatedWinds.ncl")
@@ -59,15 +61,6 @@ do dominio=1,2
     system("rm -f " +outputFile)    ; remove if exists
     fout = addfile(outputFile,"c"); Abre el archivo NetCDF 
 
-
-    ;------- reading this file comfiguration.txt
-       inputFile_conf=("/home/lili/Escritorio/repos/ncl_Tools/WRF/configuration.txt")
-    config = addfile(inputFile_conf,"r"); Abre el archivo wrf
-var3=config->var3
-print(var3)
-
-
-
     ; ------- Setting global attributes for netCDF file -----
     fout@Conventions = "CF-1.6"
     fout@Description= "Made at UNAM, at Center of Atmospheric Sciences. Conctact: Olmo Zavala"
@@ -95,102 +88,151 @@ print(var3)
     dim_depth = addDepth(fin,fout)
     print("Done!")
 
-    ;------------ Creating Latitude dimension U--------------------------------------
-    print("Adding latitude U...")
-    dim_latU = addLatU(fin,fout)
-    print("Done!")
+    ; ---------- For Variables the 3 coordinates ----------
+        if(var3 .eq. "none") then
+          print("No variables 3 coordinates")
+        else 
+          ; ---------- Adding 3 coordinates variables from file
+          varNames=var3;(/"U10","V10","PBLH","SWDOWN","GLW","RAINC","T2","SST"/)
+          add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
+        end if
 
-    ;------------ Creating Longitude dimension U--------------------------------------
-    print("Adding longitude U...")
-    dim_lonU = addLonU(fin,fout)
-    print("Done!")
-
-    ;------------ Creating Depth dimension U--------------------------------------
-    print("Adding depth U...")
-    dim_depthU = addDepthU(fin,fout)
-    print("Done!")
-
-    ;------------ Creating Latitude dimension V--------------------------------------
-    print("Adding latitude V...")
-    dim_latV = addLatV(fin,fout)
-    print("Done!")
-
-    ;------------ Creating Longitude dimension V--------------------------------------
-    print("Adding longitude V...")
-    dim_lonV = addLonV(fin,fout)
-    print("Done!")
-
-    ; ---------- Adding 3D variables from file
-    ;varNames= (/ "T2","RAINC","U10","V10","SST"/)
-;  varNames=(/"U10","V10","PBLH","SWDOWN","GLW","RAINC","T2","SST"/)
-    ;varNames=(/"U10","V10"/)
- ;   add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
-
-    ; ------- Adding time composed variables 																																																																																																																							
-   delete(varNames)
-   varNames = (/"HFX_FORCE","LH_FORCE"/)
-   addVar(varNames, fin,fout,dim_time)
-
-    ; ------- Adding 3D composed variable 
-   delete(varNames)
-   varNames = (/ "WS10", "PREC2", "T2C", "SSTC", "PREC2B" /)
-   add3DComposedVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
-
-    ; ------- Adding interpolated Winds  -------------------
-   addInter(fin,fout,dim_time, dim_lat, dim_lon)
-    
-    ; ---------------- Define time for Precipitation every hour ---------------
-   print("Adding PRECH y TimePRECH...")
-   prech = addPRECH(fin,fout,Time, dim_time, dim_lat, dim_lon)
-   print("Done!")
-
-    ; ----------------- Add the PRECA3 variable ------
-    print("Adding PRECA3....")
-    preca3 = addPrecAcu3(prech,fout, dim_lat, dim_lon)
-    print("Done!")
-;
-    ; ----------------- Add the PRECA6 variable ------
-    print("Adding PRECA6....")
-    preca6 = addPrecAcu6(prech,fout, dim_lat, dim_lon)
-    print("Done!")
-;
-    ; ---------- Adding 4D variable U from file -------------------
-   delete(varNames)
-   varNames= (/"U"/)
-   add4DVarsU(varNames,fin,fout,dim_time,dim_depth,dim_latU, dim_lonU)
-   print("Done!")
-
-    ; ---------- Adding 4D variable V from file -------------------
-    delete(varNames)
-    varNames= (/"V"/)
-    add4DVarsV(varNames,fin,fout,dim_time,dim_depth,dim_latV, dim_lonV)
-    print("Done!")
+    ; ---------- For Variables the 1 coordinates ----------
+        if(var1 .eq. "none") then
+          print("No variables 1 coordinates")
+        else 
+          ; ------- Adding time composed variables
+          delete(varNames)
+          varNames =var1; (/"HFX_FORCE","LH_FORCE"/)
+          addVar(varNames, fin,fout,dim_time)
+          delete(varNames)
+        end if
 
 
-    ; ---------- Adding 4D variables from file -------------------
-    delete(varNames)
-    varNames= (/"P","QVAPOR","QCLOUD"/)
-    add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat, dim_lon)
-    print("Done!")
+    ; ---------- For Variables the 3 coordinates  composed----------
+        if(var3C .eq. "none") then
+          print("No variables 3 coordinates composed")
+        else
+          ; ------- Adding 3D composed variable 
+         delete(varNames)
+         varNames = var3C;(/ "WS10", "PREC2", "T2C", "SSTC", "PREC2B" /)
+         add3DComposedVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
          
-   
-    ; ------- Adding 4D composed variables  -------------------
-    delete(varNames)
-    varNames = (/"RH"/)
-    varNames = (/"PA"/)
-    add4DComposedVars(varNames, fin,fout,dim_time, dim_depth, dim_lat, dim_lon)
-    print("Done!")
+         if(var3C .eq. "WS10")
+            ; ------- Adding interpolated Winds  -------------------
+            addInter(fin,fout,dim_time, dim_lat, dim_lon)
+            delete(varNames)
+         end if
+       end if
 
+    ; ---------- For Variables the Precipitation----------
+        if(varP .eq. "none") then
+          print("No variable Precipitation")
 
-    delete(varNames)
-    delete(prech)
-    delete(preca3)
-    delete(preca6)
+        else
+
+          if(var3C .eq. "PREC2B") then
+             ; ---------------- Define time for Precipitation every hour ---------------
+             print("Adding PRECH y TimePRECH...")
+             prech = addPRECH(fin,fout,Time, dim_time, dim_lat, dim_lon)
+             print("Done!")
+
+             if (varP .eq. "preca3") then
+                ; ----------------- Add the PRECA3 variable ------
+                print("Adding PRECA3....")
+                preca3 = addPrecAcu3(prech,fout, dim_lat, dim_lon)
+                print("Done!")
+             end if
+
+             if (varP .eq. "preca6") then
+                ; ----------------- Add the PRECA6 variable ------
+                print("Adding PRECA6....")
+                preca6 = addPrecAcu6(prech,fout, dim_lat, dim_lon)
+                print("Done!")
+             end if
+
+             delete(prech)
+             delete(preca3)
+             delete(preca6)
+            delete(varNames)
+          end if   
+        end if    
+
+        if(var4 .eq. "none")
+          print("No variable U and V")
+        else
+          if((var4E .eq. "U") .and. (var4 .eq. "V"))
+            ;------------ Creating Latitude dimension U--------------------------------------
+            print("Adding latitude U...")
+            dim_latU = addLatU(fin,fout)
+            print("Done!")
+
+            ;------------ Creating Longitude dimension U--------------------------------------
+            print("Adding longitude U...")
+            dim_lonU = addLonU(fin,fout)
+            print("Done!")
+
+            ;------------ Creating Depth dimension U--------------------------------------
+            print("Adding depth U...")
+            dim_depthU = addDepthU(fin,fout)
+            print("Done!")
+
+            ;------------ Creating Latitude dimension V--------------------------------------
+            print("Adding latitude V...")
+            dim_latV = addLatV(fin,fout)
+            print("Done!")
+
+            ;------------ Creating Longitude dimension V--------------------------------------
+            print("Adding longitude V...")
+            dim_lonV = addLonV(fin,fout)
+            print("Done!")
+
+            ; ---------- Adding 4D variable U from file -------------------
+            delete(varNames)
+            varNames= (/"U"/)
+            add4DVarsU(varNames,fin,fout,dim_time,dim_depth,dim_latU, dim_lonU)
+            print("Done!")
+
+            ; ---------- Adding 4D variable V from file -------------------
+            delete(varNames)
+            varNames= (/"V"/)
+            add4DVarsV(varNames,fin,fout,dim_time,dim_depth,dim_latV, dim_lonV)
+            print("Done!")
+
+            delete(dim_lonU)
+            delete(dim_latU)
+            delete(dim_lonV)
+            delete(dim_latV) 
+            delete(varNames)
+          end if
+        end if
+
+        if(var4 .eq. "none")
+          print("No variable 4 coordinates")
+        else
+         ; ---------- Adding 4D variables from file -------------------
+         delete(varNames)
+         varNames=var4; (/"P","QVAPOR","QCLOUD"/)
+         add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat, dim_lon)
+         print("Done!")
+         delete(varNames)
+        end if
+      
+
+        if(var4 .eq. "none")
+          print("No variable 4 coordinates composed")
+        else   
+          ; ------- Adding 4D composed variables  -------------------
+          delete(varNames)
+          varNames =var4C; (/"RH","PA","WS"/)
+          add4DComposedVars(varNames, fin,fout,dim_time, dim_depth, dim_lat, dim_lon)
+          print("Done!") 
+          delete(varNames)
+        end if
+          
+    
     delete(dim_lon)
     delete(dim_lat)
-    delete(dim_lonU)
-    delete(dim_latU)
-    delete(dim_lonV)
-    delete(dim_latV) 
     delete(Time)
+    print("Done!") 
 end do
