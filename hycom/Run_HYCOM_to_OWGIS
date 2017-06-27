@@ -5,18 +5,18 @@ mes=`date  +%m`
 anio=`date +%Y`
 
 #<<<<<<< HEAD
-in=\"/home/lili/Escritorio/repos/ncl/\"
-out=\"/home/lili/Escritorio/repos/ncl/out/wrf/\"
+in=\"/home/lili/Escritorio/repos/ncl/Hycom/20170522/2d/\"
+out=\"/home/lili/Escritorio/repos/ncl/out/hycom/\"
 
 #in=\"/DATA/WRF/\"
 #out=\"/DATA/OUT/WRF/\"
 
 
 #COMMAND= "ncl DATE rfile WRF_for_OWGIS_LOCAL.ncl"
-#COMMAND="ls -d -1 /home/lili/Escritorio/repos/ncl-Tools/WRF/* | grep -v '$DATE' | xargs rm -f"
+#COMMAND="ls -d -1 /home/lili/Escritorio/repos/ncl-Tools/hycom/* | grep -v '$DATE' | xargs rm -f"
 #echo "Removing files with: $COMMAND"
 
 #COMMAND= ncl rfile=\"/home/lili/Escritorio/repos/ncl/\" dia=$dia mes=$mes anio=$anio WRF_for_OWGIS_LOCAL.ncl
 #eval $COMMAND
 
-ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" WRF_for_OWGIS_LOCAL.ncl
+ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" HYCOM_for_OWGIS_LOCAL.ncl

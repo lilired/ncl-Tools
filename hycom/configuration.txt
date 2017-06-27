@@ -1,0 +1,16 @@
+;Possible variable in 1 coordinates(time):"HFX_FORCE","LH_FORCE","none"
+var1=(/"HFX_FORCE","LH_FORCE"/)
+;Possible variable in 3 coordinates(time, latitud , longitud):"U10","V10","PBLH","SWDOWN","GLW","RAINC","T2","SST","none"
+var3=(/"none"/)
+;Possible variable in 3 coordinates(time, latitud , longitud) composed:"WS10","PREC2","T2C","SSTC","PREC2B","none"
+var3C=(/"none"/)
+;Possible variable in precipitation coordinates(time, latitud , longitud):"preca3","preca6","none"
+varP=(/"none"/)
+;Possible variable 4 coordinates(time,depth, latitud , longitud) explicit U and V:"U","V","none"
+var4E=(/"none"/)
+;Possible variable 4 coordinates(time,depth, latitud , longitud):"U","V","P","QVAPOR","QCLOUD","none"
+var4=(/"none"/)
+;Possible variable 4 coordinates(time,depth, latitud , longitud) composed:"RH","PA","WS","none"
+var4C=(/"none"/)
+
+
