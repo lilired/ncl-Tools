@@ -89,79 +89,90 @@ do dominio=1,2
     print("Done!")
 
     ; ---------- For Variables the 3 coordinates ----------
-        if(var3 .eq. "none") then
-          print("No variables 3 coordinates")
-        else 
-          ; ---------- Adding 3 coordinates variables from file
-          varNames=var3;(/"U10","V10","PBLH","SWDOWN","GLW","RAINC","T2","SST"/)
-          add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
-        end if
+    do conVar3 = 0,dimsizes(var3)-1
+           if(var3(conVar3) .eq. "none") then
+             print("No variables 3 coordinates")
+           else 
+             ; ---------- Adding 3 coordinates variables from file
+             varNames=var3(conVar3);(/"U10","V10","PBLH","SWDOWN","GLW","RAINC","T2","SST"/)
+             add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
+             delete(varNames)
+           end if
+    end do
 
     ; ---------- For Variables the 1 coordinates ----------
-        if(var1 .eq. "none") then
-          print("No variables 1 coordinates")
-        else 
-          ; ------- Adding time composed variables
-          delete(varNames)
-          varNames =var1; (/"HFX_FORCE","LH_FORCE"/)
-          addVar(varNames, fin,fout,dim_time)
-          delete(varNames)
-        end if
-
-
-    ; ---------- For Variables the 3 coordinates  composed----------
-        if(var3C .eq. "none") then
-          print("No variables 3 coordinates composed")
-        else
-          ; ------- Adding 3D composed variable 
-         delete(varNames)
-         varNames = var3C;(/ "WS10", "PREC2", "T2C", "SSTC", "PREC2B" /)
-         add3DComposedVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
-         
-         if(var3C .eq. "WS10")
-            ; ------- Adding interpolated Winds  -------------------
-            addInter(fin,fout,dim_time, dim_lat, dim_lon)
+    do conVar1 = 0,dimsizes(var1)-1   
+          if(var1(conVar1) .eq. "none") then
+            print("No variables 1 coordinates")
+          else
+            ; ------- Adding time composed variables
+            varNames =var1(conVar1); (/"HFX_FORCE","LH_FORCE"/)
+            addVar(varNames, fin,fout,dim_time)
+            print("entre")
             delete(varNames)
-         end if
-       end if
+          end if
+    end do
 
-    ; ---------- For Variables the Precipitation----------
-        if(varP .eq. "none") then
+
+     ; ---------- For Variables the 3 coordinates  composed----------
+     do conVar3C = 0,dimsizes(var3C)-1
+          if(var3C(conVar3C) .eq. "none") then
+             print("No variables 3 coordinates composed")
+          else
+             ; ------- Adding 3D composed variable 
+             varNames = var3C(conVar3C);(/ "WS10", "PREC2", "T2C", "SSTC", "PREC2B" /)
+             add3DComposedVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
+             if(var3C(conVar3C) .eq. "WS10")
+               ; ------- Adding interpolated Winds  -------------------
+               addInter(fin,fout,dim_time, dim_lat, dim_lon)
+             end if
+          delete(varNames)
+          end if
+     end do 
+       
+
+     ; ---------- For Variables the Precipitation----------
+     do conVarP = 0,dimsizes(varP)-1
+        if(varP(conVarP) .eq. "none") then
           print("No variable Precipitation")
-
         else
-
-          if(var3C .eq. "PREC2B") then
-             ; ---------------- Define time for Precipitation every hour ---------------
-             print("Adding PRECH y TimePRECH...")
-             prech = addPRECH(fin,fout,Time, dim_time, dim_lat, dim_lon)
-             print("Done!")
-
-             if (varP .eq. "preca3") then
-                ; ----------------- Add the PRECA3 variable ------
-                print("Adding PRECA3....")
-                preca3 = addPrecAcu3(prech,fout, dim_lat, dim_lon)
+          do conVar3C = 0,dimsizes(var3C)-1
+              if(var3C(conVar3C) .eq. "PREC2B") then
+                ; ---------------- Define time for Precipitation every hour ---------------
+                print("Adding PRECH y TimePRECH...")
+                prech = addPRECH(fin,fout,Time, dim_time, dim_lat, dim_lon)
                 print("Done!")
-             end if
 
-             if (varP .eq. "preca6") then
-                ; ----------------- Add the PRECA6 variable ------
-                print("Adding PRECA6....")
-                preca6 = addPrecAcu6(prech,fout, dim_lat, dim_lon)
-                print("Done!")
-             end if
+                if (varP(conVarP) .eq. "preca3") then
+                   ; ----------------- Add the PRECA3 variable ------
+                   print("Adding PRECA3....")
+                   preca3 = addPrecAcu3(prech,fout, dim_lat, dim_lon)
+                   print("Done!")
+                   delete(preca3)
+                end if
 
-             delete(prech)
-             delete(preca3)
-             delete(preca6)
-            delete(varNames)
-          end if   
+                if (varP(conVarP) .eq. "preca6") then
+                   ; ----------------- Add the PRECA6 variable ------
+                   print("Adding PRECA6....")
+                   preca6 = addPrecAcu6(prech,fout, dim_lat, dim_lon)
+                   print("Done!")
+                   delete(preca6)
+                 end if
+
+                delete(prech)
+                delete(varNames)
+                else
+                   print("falta PREC2B")
+              end if   
+          end do        
         end if    
+     end do
 
-        if(var4 .eq. "none")
+      do conVar4E = 0,dimsizes(var4E)-1
+        if(var4(conVar4E) .eq. "none")
           print("No variable U and V")
         else
-          if((var4E .eq. "U") .and. (var4 .eq. "V"))
+          if((var4E(conVar4E) .eq. "U") .and. (var4(conVar4E) .eq. "V"))
             ;------------ Creating Latitude dimension U--------------------------------------
             print("Adding latitude U...")
             dim_latU = addLatU(fin,fout)
@@ -188,13 +199,11 @@ do dominio=1,2
             print("Done!")
 
             ; ---------- Adding 4D variable U from file -------------------
-            delete(varNames)
             varNames= (/"U"/)
             add4DVarsU(varNames,fin,fout,dim_time,dim_depth,dim_latU, dim_lonU)
             print("Done!")
 
             ; ---------- Adding 4D variable V from file -------------------
-            delete(varNames)
             varNames= (/"V"/)
             add4DVarsV(varNames,fin,fout,dim_time,dim_depth,dim_latV, dim_lonV)
             print("Done!")
@@ -206,33 +215,33 @@ do dominio=1,2
             delete(varNames)
           end if
         end if
+       end do
 
-        if(var4 .eq. "none")
+do conVar4 = 0,dimsizes(var4)-1
+        if(var4(conVar4) .eq. "none")
           print("No variable 4 coordinates")
         else
          ; ---------- Adding 4D variables from file -------------------
-         delete(varNames)
-         varNames=var4; (/"P","QVAPOR","QCLOUD"/)
+         varNames=var4(conVar4); (/"P","QVAPOR","QCLOUD"/)
          add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat, dim_lon)
          print("Done!")
          delete(varNames)
         end if
+end do
       
-
-        if(var4 .eq. "none")
+do conVar4C = 0,dimsizes(var4C)-1
+        if(var4(conVar4C) .eq. "none")
           print("No variable 4 coordinates composed")
         else   
           ; ------- Adding 4D composed variables  -------------------
-          delete(varNames)
-          varNames =var4C; (/"RH","PA","WS"/)
+          varNames =var4C(conVar4C); (/"RH","PA","WS"/)
           add4DComposedVars(varNames, fin,fout,dim_time, dim_depth, dim_lat, dim_lon)
           print("Done!") 
           delete(varNames)
         end if
-          
+   end do       
     
     delete(dim_lon)
     delete(dim_lat)
     delete(Time)
-    print("Done!") 
 end do

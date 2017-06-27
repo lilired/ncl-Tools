@@ -1,5 +1,5 @@
 ;Possible variable in 1 coordinates(time):"HFX_FORCE","LH_FORCE","none"
-var1=(/"none"/)
+var1=(/"HFX_FORCE","LH_FORCE"/)
 ;Possible variable in 3 coordinates(time, latitud , longitud):"U10","V10","PBLH","SWDOWN","GLW","RAINC","T2","SST","none"
 var3=(/"none"/)
 ;Possible variable in 3 coordinates(time, latitud , longitud) composed:"WS10","PREC2","T2C","SSTC","PREC2B","none"
