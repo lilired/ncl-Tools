@@ -2,7 +2,29 @@
 
 ## NCL
 
-It will be done a version in ncl for the variables:
+### Run model WRF
+
+./Run_WRF_to_OWGIS (file compile in bash)
+
+ -> file WRF_for_OWGIS_LOCAL.ncl (script pricipal)
+ 
+    -> file configuration.txt (script configuration requires to read file README(Variables that require others))
+     
+      ->files the procedures
+
+
+### Run model hycom
+
+ ./Run_HYCOM_to_OWGIS (file compile in bash)
+  
+  -> file HYCOM_for_OWGIS_LOCAL.ncl (script pricipal)
+  
+     -> file configuration.txt (script configuration requires to read file README(Variables that require others))
+     
+        ->files the procedures
+	
+	
+### It will be done a version in ncl for the variables:
 
 
 Air temperature at 2 mts (T2)
