@@ -6,6 +6,7 @@ print("Done!")
 
 print("Loading files.....")
 
+loadscript ("./init/createTime.ncl")
 loadscript ("./init/createLon.ncl")
 loadscript ("./init/createLat.ncl")
 
@@ -45,6 +46,23 @@ print(inputFolder)
     ; Explicitly declare file definition mode. Improve efficiency.
     setfileoption(fout,"DefineMode",True)
 
+dim_time=1;fin->MT
+printVarSummary(dim_time)
+thisDay=(/42509.125/)
+dim_lat=fin->Latitude
+printVarSummary(dim_lat)
+
+dim_lon=fin->Longitude
+printVarSummary(dim_lon)
+
+delete(dim_lat)
+;delete(dim_time)
+ delete(dim_lon)
+
+    ;------------ Creating Time dimension --------------------------------------
+    print("Adding Time dimension....")
+    Time = addTime(fout, dim_time, thisDay)
+    print("Done!")
 
     ;------------ Creating Latitude dimension --------------------------------------
     print("Adding latitude...")
@@ -55,16 +73,11 @@ print(inputFolder)
     print("Adding longitude...")
     dim_lon = addLon(fin,fout)
     print("Done!")
+printVarSummary(dim_time)
+printVarSummary(dim_lat)
+printVarSummary(dim_lon)
 
 
-dim_time=fin->MT
-print(dim_time)
-
-dim_lat=fin->Latitude
-print(dim_lat)
-
-dim_lon=fin->Longitude
-print(dim_lon)
     ; ---------- For Variables the 3 coordinates ----------
     do conVar3 = 0,dimsizes(var3)-1
            if(var3(conVar3) .eq. "none") then
@@ -72,7 +85,7 @@ print(dim_lon)
            else 
              ; ---------- Adding 3 coordinates variables from file
              varNames=var3(conVar3);(/"U10","V10","PBLH","SWDOWN","GLW","RAINC","T2","SST"/)
-             add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
+             add3DVars(varNames,fin,fout,dim_time,dim_lat,dim_lon)
              delete(varNames)
            end if
      end do	
