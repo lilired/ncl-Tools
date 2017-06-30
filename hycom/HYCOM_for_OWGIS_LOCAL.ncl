@@ -25,8 +25,6 @@ outputFolder=out
 
 inputFolder=dataFolder;+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
 ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
-print(inputFolder)
-
 
     ; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
     inputFile= inputFolder+"archv.2017_140_03_2d.nc"  ;"wrfout_d0"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+"_00.nc"
@@ -46,18 +44,8 @@ print(inputFolder)
     ; Explicitly declare file definition mode. Improve efficiency.
     setfileoption(fout,"DefineMode",True)
 
-dim_time=1;fin->MT
-printVarSummary(dim_time)
-thisDay=(/42509.125/)
-dim_lat=fin->Latitude
-printVarSummary(dim_lat)
-
-dim_lon=fin->Longitude
-printVarSummary(dim_lon)
-
-delete(dim_lat)
-;delete(dim_time)
- delete(dim_lon)
+    dim_time=1;fin->MT
+    thisDay=(/42509.125/)
 
     ;------------ Creating Time dimension --------------------------------------
     print("Adding Time dimension....")
@@ -73,9 +61,6 @@ delete(dim_lat)
     print("Adding longitude...")
     dim_lon = addLon(fin,fout)
     print("Done!")
-printVarSummary(dim_time)
-printVarSummary(dim_lat)
-printVarSummary(dim_lon)
 
 
     ; ---------- For Variables the 3 coordinates ----------

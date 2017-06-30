@@ -3,13 +3,9 @@ procedure add3DVars(varNames,fin,fout, dim_time,dim_lat, dim_lon) begin
     do varIdx =0,dimsizes(varNames)-1,1 ; This loop iterates over the variables
         print("Adding "+varNames(varIdx)+"...")
         origVar = fin->$varNames(varIdx)$
-printVarSummary(origVar)
-;printVarSummary(dim_time)
-printVarSummary(dim_lat)
-;printVarSummary(dimsizes(dim_lon))
-        newVar = new((/1,385,541/), "float", 0)
-printVarSummary(newVar)
-        newVar(:,:,:) = (/origVar/)
+
+      newVar = new((/dim_time(0),dim_lat(0), dim_lon(0)/), "float", 0)
+      newVar(:,:,:) = (/origVar/)
 
 		; ---- Copy the original variables 
         copy_VarAtts(origVar,newVar) ; Copy origial attributes
