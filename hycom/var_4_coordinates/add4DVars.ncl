@@ -1,10 +1,11 @@
-procedure add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat, dim_lon) begin
+procedure add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat,dim_lon) begin
     ; Iterate over all the files and add each variable
     do varIdx =0,dimsizes(varNames)-1,1 ; This loop iterates over the variables
         print("Adding "+varNames(varIdx)+"...")
         origVar = fin->$varNames(varIdx)$
-
-        newVar = new((/dim_time(0), dim_depth(0), dim_lat(0), dim_lon(0)/), "float", 0)
+printVarSummary(origVar)
+        newVar = new((/dim_time(0), dim_depth(0), dim_lat(0),dim_lon(0)/), "float", 0)
+printVarSummary(newVar)
         newVar(:,:,:,:) = (/origVar/)
 
         filevardef(fout, varNames(varIdx) ,typeof(newVar), (/"Time","Depth","Latitude","Longitude" /) ) ; time dimension

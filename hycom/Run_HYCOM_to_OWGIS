@@ -5,7 +5,7 @@ mes=`date  +%m`
 anio=`date +%Y`
 
 #<<<<<<< HEAD
-in=\"/home/lili/Escritorio/repos/ncl/Hycom/20170522/2d/\"
+in=\"/home/lili/Escritorio/repos/ncl/Hycom/20170522/\"
 out=\"/home/lili/Escritorio/repos/ncl/out/hycom/\"
 
 #in=\"/DATA/WRF/\"

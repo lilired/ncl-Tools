@@ -1,3 +1,15 @@
-;Possible variable in 1 coordinates(time):"SSH"," mixed_layer_u_velocity"," mixed_layer_v_velocity "," mixed_layer_temperature","mixed_layer_salinity ","none"
+;possibles variable file begin:
+;year
+var_year=2017 
+;datethe year  1 to 365
+var_date_year=140
+;hour 3,6,9,12,15,18,21,00
+var_hour=3
+;coordinates 2d or 3z
+var_coor="3z"
+;;;;;;;;
+;Possible variable in 3 coordinates(time,lat,lon):"SSH"," mixed_layer_u_velocity"," mixed_layer_v_velocity "," mixed_layer_temperature","mixed_layer_salinity ","none"
 var3=(/"ssh","mixed_layer_u_velocity","mixed_layer_v_velocity","mixed_layer_temperature","mixed_layer_salinity"/)
+;Possible variable in 4 coordinates(time,depth,lat,lon):"u","v","temperature","salinity","none"
+var4=(/"u","v","temperature","salinity"/)
 

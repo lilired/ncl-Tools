@@ -9,8 +9,10 @@ print("Loading files.....")
 loadscript ("./init/createTime.ncl")
 loadscript ("./init/createLon.ncl")
 loadscript ("./init/createLat.ncl")
+loadscript ("./init/createDepth.ncl")
 
 loadscript ("./var_3_coordinates/add3DVars.ncl")
+loadscript ("./var_4_coordinates/add4DVars.ncl")
 
 print("Done!")
 
@@ -23,12 +25,12 @@ print("Done!")
 dataFolder=in
 outputFolder=out
 
-inputFolder=dataFolder;+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
+inputFolder=dataFolder+"/"+var_coor+"/";+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
 ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
 
     ; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
-    inputFile= inputFolder+"archv.2017_140_03_2d.nc"  ;"wrfout_d0"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+"_00.nc"
-    outputFile= outputFolder+"archv.2017_140_03_2d_nuevo.nc";"Dom"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"
+    inputFile= inputFolder+"archv."+var_year+"_"+var_date_year+"_"+sprintf("%02g",var_hour)+"_"+var_coor+".nc"  ;"wrfout_d0"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+"_00.nc"
+    outputFile= outputFolder+"archv."+var_year+"_"+var_date_year+"_"+sprintf("%02g",var_hour)+"_"+var_coor+"_nuevo.nc";"Dom"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"
 
     print("Reading this file:"+ inputFile)
     print("Writing to this file:"+ outputFile)
@@ -62,15 +64,37 @@ inputFolder=dataFolder;+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
     dim_lon = addLon(fin,fout)
     print("Done!")
 
-
+do conVarCoor= 0, dimsizes(var_coor)-1
+  if(var_coor(conVarCoor) .eq. "2d") then
     ; ---------- For Variables the 3 coordinates ----------
     do conVar3 = 0,dimsizes(var3)-1
            if(var3(conVar3) .eq. "none") then
              print("No variables 3 coordinates")
            else 
              ; ---------- Adding 3 coordinates variables from file
-             varNames=var3(conVar3);(/"U10","V10","PBLH","SWDOWN","GLW","RAINC","T2","SST"/)
+             varNames=var3(conVar3);
              add3DVars(varNames,fin,fout,dim_time,dim_lat,dim_lon)
              delete(varNames)
            end if
-     end do	
+     end do
+   else 
+
+    ;------------ Creating Depth dimension --------------------------------------
+    print("Adding depth ...")
+    dim_depth = addDepth(fin,fout)
+    print("Done!")
+
+    ; ---------- For Variables the 4 coordinates ----------
+    do conVar4 = 0,dimsizes(var4)-1
+           if(var4(conVar4) .eq. "none") then
+             print("No variables 4 coordinates")
+           else 
+             ; ---------- Adding 4 coordinates variables from file
+             varNames=var4(conVar4);
+             add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat,dim_lon)
+             delete(varNames)
+           end if
+     end do
+end if
+
+end do	
