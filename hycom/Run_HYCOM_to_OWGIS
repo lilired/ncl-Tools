@@ -5,11 +5,11 @@ mes=`date  +%m`
 anio=`date +%Y`
 
 #<<<<<<< HEAD
-#in=\"/home/lili/Escritorio/repos/ncl/Hycom/20170522/\"
-#out=\"/home/lili/Escritorio/repos/ncl/out/hycom/\"
+in=\"/home/lili/Escritorio/repos/ncl/Hycom/20170522/\"
+out=\"/home/lili/Escritorio/repos/ncl/out/hycom/\"
 
-in=\"/home/CENAPRED/Data/Hycom/20170522/\"
-out=\"/home/CENAPRED/Data/Hycom/out/\"s
+#in=\"/home/CENAPRED/Data/Hycom/20170522/\"
+#out=\"/home/CENAPRED/Data/Hycom/out/\"
 
 #in=\"/DATA/WRF/\"
 #out=\"/DATA/OUT/WRF/\"
