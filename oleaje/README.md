@@ -7,7 +7,7 @@
                ->U_HS
                ->V_HS
 
-## PERIOD AND DIRECTION
+## PERIOD	 AND DIRECTION
      
      Variable T01 AND DIR
              

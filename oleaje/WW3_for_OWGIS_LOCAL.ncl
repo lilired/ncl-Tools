@@ -87,7 +87,7 @@ end if
              print("No variables 3 coordinates")
            else 
              ; ---------- Adding 3 coordinates variables from file
-             varNames=var3(conVar3);(/"U10","V10","PBLH","SWDOWN","GLW","RAINC","T2","SST"/)
+             varNames=var3(conVar3);
              add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
              delete(varNames)
            end if
@@ -99,7 +99,7 @@ end if
              print("No variables 3 coordinates composed")
           else
              ; ------- Adding 3D composed variable 
-             varNames = var3C(conVar3C);(/ "WS10", "PREC2", "T2C", "SSTC", "PREC2B" /)
+             varNames = var3C(conVar3C);
              add3DComposedVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
              delete(varNames)
           end if

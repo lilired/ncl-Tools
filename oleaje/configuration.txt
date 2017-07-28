@@ -1,5 +1,5 @@
 ;Possible variables in 3 coordinates(time, latitud , longitud):"dir","hs","t01","none"
 var3=(/"dir","hs","t01"/)
 ;Possible variables in 3 coordinates(time, latitud , longitud) composed:"U_HS","V_HS","U_T01","V_T01","none"
-var3C=(/"none"/)
+var3C=(/"U_HS","V_HS","U_T01","V_T01"/)
 

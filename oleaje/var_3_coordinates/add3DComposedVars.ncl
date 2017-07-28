@@ -3,46 +3,65 @@ procedure add3DComposedVars(varNames, fin,fout, dim_time, dim_lat, dim_lon) begi
     do varIdx =0,dimsizes(varNames)-1,1 ; This loop iterates over the variables
         print("Adding "+varNames(varIdx)+"...")
 
-        ; ---------- For WS10 ----------
-        if(varNames(varIdx) .eq. "WS10") then
-            u10= fin->U10
-            v10= fin->U10
+   
+       ; ---------- For U_T01 ----------
+        if(varNames(varIdx) .eq. "U_T01") then
+          
+           direccion = fin->dir
+
+           u_t01=direccion
+           u_t01=sin((direccion+180)*3.141516/180.)
+
+            printVarSummary(u_t01)
 
             newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0)
-            newVar = sqrt(u10^2 + v10^2)*3.6
-            newVar@units = "km/hr"
+            newVar = u_t01
+     
         end if
 
-        ; ---------- For PREC2 ----------
-        if(varNames(varIdx) .eq. "PREC2") then
-            rainc= fin->RAINC
-            rainnc= fin->RAINNC
+	; ---------- For V_T01 ----------
+        if(varNames(varIdx) .eq. "V_T01") then
+          
+           direccion = fin->dir
+
+           v_t01=direccion
+           v_t01=cos((direccion+180)*3.141516/180.)	;printVarSummary(u)
+
+            printVarSummary(v_t01)
 
             newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0)
-            newVar = rainc+rainnc
+            newVar = v_t01
+     
         end if
 
-        ; ---------- For T2C ----------
-        if(varNames(varIdx) .eq. "T2C") then
-            t2= fin->T2
+        ; ---------- For U_HS ----------
+        if(varNames(varIdx) .eq. "U_HS") then
+          
+           direccion = fin->dir
+
+           u_hs=direccion
+           u_hs=sin((direccion+180)*3.141516/180.)
+
+            printVarSummary(u_hs)
+
             newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0)
-            newVar = t2-273.15
-            newVar@units = "C"
+            newVar = u_hs
+     
         end if
 
-        ; ---------- For SSTC----------
-        if(varNames(varIdx) .eq. "SSTC") then
-            sst= fin->SST
-            newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0)
-            newVar = sst-273.15
-            newVar@units = "C"
-        end if
+        ; ---------- For V_HS ----------
+        if(varNames(varIdx) .eq. "V_HS") then
+          
+           direccion = fin->dir
 
-        ; ---------- For PREC2B----------
-        if(varNames(varIdx) .eq. "PREC2B") then
-            temp= fout->PREC2
+           v_hs=direccion
+           v_hs=sin((direccion+180)*3.141516/180.)
+
+            printVarSummary(v_hs)
+
             newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0)
-            newVar = temp*1
+            newVar = v_hs
+     
         end if
 
 
