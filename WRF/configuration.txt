@@ -7,8 +7,8 @@ var3C=(/"none"/)
 ;Possible variables in precipitation coordinates(time, latitud , longitud):"preca3","preca6","none"
 varP=(/"none"/)
 ;Possible variables 4 coordinates(time,depth, latitud , longitud) explicit U and V:"U","V","none"
-var4E=(/"none"/)
-;Possible variables 4 coordinates(time,depth, latitud , longitud):"U","V","P","QVAPOR","QCLOUD","none"
+var4E=(/"U","V"/)
+;Possible variables 4 coordinates(time,depth, latitud , longitud):"P","QVAPOR","QCLOUD","none"
 var4=(/"none"/)
 ;Possible variables 4 coordinates(time,depth, latitud , longitud) composed:"RH","PA","WS","none"
 var4C=(/"none"/)

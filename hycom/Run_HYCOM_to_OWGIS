@@ -12,6 +12,9 @@ anio=`date +%Y`
 in=\"/home/CENAPRED/Data/Hycom/20170522/\"
 out=\"/home/CENAPRED/Data/Hycom/out/\"
 
+#in=\"/home/CENAPRED/Data/Hycom/20170522/\"
+#out=\"/home/CENAPRED/Data/Hycom/out/\"
+
 #in=\"/DATA/WRF/\"
 #out=\"/DATA/OUT/WRF/\"
 

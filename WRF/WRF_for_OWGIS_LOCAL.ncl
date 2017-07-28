@@ -1,7 +1,6 @@
 ;----------- Reading ncl Files --------
 print("Loading file the configuration init.....")
 loadscript ("./configuration.txt")
-;print(var3)
 print("Done!")
 
 print("Loading files.....")
@@ -32,7 +31,7 @@ print("Done!")
 ;------- Setting the proper input and output filenames ------
 print("Configuring file names...")
 begTime = get_cpu_time()
-dia=21
+dia=17
 thisDay = (/anio,mes,dia/);(/2016,10,24/)
 months=(/"01_enero","02_febrero","03_marzo","04_abril","05_mayo","06_junio","07_julio","08_agosto","09_septiembre","10_octubre","11_noviembre","12_diciembre"/)
 
@@ -169,10 +168,10 @@ do dominio=1,2
      end do
 
       do conVar4E = 0,dimsizes(var4E)-1
-        if(var4(conVar4E) .eq. "none")
+        if(var4E(conVar4E) .eq. "none")
           print("No variable U and V")
         else
-          if((var4E(conVar4E) .eq. "U") .and. (var4(conVar4E) .eq. "V"))
+          ;if((var4E(conVar4E) .eq. "U") .and. (var4(conVar4E) .eq. "V"))
             ;------------ Creating Latitude dimension U--------------------------------------
             print("Adding latitude U...")
             dim_latU = addLatU(fin,fout)
@@ -213,7 +212,7 @@ do dominio=1,2
             delete(dim_lonV)
             delete(dim_latV) 
             delete(varNames)
-          end if
+          ;end if
         end if
        end do
 
