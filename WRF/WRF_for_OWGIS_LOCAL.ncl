@@ -159,7 +159,7 @@ do dominio=1,2
                  end if
 
                 delete(prech)
-                delete(varNames)
+               ; delete(varNames)
                 else
                    print("falta PREC2B")
               end if   
