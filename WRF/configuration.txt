@@ -11,6 +11,6 @@ var4E=(/"U","V"/)
 ;Possible variables 4 coordinates(time,depth, latitud , longitud):"P","QVAPOR","QCLOUD","none"
 var4=(/"P","QVAPOR","QCLOUD"/)
 ;Possible variables 4 coordinates(time,depth, latitud , longitud) composed:"RH","PA","WS","none"
-var4C=(/"RH","PA","WS"/)
+var4C=(/"RH","PA"/)
 
 

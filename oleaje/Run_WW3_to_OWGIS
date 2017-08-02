@@ -8,7 +8,7 @@ anio=`date +%Y`
 #in=\"/home/lili/Escritorio/repos/ncl/oleaje/salidas_dominio_golfo/\"
 #out=\"/home/lili/Escritorio/repos/ncl/out/oleaje/\"
 
-in=\"/home/CENAPRED/Data/oleaje/salidas_dominio_golfo/\"
+in=\"/home/CENAPRED/Data/oleaje/\"
 out=\"/home/CENAPRED/Data/oleaje/out/\"
 
 #in=\"/DATA/WRF/\"

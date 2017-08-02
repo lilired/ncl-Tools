@@ -20,6 +20,7 @@ print("Configuring file names...")
 begTime = get_cpu_time()
 
 dia=14
+mes=7
 thisDay = (/anio,mes,dia/);(/2016,10,24/)
 months=(/"01_enero","02_febrero","03_marzo","04_abril","05_mayo","06_junio","07_julio","08_agosto","09_septiembre","10_octubre","11_noviembre","12_diciembre"/)
 
