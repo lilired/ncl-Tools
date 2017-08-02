@@ -2,9 +2,9 @@
 
 ## NCL
 
-Description of netCDF from WRF, HYCOM and WW3
+### Description of netCDF from WRF, HYCOM and WW3
 
-        WRF
+       WRF
          ->The files are separated by folders in anio(2017), mes(07_julio) and we have them in 2 domains 
            for file(wrfout_d01_2017-07_17.nc,wrfout_d02_2017-07_17.nc ) 
 
@@ -14,7 +14,7 @@ Description of netCDF from WRF, HYCOM and WW3
           ->Domains 2 coordinates: time(121),latitude(159),longitude(279),depth(49),u_latitud(159),
             u_longitude(280),u_depth(50),v_latitud(160),v_longitude(279)  
          
-        HYCOM
+         HYCOM
          ->The files are separated by folders in 20170522 (anio(2017)+mes(05)+dia(22)) and 
             we have them in 2 folders 2d and 3z
           
