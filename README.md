@@ -2,10 +2,10 @@
 
 ## NCL
 
-Description of netCDF from WRF, HYCOM and WW3
+### Description of netCDF from WRF, HYCOM and WW3
 
-        WRF
-         ->The files are separated by folders in anio(2017), mes(07_julio) and we have them in 2 domains 
+       WRF
+         ->The files are separated by folders in year(2017), month(07_julio) and we have them in 2 domains 
            for file(wrfout_d01_2017-07_17.nc,wrfout_d02_2017-07_17.nc ) 
 
           ->Domains 1 coordinates: time(121),latitude(208),longitude(325),depth(49),u_latitud(208),
@@ -14,8 +14,8 @@ Description of netCDF from WRF, HYCOM and WW3
           ->Domains 2 coordinates: time(121),latitude(159),longitude(279),depth(49),u_latitud(159),
             u_longitude(280),u_depth(50),v_latitud(160),v_longitude(279)  
          
-        HYCOM
-         ->The files are separated by folders in 20170522 (anio(2017)+mes(05)+dia(22)) and 
+         HYCOM
+         ->The files are separated by folders in 20170522 (year(2017)+month(05)+day(22)) and 
             we have them in 2 folders 2d and 3z
           
           ->2d coordinates: time(1), latitude(385), longitude(541)
@@ -24,15 +24,15 @@ Description of netCDF from WRF, HYCOM and WW3
           
          
         WW3 
-         ->The files are separated by folders in anio(2017), mes(07_julio) , we have them in 3 domains 
+         ->The files are separated by folders in year(2017), month(07_julio) , we have them in 3 domains 
            (golfo de mexico(gom), atlantico() y pacifico()) and by domain you have a file of 24 hours you 
            have 5 days
          
           ->gom coordinates: time(24), latitude(93), longitude(73)  
          
-          ->atlantico coordinates: time(24), latitude(), longitude()
+          ->wo coordinates: time(24), latitude(), longitude()
          
-          ->pacifico coordinates: time(24), latitude(), longitude()
+          ->pom coordinates: time(24), latitude(), longitude()
          
 
 
