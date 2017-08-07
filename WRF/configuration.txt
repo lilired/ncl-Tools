@@ -10,7 +10,7 @@ varP=(/"preca3","preca6"/)
 var4E=(/"none"/)
 ;Possible variables 4 coordinates(time,depth, latitud , longitud):"P","QVAPOR","QCLOUD","none"
 var4=(/"P","QVAPOR","QCLOUD"/)
-;Possible variables 4 coordinates(time,depth, latitud , longitud) composed:"RH","PA","WS","none"
+;Possible variables 4 coordinates(time,depth, latitud , longitud) composed:"RH","PA","none"
 var4C=(/"RH"/)
 
 
