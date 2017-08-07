@@ -4,65 +4,50 @@ procedure add3DComposedVars(varNames, fin,fout, dim_time, dim_lat, dim_lon) begi
         print("Adding "+varNames(varIdx)+"...")
 
    
-       ; ---------- For U_T01 ----------
-        if(varNames(varIdx) .eq. "U_T01") then
+
+       ; ---------- For U----------
+        if(varNames(varIdx) .eq. "U") then
           
            direccion = fin->dir
 
-           u_t01=direccion
-           u_t01=sin((direccion+180)*3.141516/180.)
+           u=direccion
+           u=sin((direccion+180)*3.141516/180.)
 
-            printVarSummary(u_t01)
+            printVarSummary(u)
+
+                     ; u@units = "degree" ;
+			u@long_name= "U" ;
+			u@standard_name = "eastward_wind_ten_velocity" ;
+		;	u(varIdx) = "U"
+        	print("Adding as "+varNames(varIdx)+"...")
+
 
             newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0)
-            newVar = u_t01
+            newVar = u
      
         end if
 
-	; ---------- For V_T01 ----------
-        if(varNames(varIdx) .eq. "V_T01") then
+	; ---------- For V ----------
+        if(varNames(varIdx) .eq. "V") then
           
            direccion = fin->dir
 
-           v_t01=direccion
-           v_t01=cos((direccion+180)*3.141516/180.)	;printVarSummary(u)
+           v=direccion
+           v=cos((direccion+180)*3.141516/180.)	;printVarSummary(u)
 
-            printVarSummary(v_t01)
+            printVarSummary(v)
 
-            newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0)
-            newVar = v_t01
-     
-        end if
-
-        ; ---------- For U_HS ----------
-        if(varNames(varIdx) .eq. "U_HS") then
-          
-           direccion = fin->dir
-
-           u_hs=direccion
-           u_hs=sin((direccion+180)*3.141516/180.)
-
-            printVarSummary(u_hs)
+                	;v@units = "degree" ;
+			v@long_name= "V";
+			v@standard_name = "northward_wind_ten_velocity";
+			;v(varIdx) = "V"
+        	
 
             newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0)
-            newVar = u_hs
+            newVar = v
      
         end if
-
-        ; ---------- For V_HS ----------
-        if(varNames(varIdx) .eq. "V_HS") then
-          
-           direccion = fin->dir
-
-           v_hs=direccion
-           v_hs=sin((direccion+180)*3.141516/180.)
-
-            printVarSummary(v_hs)
-
-            newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0)
-            newVar = v_hs
      
-        end if
 
 
         filevardef(fout, varNames(varIdx) ,typeof(newVar), (/"Time","Latitude","Longitude" /) ) ; time dimension
