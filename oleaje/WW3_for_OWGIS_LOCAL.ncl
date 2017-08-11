@@ -19,8 +19,8 @@ print("Done!")
 print("Configuring file names...")
 begTime = get_cpu_time()
 
-dia=2
-mes=8
+dia=14		
+mes=7
 thisDay = (/anio,mes,dia/);(/2016,10,24/)
 months=(/"01_enero","02_febrero","03_marzo","04_abril","05_mayo","06_junio","07_julio","08_agosto","09_septiembre","10_octubre","11_noviembre","12_diciembre"/)
 
@@ -36,7 +36,7 @@ print(inputFolder)
 dim_time = 24
 
 ; Iterate over the 3 domains
-do dominio=2,3
+do dominio=1,1;2,3
 
 if dominio .eq. 1 then
  dom="gom"

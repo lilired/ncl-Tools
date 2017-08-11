@@ -25,17 +25,22 @@ print("Done!")
 dataFolder=in
 outputFolder=out
 
-inputFolder=dataFolder+"/"+var_coor+"/";+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
+inputFolder=dataFolder+"2d/";
+inputFolder2=dataFolder+"3z/";
 ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
 
     ; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
-    inputFile= inputFolder+"archv."+var_year+"_"+var_date_year+"_"+sprintf("%02g",var_hour)+"_"+var_coor+".nc"  ;"wrfout_d0"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+"_00.nc"
-    outputFile= outputFolder+"archv."+var_year+"_"+var_date_year+"_"+sprintf("%02g",var_hour)+"_"+var_coor+"_nuevo.nc";"Dom"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"
+    inputFile= inputFolder+"archv."+var_year+"_"+var_date_year+"_"+sprintf("%02g",var_hour)+"_2d.nc"  ;"wrfout_d0"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+"_00.nc"
+
+    inputFile2= inputFolder2+"archv."+var_year+"_"+var_date_year+"_"+sprintf("%02g",var_hour)+"_3z.nc"  ;"wrfout_d0"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+"_00.nc"
+
+    outputFile= outputFolder+"archv."+var_year+"_"+var_date_year+"_"+sprintf("%02g",var_hour)+".nc";"Dom"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"
 
     print("Reading this file:"+ inputFile)
     print("Writing to this file:"+ outputFile)
 
     fin = addfile(inputFile,"r"); Abre el archivo wrf
+    fin2 = addfile(inputFile2,"r"); Abre el archivo wrf
     system("rm -f " +outputFile)    ; remove if exists
     fout = addfile(outputFile,"c"); Abre el archivo NetCDF 
 
@@ -64,10 +69,8 @@ inputFolder=dataFolder+"/"+var_coor+"/";+toint(thisDay(0))+"/"+months(toint(this
     dim_lon = addLon(fin,fout)
     print("Done!")
 
-do conVarCoor= 0, dimsizes(var_coor)-1
-  if(var_coor(conVarCoor) .eq. "2d") then
-    ; ---------- For Variables the 3 coordinates ----------
-    do conVar3 = 0,dimsizes(var3)-1
+       ; ---------- For Variables the 3 coordinates ----------
+       do conVar3 = 0,dimsizes(var3)-1
            if(var3(conVar3) .eq. "none") then
              print("No variables 3 coordinates")
            else 
@@ -76,25 +79,25 @@ do conVarCoor= 0, dimsizes(var_coor)-1
              add3DVars(varNames,fin,fout,dim_time,dim_lat,dim_lon)
              delete(varNames)
            end if
-     end do
-   else 
+       end do
+    
 
-    ;------------ Creating Depth dimension --------------------------------------
-    print("Adding depth ...")
-    dim_depth = addDepth(fin,fout)
-    print("Done!")
+       ;------------ Creating Depth dimension --------------------------------------
+       print("Adding depth ...")
+       dim_depth = addDepth(fin2,fout)
+       print("Done!")
 
-    ; ---------- For Variables the 4 coordinates ----------
-    do conVar4 = 0,dimsizes(var4)-1
+       ; ---------- For Variables the 4 coordinates ----------
+       do conVar4 = 0,dimsizes(var4)-1
            if(var4(conVar4) .eq. "none") then
              print("No variables 4 coordinates")
            else 
              ; ---------- Adding 4 coordinates variables from file
              varNames=var4(conVar4);
-             add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat,dim_lon)
+             add4DVars(varNames,fin2,fout,dim_time,dim_depth,dim_lat,dim_lon)
              delete(varNames)
            end if
-     end do
-end if
+       end do
 
-end do	
+
+
