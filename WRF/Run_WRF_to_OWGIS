@@ -5,11 +5,11 @@ mes=`date  +%m`
 anio=`date +%Y`
 
 #<<<<<<< HEAD
-in=\"/home/lili/Escritorio/repos/ncl/\"
-out=\"/home/lili/Escritorio/repos/ncl/out/wrf/\"
+#in=\"/home/lili/Escritorio/repos/ncl/\"
+#out=\"/home/lili/Escritorio/repos/ncl/out/wrf/\"
 
-#in=\"/DATA/WRF/\"
-#out=\"/DATA/OUT/WRF/\"
+in=\"/home/CENAPRED/Data/WRF/\"
+out=\"/home/CENAPRED/Data/WRF/out/\"
 
 
 #COMMAND= "ncl DATE rfile WRF_for_OWGIS_LOCAL.ncl"
