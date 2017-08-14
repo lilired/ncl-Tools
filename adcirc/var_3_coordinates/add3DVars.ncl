@@ -8,9 +8,13 @@ procedure add3DVars(varNames,fin,fout,dim_time, dim_lat) begin
            origVar = fin->$varNamesO(varIdx)$
            newVar = new((/dim_time,dim_lat/), "double", 0)
            newVar(:,:) = (/origVar/)
-	
+	   newVar@units= "m" ;
+	   newVar@standard_name = "sea_surface_height_above_geoid" ;
+	   newVar@long_name=  "water surface elevation above geoid" 
+	      	
            ; ---- Copy the original variables 
-             copy_VarAtts(origVar,newVar) ; Copy origial attributes
+           ;  copy_VarAtts(origVar,newVar) ; Copy origial attributes
+delete_VarAtts(newVar, (/"coordinates"/))
 	end if
     
         filevardef(fout, varNames(varIdx) ,typeof(newVar), (/"Time","Latitude"/) ) ; time dimension
