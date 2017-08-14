@@ -19,10 +19,6 @@ print("Done!")
 print("Configuring file names...")
 begTime = get_cpu_time()
 
-;dia=14		
-;mes=7
-;thisDay = (/anio,mes,dia/);(/2016,10,24/)
-;months=(/"01_enero","02_febrero","03_marzo","04_abril","05_mayo","06_junio","07_julio","08_agosto","09_septiembre","10_octubre","11_noviembre","12_diciembre"/)
 
 ; Reads all the files
 
@@ -33,16 +29,18 @@ inputFolder=dataFolder;+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
 ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
 print(inputFolder)
 
-dim_time = 264
+
 
 ; Iterate over the 3 domains
 do dominio=1,2
 
 if dominio .eq. 1 then
  dom="malla_gom"
+ dim_time = 264
 end if
 if dominio .eq. 2 then
  dom="malla_pom"
+ dim_time = 120
 end if
 
 
@@ -79,8 +77,6 @@ end if
     dim_lon = addLon(fin,fout)
     print("Done!")
 
- elev=fin->zeta
-printVarSummary(elev)
     ; ---------- For Variables the 3 coordinates ----------
     do conVar3 = 0,dimsizes(var3)-1
            if(var3(conVar3) .eq. "none") then
