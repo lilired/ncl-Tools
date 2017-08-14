@@ -5,11 +5,11 @@ mes=`date  +%m`
 anio=`date +%Y`
 
 #<<<<<<< HEAD
-in=\"/home/lili/Escritorio/repos/ncl/SIPROMAT/\"
-out=\"/home/lili/Escritorio/repos/ncl/out/adcirc/\"
+#in=\"/home/lili/Escritorio/repos/ncl/SIPROMAT/\"
+#out=\"/home/lili/Escritorio/repos/ncl/out/adcirc/\"
 
-#in=\"/home/CENAPRED/Data/ADCIRC/\"
-#out=\"/home/CENAPRED/Data/ADCIRC/out/\"
+in=\"/home/CENAPRED/Data/ADCIRC/\"
+out=\"/home/CENAPRED/Data/ADCIRC/out/\"
 
 #in=\"/DATA/WRF/\"
 #out=\"/DATA/OUT/WRF/\"
