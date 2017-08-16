@@ -1,3 +1,3 @@
-;Possible variables in 3 coordinates(time, latitud , longitud):"FL50","FL100","FL150","FL200","FL250","FL300","FL350""FL400","GRND","PM05","PM10","PM20","none"
+;Possible variables in 3 coordinates(time, latitud , longitud):"consentracion","PM05","PM10","PM20","none"
 var3=(/"none"/)
 
