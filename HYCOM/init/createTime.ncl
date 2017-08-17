@@ -4,8 +4,10 @@ function addTime(fout, dim_time, thisDay) begin
     Time@standard_name = "MT"
     Time@long_name = "time"
     Time@units = "days since 1900-12-31 00:00:00" ;
+    Time@long_name = "time" ;
     Time@calendar = "standard" ;
-	
+    Time@axis = "T" ;
+
 
     ntim  = dimsizes(Time)                 ; get dimension sizes  
     dimNames = (/"Time"/)  

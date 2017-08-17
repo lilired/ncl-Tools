@@ -11,7 +11,6 @@ procedure add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat,dim_lon) begin
         newVar(:,:,:,:) = (/origVar/)
 
         filevardef(fout, varNames(varIdx) ,typeof(newVar), (/"Time","Depth","Latitude","Longitude" /) ) ; time dimension
-copy_VarAtts(origVar,newVar) ; Copy origial attributes
        ; delete_VarAtts(newVar, (/"coordinates"/))
 
         filevarattdef(fout,varNames(varIdx),newVar); copy T attributes

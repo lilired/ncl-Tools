@@ -7,6 +7,7 @@ print("Done!")
 print("Loading files.....")
 
 loadscript ("./init/createTime.ncl")
+loadscript ("./init/createDate.ncl")
 loadscript ("./init/createLon.ncl")
 loadscript ("./init/createLat.ncl")
 loadscript ("./init/createDepth.ncl")
@@ -57,6 +58,11 @@ inputFolder2=dataFolder+"3z/";
     ;------------ Creating Time dimension --------------------------------------
     print("Adding Time dimension....")
     Time = addTime(fout, dim_time, thisDay)
+    print("Done!")
+
+    ;------------ Creating Date dimension --------------------------------------
+    print("Adding Date dimension....")
+    Date = addDate(fin,fout)
     print("Done!")
 
     ;------------ Creating Latitude dimension --------------------------------------

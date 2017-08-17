@@ -14,10 +14,10 @@ procedure add3DVars(varNames,fin,fout,dim_time, dim_lat) begin
 	      	
            ; ---- Copy the original variables 
            ;  copy_VarAtts(origVar,newVar) ; Copy origial attributes
-delete_VarAtts(newVar, (/"coordinates"/))
+         ;  delete_VarAtts(newVar, (/"coordinates"/))
 	end if
     
-        filevardef(fout, varNames(varIdx) ,typeof(newVar), (/"Time","Latitude"/) ) ; time dimension
+        filevardef(fout, varNames(varIdx) ,typeof(newVar), (/"Time","Latitude"/));time dimension
         filevarattdef(fout,varNames(varIdx),newVar); copy T attributes
         fout->$varNames(varIdx)$ = (/newVar/)
         delete(newVar)

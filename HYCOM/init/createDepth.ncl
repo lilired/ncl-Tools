@@ -9,6 +9,10 @@ function addDepth(fin,fout) begin
     delete_VarAtts(depth,-1)
     depth@standard_name = "depth"
     depth@long_name= "Depth"
+    depth@units = "m" ;
+    depth@positive = "down" ;
+    depth@axis = "Z" ;
+
     filedimdef(fout, (/"Depth"/), dim_depth , (/ False /))
     filevardef(fout, "Depth" ,typeof(depth),"Depth") ; depth dimension
     filevarattdef(fout,"Depth",depth)                  ; copy latitude attributes
