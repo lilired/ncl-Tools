@@ -8,10 +8,11 @@ loadscript ("./init/tools.ncl")
 loadscript ("./init/createTime.ncl")
 loadscript ("./init/createLon.ncl")
 loadscript ("./init/createLat.ncl")
+loadscript ("./init/createDepth.ncl")
 
 loadscript ("./var_3_coordinates/add3DVars.ncl")
 loadscript ("./var_3_coordinates/add3DComposedVars.ncl")
-
+loadscript ("./var_4_coordinates/add4DVars.ncl")
 
 print("Done!")
 
@@ -30,23 +31,25 @@ inputFolder=dataFolder;+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
 print(inputFolder)
 
 
-
+hour=1
 ; Iterate over the 3 domains
-do dominio=1,2
+do metros=0,2
 
-if dominio .eq. 1 then
- dom="malla_gom"
- dim_time = 264
-end if
-if dominio .eq. 2 then
- dom="malla_pom"
- dim_time = 120
-end if
+if metros .eq. 0 then
+    metro=3
+  end if
+if metros .eq. 1 then
+    metro=5		
+  end if
+if metros .eq. 2 then
+    metro=10
+  end if
 
 
+dim_time=10
     ; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
-    inputFile= inputFolder+dom+"/fort.63.nc"
-    outputFile= outputFolder+dom+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"
+    inputFile= inputFolder+"p_"+sprintf("%02g",hour)+"h_"+sprintf("%02g",metro)+"M.res.nc"
+    outputFile= outputFolder+"p"+sprintf("%02g",hour)+"h_"+sprintf("%02g",metro)+".nc"
 
     print("Reading this file:"+ inputFile)
     print("Writing to this file:"+ outputFile)
@@ -84,7 +87,25 @@ end if
            else 
              ; ---------- Adding 3 coordinates variables from file
              varNames=var3(conVar3);
-             add3DVars(varNames, fin,fout,dim_time, dim_lat)
+             add3DVars(varNames,fin,fout,dim_time,dim_lat,dim_lon)
+             delete(varNames)
+           end if
+    end do
+    ;------------ Creating Latitude dimension --------------------------------------
+    print("Adding Depth...")
+    dim_depth = addDepth(fin,fout)
+    print("Done!")
+
+
+    ; ---------- For Variables the 4 coordinates ----------
+    do conVar4 = 0,dimsizes(var4)-1
+           if(var4(conVar4) .eq. "none") then
+             print("No variables 4 coordinates")
+           else 
+             ; ---------- Adding 3 coordinates variables from file
+             varNames=var4(conVar4);
+           add4DVars(varNames,fin,fout,dim_time,dim_lat,dim_lon,dim_depth)
+print(varNames(conVar4))
              delete(varNames)
            end if
     end do

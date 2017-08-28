@@ -4,13 +4,47 @@ procedure addVar(varNames,fin,fout,dim_time) begin
         print("Adding "+varNames(varIdx)+"...")
         origVar = fin->$varNames(varIdx)$
 
+
+; --- Add specific attributes ----
+        ; ---------- For HFX ----------
+        if(varNames(varIdx) .eq. "HFX_FORCE") then
         newVar = new((/dim_time/), "float", 0)
         newVar(:) = (/origVar/)
+ copy_VarAtts(origVar,newVar) ; Copy origial attributes
 
+   newVar@long_name= "sensible heat flux " ;
+			newVar@standard_name = "sensible heat flux " ;
+			
 	
         filevardef(fout, varNames(varIdx) ,typeof(newVar), (/"Time"/) ) ; time dimension
      
-        ;copy_VarAtts(origVar,newVar) ; Copy origial attributes
+       
+
+        end if
+
+
+        ; ---------- For LH ----------
+        if(varNames(varIdx) .eq. "LH_FORCE") then
+        newVar = new((/dim_time/), "float", 0)
+        newVar(:) = (/origVar/)
+ copy_VarAtts(origVar,newVar) ; Copy origial attributes
+
+   newVar@long_name= "Latent heat flux" ;
+			newVar@standard_name = "Latent heat flux" ;
+			
+	
+        filevardef(fout, varNames(varIdx) ,typeof(newVar), (/"Time"/) ) ; time dimension
+     
+       
+
+        end if
+
+
+
+
+
+
+
         ; delete_VarAtts(newVar, (/"coordinates"/))
      
         filevarattdef(fout,varNames(varIdx),newVar); copy T attributes

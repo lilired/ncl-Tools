@@ -28,6 +28,10 @@ procedure add4DComposedVars(varNames, fin,fout, dim_time, dim_depth, dim_lat, di
             newVar = new( (/dim_time, dim_depth, dim_lat, dim_lon/),"float", 0)
             newVar = RH
 
+	newVar@units = "%" ;
+        newVar@long_name= "Relative humidity" ;
+			newVar@standard_name = "Relative humidity" ;
+			
                   
         end if
 

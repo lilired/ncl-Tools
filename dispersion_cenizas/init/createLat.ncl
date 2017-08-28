@@ -1,6 +1,6 @@
 function addLat(fin,fout) begin
     ; Adding latitude variable
-    latitude = fin->y
+    latitude = fin->lat
     temp = dimsizes(latitude)
     dim_lat = temp
     lat = new(dim_lat,double)

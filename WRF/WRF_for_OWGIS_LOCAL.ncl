@@ -31,8 +31,8 @@ print("Done!")
 ;------- Setting the proper input and output filenames ------
 print("Configuring file names...")
 begTime = get_cpu_time()
-dia=17
-mes=7
+dia=15
+mes=8
 thisDay = (/anio,mes,dia/);(/2016,10,24/)
 months=(/"01_enero","02_febrero","03_marzo","04_abril","05_mayo","06_junio","07_julio","08_agosto","09_septiembre","10_octubre","11_noviembre","12_diciembre"/)
 
@@ -41,14 +41,14 @@ months=(/"01_enero","02_febrero","03_marzo","04_abril","05_mayo","06_junio","07_
 dataFolder=in
 outputFolder=out
 
-inputFolder=dataFolder+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
+inputFolder=dataFolder;+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
 ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
 print(inputFolder)
 
 dim_time = 121
 
 ; Iterate over the 2 domains
-do dominio=1,2
+do dominio=2,2
 
     ; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
     inputFile= inputFolder+"wrfout_d0"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+"_00.nc"
