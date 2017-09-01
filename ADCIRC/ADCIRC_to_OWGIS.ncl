@@ -1,6 +1,4 @@
 ;----------- Reading ncl Files --------
-print("Loading file the configuration init.....")
-print("Done!")
 
 print("Loading files.....")
 loadscript ("../Lib/tools.ncl")
