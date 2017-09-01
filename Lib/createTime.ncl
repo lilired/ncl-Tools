@@ -15,4 +15,3 @@ function addTime(fout, dim_time) begin
     fout->Time   = (/Time/)     
     return Time
 end
-
