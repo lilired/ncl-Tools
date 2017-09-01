@@ -22,11 +22,12 @@ begTime = get_cpu_time()
 
 dataFolder=in
 outputFolder=out
-day = "31"
-month = "08"
-year = "2017"
+day = sprintf("%02g",dia)
+month = sprintf("%02g",mes)
+year = sprintf("%02g",anio)
 
 inputFolder=dataFolder+year+"_"+month+"_"+day+"_00/salidas/"
+
 
 print("Input folder: "+inputFolder)
 

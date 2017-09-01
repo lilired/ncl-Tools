@@ -1,5 +1,6 @@
 #!/bin/bash
 
+#dia=`date  +%d`
 dia=`date  +%d`
 mes=`date  +%m`
 anio=`date +%Y`
