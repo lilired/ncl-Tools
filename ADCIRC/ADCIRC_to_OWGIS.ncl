@@ -1,8 +1,8 @@
 ;----------- Reading ncl Files --------
 
 print("Loading files.....")
-loadscript ("../Lib/tools.ncl")
-loadscript ("../Lib/createTime.ncl")
+loadscript ("Lib/tools.ncl")
+loadscript ("Lib/createTime.ncl")
 
 print("Done!")
 
