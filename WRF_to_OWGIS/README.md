@@ -1,17 +1,5 @@
 # Dependencies of some variables:
 
-## "preca3","preca6"
-  
-  ### For the precipitation of 3 or 6 hours Variables that depends: 
-     
-     Variable RAINC origin WRF
-             
-               ->PREC2
-               
-                  ->PREC2B
-                 
-                     ->preca3,preca6
-
 ## wind 10m
   
   ### For the wind Variables that depends: 
