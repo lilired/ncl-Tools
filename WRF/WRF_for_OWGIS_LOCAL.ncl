@@ -31,8 +31,6 @@ print("Done!")
 ;------- Setting the proper input and output filenames ------
 print("Configuring file names...")
 begTime = get_cpu_time()
-dia=17
-mes=7
 thisDay = (/anio,mes,dia/);(/2016,10,24/)
 months=(/"01_enero","02_febrero","03_marzo","04_abril","05_mayo","06_junio","07_julio","08_agosto","09_septiembre","10_octubre","11_noviembre","12_diciembre"/)
 
@@ -49,7 +47,7 @@ dim_time = 121
 
 ; Iterate over the 2 domains
 do dominio=1,2
-
+dia=2
     ; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
     inputFile= inputFolder+"wrfout_d0"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+"_00.nc"
     outputFile= outputFolder+"Dom"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"
@@ -159,13 +157,15 @@ do dominio=1,2
                    delete(preca6)
                  end if
 
-                delete(prech)
+               ; delete(prech)
                ; delete(varNames)
-                else
-                   print("falta PREC2B")
+                ;else
+                 ;  print("falta PREC2B")
               end if   
           end do        
         end if    
+ ;delete(prech)
+
      end do
 
       do conVar4E = 0,dimsizes(var4E)-1
@@ -230,7 +230,7 @@ do conVar4 = 0,dimsizes(var4)-1
 end do
       
 do conVar4C = 0,dimsizes(var4C)-1
-        if(var4(conVar4C) .eq. "none")
+        if(var4C(conVar4C) .eq. "none")
           print("No variable 4 coordinates composed")
         else   
           ; ------- Adding 4D composed variables  -------------------

@@ -8,13 +8,14 @@ anio=`date +%Y`
 #in=\"/home/lili/Escritorio/repos/ncl/oleaje/salidas_dominio_golfo/\"
 #out=\"/home/lili/Escritorio/repos/ncl/out/oleaje/\"
 
-in=\"/home/CENAPRED/Data/oleaje/\"
-out=\"/home/CENAPRED/Data/oleaje/out/\"
+#in=\"/home/CENAPRED/Data/oleaje/\"
+#out=\"/home/CENAPRED/Data/oleaje/out/\"
 
 #in=\"/DATA/WRF/\"
 #out=\"/DATA/OUT/WRF/\"
 
-
+in=\"/TEMPOMETEOTL/EXTERNO-salidas/WWIII/salidas_wwiii_2017-07-13_00/\"
+out=\"/home/liliana/out/WWIII/\"
 #COMMAND= "ncl DATE rfile WRF_for_OWGIS_LOCAL.ncl"
 #COMMAND="ls -d -1 /home/lili/Escritorio/repos/ncl-Tools/WRF/* | grep -v '$DATE' | xargs rm -f"
 #echo "Removing files with: $COMMAND"

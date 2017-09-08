@@ -10,7 +10,7 @@ procedure addVar(varNames,fin,fout,dim_time) begin
 	
         filevardef(fout, varNames(varIdx) ,typeof(newVar), (/"Time"/) ) ; time dimension
      
-        ;copy_VarAtts(origVar,newVar) ; Copy origial attributes
+        copy_VarAtts(origVar,newVar) ; Copy origial attributes
         ; delete_VarAtts(newVar, (/"coordinates"/))
      
         filevarattdef(fout,varNames(varIdx),newVar); copy T attributes

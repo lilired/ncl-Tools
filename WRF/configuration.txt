@@ -1,15 +1,15 @@
 ;Possible variables in 1 coordinates(time):"HFX_FORCE","LH_FORCE","none"
-var1=(/"HFX_FORCE","LH_FORCE"/)
+var1=(/"none"/);"HFX_FORCE","LH_FORCE"/)
 ;Possible variables in 3 coordinates(time, latitud , longitud):"U10","V10","PBLH","SWDOWN","GLW","RAINC","T2","SST","none"
-var3=(/"U10","V10","PBLH","SWDOWN","GLW","RAINC","T2"/)
+var3=(/"none"/);"U10","V10","PBLH","SWDOWN","GLW","RAINC","T2"/)
 ;Possible variables in 3 coordinates(time, latitud , longitud) composed:"WS10","PREC2","T2C","SSTC","PREC2B","none"
-var3C=(/"WS10","PREC2","T2C","PREC2B"/)
+var3C=(/"none"/);"WS10","PREC2","T2C","PREC2B"/)
 ;Possible variables in precipitation coordinates(time, latitud , longitud):"preca3","preca6","none"
-varP=(/"preca3","preca6"/)
+varP=(/"none"/);"preca3","preca6"/)
 ;Possible variables 4 coordinates(time,depth, latitud , longitud) explicit U and V:"U","V","none"
 var4E=(/"none"/)
 ;Possible variables 4 coordinates(time,depth, latitud , longitud):"P","QVAPOR","QCLOUD","none"
-var4=(/"P","QVAPOR","QCLOUD"/)
+var4=(/"none"/);"P","QVAPOR","QCLOUD"/)
 ;Possible variables 4 coordinates(time,depth, latitud , longitud) composed:"RH","PA","none"
 var4C=(/"RH"/)
 
