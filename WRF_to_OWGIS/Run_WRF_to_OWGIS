@@ -1,0 +1,28 @@
+#!/bin/bash
+
+dia=`date  +%d`
+mes=`date  +%m`
+anio=`date +%Y`
+
+#<<<<<<< HEAD
+#in=\"/home/lili/Escritorio/repos/ncl/\"
+#out=\"/home/lili/Escritorio/repos/ncl/out/wrf/\"
+
+#in=\"/home/CENAPRED/Data/WRF/\"
+#out=\"/home/CENAPRED/Data/WRF/out/\"
+
+#in=\"/ServerData/WRF-OMETEOTL/EXTERNO-salidas/WRF/\"
+#out=\"/home/liliana/out/WRF/\"
+
+
+in=\"/ServerData/Pronosticos/Salidas/WRF/\"
+out=\"/ServerData/OWGIS/WRF/\"
+
+#COMMAND= "ncl DATE rfile WRF_for_OWGIS_LOCAL.ncl"
+#COMMAND="ls -d -1 /home/lili/Escritorio/repos/ncl-Tools/WRF/* | grep -v '$DATE' | xargs rm -f"
+#echo "Removing files with: $COMMAND"
+
+#COMMAND= ncl rfile=\"/home/lili/Escritorio/repos/ncl/\" dia=$dia mes=$mes anio=$anio WRF_for_OWGIS_LOCAL.ncl
+#eval $COMMAND
+
+ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" WRF_for_OWGIS_LOCAL.ncl
