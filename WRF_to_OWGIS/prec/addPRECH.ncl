@@ -1,3 +1,4 @@
+;start procedure addPRECH
 function addPRECH(fin,fout,Time,dim_time, dim_lat, dim_lon) begin
     print("Adding TimePRECH...")
     timePrech = Time(0:dim_time-2) ;Time steps 
@@ -21,10 +22,10 @@ function addPRECH(fin,fout,Time,dim_time, dim_lat, dim_lon) begin
     prech = new( (/dim_time-1,dim_lat,dim_lon/) ,float)
     ;
     ; Crea los atributos de la variable
-    prech@description = "HOURLY PRECIPITATION/PRECIPITACIÓN HORARIA"
-    prech@units       = "mm"
-    prech@standard_name = "acc_prec"
-    prech@long_name     = "Hourly precipitation"
+    prech@description = "HOURLY PRECIPITATION/PRECIPITACIÓN HORARIA";atributes
+    prech@units       = "mm";atributes
+    prech@standard_name = "acc_prec";atributes
+    prech@long_name     = "Hourly precipitation";atributes
 
     ;Llena los datos de la variable
     prech(:,:,:)= PREC2B(1:dim_time-1,:,:)-PREC2B(0:dim_time-2,:,:); Hace la operacion aritmetica de la precipitacion horaria
@@ -33,6 +34,7 @@ function addPRECH(fin,fout,Time,dim_time, dim_lat, dim_lon) begin
     filevardef(fout, "PRECH", typeof(prech), (/"TimePRECH", "Latitude", "Longitude" /) ); Crea la variable en el NetCDF, con sus respectivos atributos y dimensiones
     filevarattdef(fout, "PRECH", prech)
 
-    fout->PRECH = (/prech/);Guarda la variable creada en el NetCDF                      
+    fout->PRECH = (/prech/);Guarda la variable creada en el NetCDF  ;add in file fout                    
     return prech
 end
+;end procedure addPRECH

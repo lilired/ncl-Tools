@@ -1,13 +1,14 @@
+;start procedure addPrecAcu3
 function addPrecAcu3(PRECH, fout, dim_lat, dim_lon) begin
     Time = fout->Time
     dim_timeprec3 = floattointeger(ceil(dimsizes(Time)/3))
 
     timePrecAcu3 = Time(0:dim_timeprec3*3-1:3) ;Time steps 
-    timePrecAcu3@standard_name = "time"
-    timePrecAcu3@long_name = "Time"
-    timePrecAcu3@extra_info = "Time for prec acu 3"
-    timePrecAcu3@units = Time@units
-    timePrecAcu3@calendar = Time@calendar
+    timePrecAcu3@standard_name = "time";atributes
+    timePrecAcu3@long_name = "Time";atributes
+    timePrecAcu3@extra_info = "Time for prec acu 3";atributes
+    timePrecAcu3@units = Time@units;atributes
+    timePrecAcu3@calendar = Time@calendar;atributes
 
     ; ------- Add the time dimension and variable to the file ---
     filedimdef(fout, (/"TimePreca3"/), dim_timeprec3, (/ False /))
@@ -38,7 +39,8 @@ function addPrecAcu3(PRECH, fout, dim_lat, dim_lon) begin
     filevardef(fout, "PRECA3", typeof(preca3), (/"TimePreca3", "Latitude", "Longitude" /) ); Crea la variable en el NetCDF, con sus respectivos atributos y dimensiones
     filevarattdef(fout, "PRECA3", preca3)
 
-    fout->PRECA3 = (/preca3/);Guarda la variable creada en el NetCDF                      
-    fout->TimePreca3 = (/timePrecAcu3/)
+    fout->PRECA3 = (/preca3/);Guarda la variable creada en el NetCDF    ;add in file fout                  
+    fout->TimePreca3 = (/timePrecAcu3/);add in file fout
     return preca3
 end
+;end procedure addPrecAcu3

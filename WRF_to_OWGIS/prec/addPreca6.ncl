@@ -1,13 +1,14 @@
+;start procedure addPrecAcu6
 function addPrecAcu6(PRECH, fout, dim_lat, dim_lon) begin
     Time = fout->Time
     dim_timeprec6 = floattointeger(ceil(dimsizes(Time)/6))
 
     timePrecAcu6 = Time(0:dim_timeprec6*6-1:6) ;Time steps 
-    timePrecAcu6@standard_name = "time"
-    timePrecAcu6@long_name = "Time"
-    timePrecAcu6@extra_info = "Time for prec acu 6"
-    timePrecAcu6@units = Time@units
-    timePrecAcu6@calendar = Time@calendar
+    timePrecAcu6@standard_name = "time";atributes
+    timePrecAcu6@long_name = "Time";atributes
+    timePrecAcu6@extra_info = "Time for prec acu 6";atributes
+    timePrecAcu6@units = Time@units;atributes
+    timePrecAcu6@calendar = Time@calendar;atributes
 
     ; ------- Add the time dimension and variable to the file ---
     filedimdef(fout, (/"TimePreca6"/), dim_timeprec6, (/ False /))
@@ -19,9 +20,9 @@ function addPrecAcu6(PRECH, fout, dim_lat, dim_lon) begin
 
     ; Crea los atributos de la variable
     preca6@description = "ACCUMULATED PRECIPITATION EACH 6 HRS/PRECIPITACION ACUMULADA CADA 6 HRS"
-    preca6@units       = "mm"
-    preca6@standard_name = "prec_acu_six"
-    preca6@long_name     = "Precipitation Accu 6hr"
+    preca6@units       = "mm";atributes
+    preca6@standard_name = "prec_acu_six";atributes
+    preca6@long_name     = "Precipitation Accu 6hr";atributes
 
     ;print("Dims of PRECA6:"+(dim_timeprec6-1)+","+dim_lat+","+dim_lon)
     ;print("Dims of PRECH:"+dimsizes(PRECH))
@@ -36,7 +37,8 @@ function addPrecAcu6(PRECH, fout, dim_lat, dim_lon) begin
     filevardef(fout, "PRECA6", typeof(preca6), (/"TimePreca6", "Latitude", "Longitude" /) ); Crea la variable en el NetCDF, con sus respectivos atributos y dimensiones
     filevarattdef(fout, "PRECA6", preca6)
 
-    fout->PRECA6 = (/preca6/);Guarda la variable creada en el NetCDF                      
-    fout->TimePreca6 = (/timePrecAcu6/)
+    fout->PRECA6 = (/preca6/);Guarda la variable creada en el NetCDF;add in file fout
+    fout->TimePreca6 = (/timePrecAcu6/);add in file fout
     return preca6
 end
+;end procedure addPrecAcu6
