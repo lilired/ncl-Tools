@@ -24,4 +24,7 @@ out=\"/ServerData/OWGIS/WWIII/\"
 #COMMAND= ncl rfile=\"/home/lili/Escritorio/repos/ncl/\" dia=$dia mes=$mes anio=$anio WW3_for_OWGIS_LOCAL.ncl
 #eval $COMMAND
 
-ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" WW3_for_OWGIS_LOCAL.ncl
+ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/WWIII_to_OWGIS/WW3_for_OWGIS_LOCAL.ncl
+
+echo finish wwiii $dia/$mes/$anio >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+

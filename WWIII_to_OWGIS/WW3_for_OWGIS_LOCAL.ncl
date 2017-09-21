@@ -1,21 +1,21 @@
 ;----------- Reading ncl File configuration--------
 print("Loading file configuration.....")
-loadscript ("./configuration.txt")
+loadscript ("/ServerScripts/WWIII_to_OWGIS/configuration.txt")
 print("Done!")
 
 ;----------- Reading ncl Files --------
 print("Loading file the configuration init.....")
 print("Loading files.....")
-loadscript ("../TOOLS/tools.ncl")
-loadscript ("./init/createTime.ncl")
-loadscript ("./init/createLon.ncl")
-loadscript ("./init/createLat.ncl")
+loadscript ("/ServerScripts/TOOLS/tools.ncl")
+loadscript ("/ServerScripts/WWIII_to_OWGIS/init/createTime.ncl")
+loadscript ("/ServerScripts/WWIII_to_OWGIS/init/createLon.ncl")
+loadscript ("/ServerScripts/WWIII_to_OWGIS/init/createLat.ncl")
 print("Done!")
 
 print("Loading file the procedure for variables in 3 coordinates(Time,Latitude,Longitude) .....")
 print("Loading files.....")
-loadscript ("./var_3_coordinates/add3DVars.ncl")
-loadscript ("./var_3_coordinates/add3DComposedVars.ncl")
+loadscript ("/ServerScripts/WWIII_to_OWGIS/var_3_coordinates/add3DVars.ncl")
+loadscript ("/ServerScripts/WWIII_to_OWGIS/var_3_coordinates/add3DComposedVars.ncl")
 print("Done!")
 
 ;------- Setting the proper input and output filenames ------
@@ -41,9 +41,10 @@ do dominio=1,3
    dia_inicial=dia
 
    mes_inicial=mes
-
+validar=0
   ;starts the 5 days cycle
   do cond=0,4
+thisDay1 = (/anio,mes_inicial,dia_inicial/);(/2016,10,24/)
 
      thisDay = (/anio,mes,dia/);(/2016,10,24/)
      months=(/"01_enero","02_febrero","03_marzo","04_abril","05_mayo","06_junio","07_julio","08_agosto","09_septiembre","10_octubre","11_noviembre","12_diciembre"/)
@@ -81,7 +82,7 @@ do dominio=1,3
 
      ;------------ Creating Time dimension --------------------------------------
      print("Adding Time dimension....")
-     Time = addTime(fout, dim_time, thisDay);procedure
+     Time = addTime(fout, dim_time, thisDay1);procedure
      print("Done!")
 
      ;------------ Creating Latitude dimension --------------------------------------
@@ -141,7 +142,7 @@ do dominio=1,3
     ;validated if for day variable equals 30
      if dia .eq. 30 then
         ;validated if for month variable equals 4
-        if mes .eq. 4 ten
+        if mes .eq. 4 then
            dia=dia-29
            mes=mes+1
         else
@@ -159,13 +160,14 @@ do dominio=1,3
                    if mes .eq. 11 then
                       dia=dia-29
                       mes=mes+1
-                   end 
-                end 
-           end  
-        end 
+                   end if
+                end if
+           end  if
+        end if
      else
-        dia=dia+1
+        ;dia=dia+1
      end if
+print(dia)
     
      ;validated if for month variable equals 2
      if mes .eq. 2 then
@@ -174,12 +176,63 @@ do dominio=1,3
            dia=dia-27
            mes=mes+1
         else
-        dia=dia+1
-        end
-     end 
-
+        ;dia=dia+1
+        end if
+     end if
+print(dia)
+validar=validar+1
   end do
   ;end the 5 days cycle
   dia=dia_inicial
+;valid if there are domanin 1  is gom
+   if dominio.eq. 1 then
+      valid_gom=validar
+   end if
+   ;valid if there are domanin 2  is pom
+   if dominio .eq. 2 then
+      valid_pom=validar
+   end if
+   ;valid if there are domanin 3  is wo   
+   if dominio .eq. 3 then
+      valid_wo=validar
+   end if
+validar=0
 end do
-;end of domanis cycle 
+;end of domanis cycle
+
+if valid_gom .eq. 5 then
+  system ("rm -f /ServerData/OWGIS/WWIII/gom/*.nc")
+  print("Done rm!")
+    system ("mv  /ServerData/OWGIS/WWIII/gom/"+anio+sprintf("%02g",mes_inicial)+sprintf("%02g",dia_inicial)+"/*.nc  /ServerData/OWGIS/WWIII/gom/")
+  print("Done mv!")
+  system ("rm -Rf /ServerData/OWGIS/WWIII/gom/"+anio+sprintf("%02g",mes_inicial)+sprintf("%02g",dia_inicial)+"/");+outputFolder2) 
+  print("Done rmdir!")
+
+else
+  print("no hay salidas de hoy para gom")
+end if 
+if valid_pom .eq. 5 then
+  system ("rm -f /ServerData/OWGIS/WWIII/pom/*.nc")
+  print("Done rm!")
+  system ("mv  /ServerData/OWGIS/WWIII/pom/"+anio+sprintf("%02g",mes_inicial)+sprintf("%02g",dia_inicial)+"/*.nc  /ServerData/OWGIS/WWIII/pom/")
+  print("Done mv!")
+  system ("rm -Rf /ServerData/OWGIS/WWIII/pom/"+anio+sprintf("%02g",mes_inicial)+sprintf("%02g",dia_inicial)+"/");+outputFolder2) 
+  print("Done rmdir!")
+
+else
+  print("no hay salidas de hoy para pom")
+end if 
+
+if valid_wo .eq. 5 then
+  system ("rm -f /ServerData/OWGIS/WWIII/wo/*.nc")
+  print("Done rm!")
+  system ("mv  /ServerData/OWGIS/WWIII/wo/"+anio+sprintf("%02g",mes_inicial)+sprintf("%02g",dia_inicial)+"/*.nc  /ServerData/OWGIS/WWIII/wo/")
+  print("Done mv!")
+  system ("rm -Rf /ServerData/OWGIS/WWIII/wo/"+anio+sprintf("%02g",mes_inicial)+sprintf("%02g",dia_inicial)+"/");+outputFolder2) 
+  print("Done rmdir!")
+
+else
+  print("no hay salidas de hoy para wo")
+end if 
+
+

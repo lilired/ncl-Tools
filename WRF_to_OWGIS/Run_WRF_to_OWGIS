@@ -22,7 +22,9 @@ out=\"/ServerData/OWGIS/WRF/\"
 #COMMAND="ls -d -1 /home/lili/Escritorio/repos/ncl-Tools/WRF/* | grep -v '$DATE' | xargs rm -f"
 #echo "Removing files with: $COMMAND"
 
-#COMMAND= ncl rfile=\"/home/lili/Escritorio/repos/ncl/\" dia=$dia mes=$mes anio=$anio WRF_for_OWGIS_LOCAL.ncl
+#COMMAND= ncl rfile=\"/home/lili/Escritorio/repos/ncl/\" dia=$dia mes=$mes anio=$anio /ServerScripts/WRF_to_OWGIS/WRF_for_OWGIS_LOCAL.ncl
 #eval $COMMAND
 
-ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" WRF_for_OWGIS_LOCAL.ncl
+ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/WRF_to_OWGIS/WRF_for_OWGIS_LOCAL.ncl
+echo finish WRF $dia/$mes/$anio >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+

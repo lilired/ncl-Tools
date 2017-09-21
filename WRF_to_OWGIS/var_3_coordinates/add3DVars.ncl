@@ -33,7 +33,7 @@ procedure add3DVars(varNames,fin,fout,dim_time, dim_lat, dim_lon) begin
         if(varNames(varIdx) .eq. "QFX") then
 			newVar@long_name= "Evaporation" ;;atributes
 			newVar@standard_name = "Evaporation" ;;atributes
-			Print("Adding as "+varNames(varIdx)+"...")
+			print("Adding as "+varNames(varIdx)+"...")
         end if
 
         filevardef(fout, varNames(varIdx) ,typeof(newVar), (/"Time","Latitude","Longitude" /) ) ; time dimension

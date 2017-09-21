@@ -1,41 +1,41 @@
 ;----------- Reading ncl File configuration--------
 print("Loading file configuration.....")
-loadscript ("./configuration.txt")
+loadscript ("/ServerScripts/WRF_to_OWGIS/configuration.txt")
 print("Done!")
 
 ;----------- Reading ncl Files --------
 print("Loading file the configuration init.....")
 print("Loading files.....")
-loadscript ("../TOOLS/tools.ncl")
-loadscript ("./init/createTime.ncl")
-loadscript ("./init/createLon.ncl")
-loadscript ("./init/createLat.ncl")
-loadscript ("./init/createDepth.ncl")
+loadscript ("/ServerScripts/TOOLS/tools.ncl")
+loadscript ("/ServerScripts/WRF_to_OWGIS/init/createTime.ncl")
+loadscript ("/ServerScripts/WRF_to_OWGIS/init/createLon.ncl")
+loadscript ("/ServerScripts/WRF_to_OWGIS/init/createLat.ncl")
+loadscript ("/ServerScripts/WRF_to_OWGIS/init/createDepth.ncl")
 print("Done!")
 
 print("Loading file the procedure for precipítation.....")
 print("Loading files.....")
-loadscript ("./prec/addPRECH.ncl")
-loadscript ("./prec/addPreca3.ncl")
-loadscript ("./prec/addPreca6.ncl")
+loadscript ("/ServerScripts/WRF_to_OWGIS/prec/addPRECH.ncl")
+loadscript ("/ServerScripts/WRF_to_OWGIS/prec/addPreca3.ncl")
+loadscript ("/ServerScripts/WRF_to_OWGIS/prec/addPreca6.ncl")
 print("Done!")
 
 print("Loading file the procedure for variables in 3 coordinates(Time,Latitude,Longitude) .....")
 print("Loading files.....")
-loadscript ("./var_3_coordinates/add3DVars.ncl")
-loadscript ("./var_3_coordinates/add3DComposedVars.ncl")
-loadscript ("./Interpolated_Var/addInterpolatedWinds.ncl")
+loadscript ("/ServerScripts/WRF_to_OWGIS/var_3_coordinates/add3DVars.ncl")
+loadscript ("/ServerScripts/WRF_to_OWGIS/var_3_coordinates/add3DComposedVars.ncl")
+loadscript ("/ServerScripts/WRF_to_OWGIS/Interpolated_Var/addInterpolatedWinds.ncl")
 print("Done!")
 
 print("Loading file the procedure for variables in 4 coordinates(Time,Depth,Latitude,Longitude) .....")
 print("Loading files.....")
-loadscript ("./var_4_coordinates/add4DVars.ncl")
-loadscript ("./var_4_coordinates/add4DComposedVars.ncl")
+loadscript ("/ServerScripts/WRF_to_OWGIS/var_4_coordinates/add4DVars.ncl")
+loadscript ("/ServerScripts/WRF_to_OWGIS/var_4_coordinates/add4DComposedVars.ncl")
 print("Done!")
 
 print("Loading file the procedure for variables in 1 coordinate(Time")
 print("Loading files.....")
-loadscript ("./var_1_coordinates/addVar.ncl")
+loadscript ("/ServerScripts/WRF_to_OWGIS/var_1_coordinates/addVar.ncl")
 print("Done!")
 
 
@@ -79,22 +79,22 @@ do dominio=1,2  ;
 
     ;------------ Creating Time dimension --------------------------------------
     print("Adding Time dimension....")
-    Time = addTime(fout, dim_time, thisDay) ;fuction
+    Time = addTime(fout, dim_time, thisDay) ;function
     print("Done!")
 
     ;------------ Creating Latitude dimension --------------------------------------
     print("Adding latitude...")
-    dim_lat = addLat(fin,fout);fuction
+    dim_lat = addLat(fin,fout);function
     print("Done!")
 
     ;------------ Creating Longitude dimension --------------------------------------
     print("Adding longitude...")
-    dim_lon = addLon(fin,fout);fuction
+    dim_lon = addLon(fin,fout);function
     print("Done!")
 
     ;------------ Creating Depth dimension --------------------------------------
     print("Adding depth ...")
-    dim_depth = addDepth(fin,fout);fuction
+    dim_depth = addDepth(fin,fout);function
     print("Done!")
     
      ;start of variables in 3 dimesions cycle 
@@ -107,7 +107,7 @@ do dominio=1,2  ;
            else 
              ; ---------- Adding 3 coordinates variables from file
              varNames=var3(conVar3);valid variables in file configuration.txt (/"U10","V10","PBLH","SWDOWN","GLW","RAINC","T2","SST"/)
-             add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon);procedure
+             add3DVars(varNames,fin,fout,dim_time, dim_lat, dim_lon);procedure
              delete(varNames)
            end if
     end do
@@ -230,3 +230,11 @@ do dominio=1,2  ;
       delete(Time)
 end do
 ;end of domanis cycle 
+  
+  system ("mv  /ServerData/OWGIS/WRF/Dom*_"+thisDay(0)+"-"+sprintf("%02g",thisDay(1))+"-"+sprintf("%02g",thisDay(2))+".nc  /ServerData/OWGIS/WRF/nuevo/")
+  print("Done mv!")
+system ("rm -f /ServerData/OWGIS/WRF/*.nc")
+  print("Done rm!")
+system ("mv  /ServerData/OWGIS/WRF/nuevo/*.nc  /ServerData/OWGIS/WRF/")
+  print("Done mv!")
+ 

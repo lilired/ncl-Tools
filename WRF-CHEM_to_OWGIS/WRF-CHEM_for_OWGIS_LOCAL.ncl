@@ -1,42 +1,36 @@
 ;----------- Reading ncl File configuration--------
 print("Loading file configuration.....")
-loadscript ("./configuration.txt")
+loadscript ("/ServerScripts/WRF-CHEM_to_OWGIS/configuration.txt")
 print("Done!")
 
 ;----------- Reading ncl Files --------
 print("Loading file the configuration init.....")
 print("Loading files.....")
-loadscript ("./init/tools.ncl")
-loadscript ("./init/createTime.ncl")
-loadscript ("./init/createLon.ncl")
-loadscript ("./init/createLat.ncl")
-loadscript ("./init/createDepth.ncl")
-
-print("Loading file the procedure for precipítation.....")
-print("Loading files.....")
-loadscript ("./prec/addPRECH.ncl")
-loadscript ("./prec/addPreca3.ncl")
-loadscript ("./prec/addPreca6.ncl")
-
+loadscript ("/ServerScripts/TOOLS/tools.ncl")
+loadscript ("/ServerScripts/WRF-CHEM_to_OWGIS/init/createTime.ncl")
+loadscript ("/ServerScripts/WRF-CHEM_to_OWGIS/init/createLon.ncl")
+loadscript ("/ServerScripts/WRF-CHEM_to_OWGIS/init/createLat.ncl")
+loadscript ("/ServerScripts/WRF-CHEM_to_OWGIS/init/createDepth.ncl")
+print("Done!")
 
 print("Loading file the procedure for variables in 3 coordinates(Time,Latitude,Longitude) .....")
 print("Loading files.....")
-loadscript ("./var_3_coordinates/add3DVars.ncl")
-loadscript ("./var_3_coordinates/add3DComposedVars.ncl")
-loadscript ("./Interpolated_Var/addInterpolatedWinds.ncl")
-
+loadscript ("/ServerScripts/WRF-CHEM_to_OWGIS/var_3_coordinates/add3DVars.ncl")
+loadscript ("/ServerScripts/WRF-CHEM_to_OWGIS/var_3_coordinates/add3DComposedVars.ncl")
+loadscript ("/ServerScripts/WRF-CHEM_to_OWGIS/Interpolated_Var/addInterpolatedWinds.ncl")
+print("Done!")
 
 print("Loading file the procedure for variables in 4 coordinates(Time,Depth,Latitude,Longitude) .....")
 print("Loading files.....")
-loadscript ("./var_4_coordinates/add4DVars.ncl")
-loadscript ("./var_4_coordinates/add4DComposedVars.ncl")
-
+loadscript ("/ServerScripts/WRF-CHEM_to_OWGIS/var_4_coordinates/add4DVars.ncl")
+loadscript ("/ServerScripts/WRF-CHEM_to_OWGIS/var_4_coordinates/add4DComposedVars.ncl")
+print("Done!")
 
 print("Loading file the procedure for variables in 1 coordinate(Time")
 print("Loading files.....")
-loadscript ("./var_1_coordinates/addVar.ncl")
-
+loadscript ("/ServerScripts/WRF-CHEM_to_OWGIS/var_1_coordinates/addVar.ncl")
 print("Done!")
+
 dia=14
 mes=8
 
@@ -57,7 +51,8 @@ inputFolder=dataFolder;+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
 ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
 dim_time = 45 ; define the  variable dim_time 
 
-; Iterate over the 2 domains
+;start of domanis cycle 
+;;;;; Iterate over the 2 domains
 do dominio=1,1;2  ;
     ; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
     inputFile= inputFolder+"wrfout_d0"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+"_00:00:00"
@@ -79,26 +74,27 @@ do dominio=1,1;2  ;
 
     ;------------ Creating Time dimension --------------------------------------
     print("Adding Time dimension....")
-    Time = addTime(fout, dim_time, thisDay)
+    Time = addTime(fout, dim_time, thisDay);function
     print("Done!")
 
     ;------------ Creating Latitude dimension --------------------------------------
     print("Adding latitude...")
-    dim_lat = addLat(fin,fout)
+    dim_lat = addLat(fin,fout);function
     print("Done!")
 
     ;------------ Creating Longitude dimension --------------------------------------
     print("Adding longitude...")
-    dim_lon = addLon(fin,fout)
+    dim_lon = addLon(fin,fout);function
     print("Done!")
 
     ;------------ Creating Depth dimension --------------------------------------
     print("Adding depth ...")
-    dim_depth = addDepth(fin,fout)
+    dim_depth = addDepth(fin,fout);function
     print("Done!")
 
-     ; ---------- For Variables the 3 coordinates ----------
-     ; Iterate over of variables in 3 dimensions
+     ;start of variables in 3 dimesions cycle 
+     ;;;;;;; ---------- For Variables the 3 coordinates ----------
+     ;;;;;;;; Iterate over of variables in 3 dimensions
      do conVar3 = 0,dimsizes(var3)-1
            ;valid if there are variables in 3 dimensions
            if(var3(conVar3) .eq. "none") then 
@@ -106,10 +102,11 @@ do dominio=1,1;2  ;
            else 
              ; ---------- Adding 3 coordinates variables from file
              varNames=var3(conVar3);valid variables in file configuration.txt (/"U10","V10","PBLH","SWDOWN","GLW","RAINC","T2","SST"/)
-             add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
+             add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon);procedure
              delete(varNames)
            end if
     end do
+    ;end of variables in 3 dimensions cycle
 
     ; ---------- For Variables the 1 coordinates ----------
     ; Iterate over of variables in 1 dimensions

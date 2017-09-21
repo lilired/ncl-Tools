@@ -1,8 +1,7 @@
 ;----------- Reading ncl Files --------
-
 print("Loading files.....")
-loadscript ("Lib/tools.ncl")
-loadscript ("Lib/createTime.ncl")
+loadscript ("/ServerScripts/ADCIRC_to_OWGIS/Lib/tools.ncl")
+loadscript ("/ServerScripts/ADCIRC_to_OWGIS/Lib/createTime.ncl")
 
 print("Done!")
 
@@ -27,7 +26,6 @@ month = sprintf("%02g",mes)
 year = sprintf("%02g",anio)
 
 inputFolder=dataFolder+year+"_"+month+"_"+day+"_00/salidas/"
-
 
 print("Input folder: "+inputFolder)
 

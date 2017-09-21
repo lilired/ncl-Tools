@@ -29,4 +29,5 @@ out=\"/ServerData/OWGIS/WRF/\"
 #COMMAND= ncl rfile=\"/home/lili/Escritorio/repos/ncl/\" dia=$dia mes=$mes anio=$anio WRF_for_OWGIS_LOCAL.ncl
 #eval $COMMAND
 
-ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" WRF-CHEM_for_OWGIS_LOCAL.ncl
+ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/WRF-CHEM_to_OWGIS/WRF-CHEM_for_OWGIS_LOCAL.ncl
+echo finish WRF-CHEM $dia/$mes/$anio >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
