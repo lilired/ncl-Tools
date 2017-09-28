@@ -1,0 +1,27 @@
+#!/bin/bash
+
+dia=`date  +%d`
+mes=`date  +%m`
+anio=`date +%Y`
+
+#<<<<<<< HEAD
+in=\"/home/lili/Escritorio/repos/ncl/disp_ceniza/\"
+out=\"/home/lili/Escritorio/repos/ncl/out/disp_ceniza/\"
+
+#in=\"/home/CENAPRED/Data/dispersion_ceniza/\"
+#out=\"/home/CENAPRED/Data/dispersion_ceniza/out/\"
+
+#in=\"/DATA/WRF/\"
+#out=\"/DATA/OUT/WRF/\"
+
+in=\"/TEMPOMETEOTL/EXTERNO-salidas/FALL3D/\"
+out=\"/ServerData/OWGIS/FALL3D/\"
+
+#COMMAND= "ncl DATE rfile WRF_for_OWGIS_LOCAL.ncl"
+#COMMAND="ls -d -1 /home/lili/Escritorio/repos/ncl-Tools/WRF/* | grep -v '$DATE' | xargs rm -f"
+#echo "Removing files with: $COMMAND"
+
+#COMMAND= ncl rfile=\"/home/lili/Escritorio/repos/ncl/\" dia=$dia mes=$mes anio=$anio WW3_for_OWGIS_LOCAL.ncl
+#eval $COMMAND
+
+ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" FALL3D_for_OWGIS_LOCAL.ncl

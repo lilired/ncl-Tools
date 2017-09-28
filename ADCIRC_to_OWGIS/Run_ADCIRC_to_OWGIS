@@ -1,0 +1,10 @@
+#!/bin/bash
+
+dia=`date --date='1 day ago'  +%d`
+mes=`date  +%m`
+anio=`date +%Y`
+
+in=\"/ServerData/Pronosticos/Salidas/ADCIRC/\"
+out=\"/ServerData/OWGIS/ADCIRC/\"
+
+ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/ADCIRC_to_OWGIS/ADCIRC_to_OWGIS.ncl
