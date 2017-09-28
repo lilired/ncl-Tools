@@ -6,22 +6,22 @@ begin
 end
 
 begTime = get_cpu_time()
-TodayDate = systemfunc("date -I --date='1 days ago'")
+;TodayDate = systemfunc("date -I --date='1 days ago'")
+TodayDate = systemfunc("date -I --date='0 days ago'")
 thisDay = getDate(TodayDate)
-months=(/"01_enero","02_febrero","03_marzo","04_abril","05_mayo","06_junio","07_julio","08_agosto","09_septiembre","10_octubre","11_noviembre","12_diciembre"/)
 
 ;; Reads all the files
-files = "/ServerData/GFS/"+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"+sprintf("%02g",toint(thisDay(2)))+"_00/gfs.t00z.pgrb2*"
+files = "/ServerData/Pronosticos/Salidas/GFS/"+toint(thisDay(0))+"_"+sprintf("%02g",toint(thisDay(1)))+"_"+sprintf("%02g",toint(thisDay(2)))+"_00/gfs.t00z.pgrb2*"
 print("Files to be used: "+files)
 
 print("Reading files............")
 filesIn = systemfunc("ls "+files)
-ncdf_out_fname_temp= "/ServerData/GlobalGFSData/GFSTodayNew.nc" 
-ncdf_out_fname_current = "/ServerData/GlobalGFSData/GFSToday.nc" 
+ncdf_out_fname_temp= "/ServerData/OWGIS/GFS/GFSTodayNew.nc" 
+ncdf_out_fname_current = "/ServerData/OWGIS/GFS/GFSToday.nc" 
 totFiles = dimsizes(filesIn)
 
 grib_in = addfile(filesIn(0)+".grib2","r") ; Start only with the first file
-
+exit()
 ncdf_out = addfile(ncdf_out_fname_temp,"c")   
 print(ncdf_out)
 
