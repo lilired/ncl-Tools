@@ -1,3 +1,4 @@
 #!/bin/bash
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/usr/local/ncl/bin
 
-`/usr/local/ncl/bin/ncl /ServerScripts/GFS_to_OWGIS/GribToNetcdfOWGIS.ncl`
+ncl /ServerScripts/GFS_to_OWGIS/GribToNetcdfOWGIS.ncl
