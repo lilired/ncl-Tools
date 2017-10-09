@@ -6,12 +6,11 @@ begin
 end
 
 begTime = get_cpu_time()
-;TodayDate = systemfunc("date -I --date='1 days ago'")
 TodayDate = systemfunc("date -I --date='0 days ago'")
 thisDay = getDate(TodayDate)
 
 ;; Reads all the files
-files = "/ServerData/Pronosticos/Salidas/GFS/"+toint(thisDay(0))+"_"+sprintf("%02g",toint(thisDay(1)))+"_"+sprintf("%02g",toint(thisDay(2)))+"_00/gfs.t00z.pgrb2*"
+files = "/ServerData/Pronosticos/Salidas/GFS/"+toint(thisDay(0))+"_"+sprintf("%02g",toint(thisDay(1)))+"_"+sprintf("%02g",toint(thisDay(2))-1)+"_00/gfs.t00z.pgrb2*"
 print("Files to be used: "+files)
 
 print("Reading files............")
@@ -21,7 +20,7 @@ ncdf_out_fname_current = "/ServerData/OWGIS/GFS/GFSToday.nc"
 totFiles = dimsizes(filesIn)
 
 grib_in = addfile(filesIn(0)+".grib2","r") ; Start only with the first file
-exit()
+
 ncdf_out = addfile(ncdf_out_fname_temp,"c")   
 print(ncdf_out)
 

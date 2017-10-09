@@ -1,4 +1,5 @@
 #!/bin/bash
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/usr/local/ncl/bin
 
 dia=`date  +%d`
 mes=`date  +%m`
@@ -26,5 +27,5 @@ out=\"/ServerData/OWGIS/WWIII/\"
 
 ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/WWIII_to_OWGIS/WW3_for_OWGIS_LOCAL.ncl
 
+date  >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 echo finish wwiii $dia/$mes/$anio >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
-

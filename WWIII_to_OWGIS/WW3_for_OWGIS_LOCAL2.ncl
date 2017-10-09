@@ -37,10 +37,13 @@ do dominio=1,3
    if dominio .eq. 3 then
       dom="wo"
    end if
+
    dia_inicial=dia
-
+dia2=dia
    mes_inicial=mes
-
+validar=0
+  ;starts the 5 days cycle
+  do cond=0,4
 thisDay1 = (/anio,mes_inicial,dia_inicial/);(/2016,10,24/)
 
      thisDay = (/anio,mes,dia/);(/2016,10,24/)
@@ -55,16 +58,19 @@ print(dia_inicial)
 
      ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
      print(inputFolder)
-     files = systemfunc(" ls "+inputFolder+"/*"+dom + "*.nc")  
-     fin = addfiles(files,"r")
 
-     dim_time = 121
+     dim_time = 24
  
      ; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
+     outputFolder2= outputFolder+dom+"/"+anio+sprintf("%02g",mes_inicial)+sprintf("%02g",dia_inicial)
+     inputFile= inputFolder+"ww3out.grd_"+dom+"."+anio+sprintf("%02g",mes)+sprintf("%02g",dia)+".nc"
+     outputFile= outputFolder2+"/"+dom+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"
 
-     outputFile= outputFolder+"/"+dom+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"
+     print("Reading this file:"+ inputFile)
      print("Writing to this file:"+ outputFile)
 
+     fin = addfile(inputFile,"r"); Abre el archivo wrf
+     system("mkdir " +outputFolder2) 
      system("rm -f " +outputFile)    ; remove if exists
      fout = addfile(outputFile,"c"); Abre el archivo NetCDF 
 
@@ -125,62 +131,109 @@ print(dia_inicial)
      delete(dim_lon)
      delete(dim_lat)
      delete(Time)
-if dominio .eq. 1
-   validar_gom=1
+ 
+     ;validated if for day variable equals 31
+     if dia .eq. 31 then
+        dia=dia-30
+        mes=mes+1
+     else
+ 
+    ;validated if for day variable equals 30
+     if dia .eq. 30 then
+        ;validated if for month variable equals 4
+        if mes .eq. 4 then
+           dia=dia-29
+           mes=mes+1
+        end if
+        ;validated if for month variable equals 6
+        if mes .eq. 6 then
+                dia=dia-29
+                mes=mes+1
+        end if 
+       ;validated if for month variable equals 9
+        if mes .eq. 9 then
+                   dia=dia-29
+                   mes=mes+1
+        end if
+        ;validated if for month variable equals 11 
+        if mes .eq. 11 then
+           dia=dia-29
+           mes=mes+1
+        end if
+                
+     else
+dia=dia+1
 end if
-if dominio .eq. 2
-   validar_pom=1
 end if
-if dominio .eq. 3
-   validar_wo=1
-end if
+        
+        ;dia=dia+1
+     
+print(dia)
+    
+     ;validated if for month variable equals 2
+     if mes .eq. 2 then
+     ;validated if for day variable equals 28
+        if dia .eq. 28 then
+           dia=dia-27
+           mes=mes+1
+        end if
+     end if
+print(dia)
+validar=validar+1
+  end do
+  ;end the 5 days cycle
+  dia=dia_inicial
+;valid if there are domanin 1  is gom
+   if dominio.eq. 1 then
+      valid_gom=validar
+   end if
+   ;valid if there are domanin 2  is pom
+   if dominio .eq. 2 then
+      valid_pom=validar
+   end if
+   ;valid if there are domanin 3  is wo   
+   if dominio .eq. 3 then
+      valid_wo=validar
+   end if
+validar=0
+dia=dia_inicial
+mes=mes_inicial
 end do
 ;end of domanis cycle
 
-
-if validar_gom .eq. 1 then
-  system ("mv  /ServerData/OWGIS/WWIII/gom_"+thisDay(0)+"-"+sprintf("%02g",thisDay(1))+"-"+sprintf("%02g",thisDay(2))+".nc  /ServerData/OWGIS/WWIII/nuevo/")
-  print("Done mv!")
-system ("rm -f /ServerData/OWGIS/WWIII/gom*.nc")
+if valid_gom .eq. 5 then
+  system ("rm -f /ServerData/OWGIS/WWIII/gom/*.nc")
   print("Done rm!")
-system ("mv  /ServerData/OWGIS/WWIII/nuevo/gom*.nc  /ServerData/OWGIS/WWIII/")
+    system ("mv  /ServerData/OWGIS/WWIII/gom/"+anio+sprintf("%02g",mes_inicial)+sprintf("%02g",dia_inicial)+"/*.nc  /ServerData/OWGIS/WWIII/gom/")
   print("Done mv!")
- else
+  system ("rm -Rf /ServerData/OWGIS/WWIII/gom/"+anio+sprintf("%02g",mes_inicial)+sprintf("%02g",dia_inicial)+"/");+outputFolder2) 
+  print("Done rmdir!")
+
+else
   print("no hay salidas de hoy para gom")
-end if
-
-if validar_gom .eq. 1 then
-  system ("mv  /ServerData/OWGIS/WWIII/gom_"+thisDay(0)+"-"+sprintf("%02g",thisDay(1))+"-"+sprintf("%02g",thisDay(2))+".nc  /ServerData/OWGIS/WWIII/nuevo/")
-  print("Done mv!")
-system ("rm -f /ServerData/OWGIS/WWIII/gom*.nc")
+end if 
+if valid_pom .eq. 5 then
+  system ("rm -f /ServerData/OWGIS/WWIII/pom/*.nc")
   print("Done rm!")
-system ("mv  /ServerData/OWGIS/WWIII/nuevo/gom*.nc  /ServerData/OWGIS/WWIII/")
+  system ("mv  /ServerData/OWGIS/WWIII/pom/"+anio+sprintf("%02g",mes_inicial)+sprintf("%02g",dia_inicial)+"/*.nc  /ServerData/OWGIS/WWIII/pom/")
   print("Done mv!")
- else
-  print("no hay salidas de hoy para gom")
-end if
+  system ("rm -Rf /ServerData/OWGIS/WWIII/pom/"+anio+sprintf("%02g",mes_inicial)+sprintf("%02g",dia_inicial)+"/");+outputFolder2) 
+  print("Done rmdir!")
 
-
-if validar_pom .eq. 1 then
-  system ("mv  /ServerData/OWGIS/WWIII/pom_"+thisDay(0)+"-"+sprintf("%02g",thisDay(1))+"-"+sprintf("%02g",thisDay(2))+".nc  /ServerData/OWGIS/WWIII/nuevo/")
-  print("Done mv!")
-system ("rm -f /ServerData/OWGIS/WWIII/pom*.nc")
-  print("Done rm!")
-system ("mv  /ServerData/OWGIS/WWIII/nuevo/pom*.nc  /ServerData/OWGIS/WWIII/")
-  print("Done mv!")
- else
+else
   print("no hay salidas de hoy para pom")
-end if
+end if 
 
-
-if validar_wo .eq. 1 then
-  system ("mv  /ServerData/OWGIS/WWIII/wo_"+thisDay(0)+"-"+sprintf("%02g",thisDay(1))+"-"+sprintf("%02g",thisDay(2))+".nc  /ServerData/OWGIS/WWIII/nuevo/")
-  print("Done mv!")
-system ("rm -f /ServerData/OWGIS/WWIII/wo*.nc")
+if valid_wo .eq. 5 then
+  system ("rm -f /ServerData/OWGIS/WWIII/wo/*.nc")
   print("Done rm!")
-system ("mv  /ServerData/OWGIS/WWIII/nuevo/wo*.nc  /ServerData/OWGIS/WWIII/")
+  system ("mv  /ServerData/OWGIS/WWIII/wo/"+anio+sprintf("%02g",mes_inicial)+sprintf("%02g",dia_inicial)+"/*.nc  /ServerData/OWGIS/WWIII/wo/")
   print("Done mv!")
- else
+  system ("rm -Rf /ServerData/OWGIS/WWIII/wo/"+anio+sprintf("%02g",mes_inicial)+sprintf("%02g",dia_inicial)+"/");+outputFolder2) 
+  print("Done rmdir!")
+
+else
   print("no hay salidas de hoy para wo")
-end if
+end if 
+
 

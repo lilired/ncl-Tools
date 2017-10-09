@@ -122,3 +122,4 @@ system ("mv  /ServerData/OWGIS/ADCIRC/nuevo/pom-owgis_*.nc  /ServerData/OWGIS/AD
   print("no hay salidas de hoy para pom")
 end if
 quit
+

@@ -39,6 +39,11 @@ print("Loading files.....")
 loadscript ("/ServerScripts/WRF_to_OWGIS/var_1_coordinates/addVar.ncl")
 print("Done!")
 
+print("Loading file the procedure for variables in levels")
+print("Loading files.....")
+loadscript ("/ServerScripts/WRF_to_OWGIS/levels/addpression.ncl")
+print("Done!")
+
 
 ;------- Setting the proper input and output filenames ------
 print("Configuring file names...")
@@ -62,7 +67,7 @@ dim_time = 121 ; define the  variable dim_time
 do dominio=1,2  ;
     ; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
     inputFile= inputFolder+"wrfout_d0"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+"_00.nc"
-    outputFile= outputFolder+"Dom"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"
+    outputFile= outputFolder+"otro_Dom"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"
 
     print("Reading this file:"+ inputFile)
     print("Writing to this file:"+ outputFile)
@@ -97,6 +102,7 @@ do dominio=1,2  ;
     print("Adding depth ...")
     dim_depth = addDepth(fin,fout);function
     print("Done!")
+addpression(fin,fout,dim_time, dim_lat, dim_lon);procedure
     
      ;start of variables in 3 dimesions cycle 
      ;;;;;;; ---------- For Variables the 3 coordinates ----------
@@ -259,23 +265,23 @@ end do
 ;end of domanis cycle 
 
 if validar_dom1 .eq. 1 then
-  system ("mv  /ServerData/OWGIS/WRF/Dom1*_"+thisDay(0)+"-"+sprintf("%02g",thisDay(1))+"-"+sprintf("%02g",thisDay(2))+".nc  /ServerData/OWGIS/WRF/nuevo/")
+  system ("mv  /ServerData/OWGIS/WRF/otro_Dom1*_"+thisDay(0)+"-"+sprintf("%02g",thisDay(1))+"-"+sprintf("%02g",thisDay(2))+".nc  /ServerData/OWGIS/WRF/nuevo/")
   print("Done mv!")
-system ("rm -f /ServerData/OWGIS/WRF/Dom1*.nc")
+;system ("rm -f /ServerData/OWGIS/WRF/Dom1*.nc")
   print("Done rm!")
-system ("mv  /ServerData/OWGIS/WRF/nuevo/Dom1*.nc  /ServerData/OWGIS/WRF/")
+;system ("mv  /ServerData/OWGIS/WRF/nuevo/Dom1*.nc  /ServerData/OWGIS/WRF/")
   print("Done mv!")
  else
   print("no hay salidas de hoy para dom1")
 end if
 
 if validar_dom2 .eq. 1 then
-  system ("mv  /ServerData/OWGIS/WRF/Dom2*_"+thisDay(0)+"-"+sprintf("%02g",thisDay(1))+"-"+sprintf("%02g",thisDay(2))+".nc  /ServerData/OWGIS/WRF/nuevo/")
+  system ("mv  /ServerData/OWGIS/WRF/otro_Dom2*_"+thisDay(0)+"-"+sprintf("%02g",thisDay(1))+"-"+sprintf("%02g",thisDay(2))+".nc  /ServerData/OWGIS/WRF/nuevo/")
   print("Done mv!")
-system ("rm -f /ServerData/OWGIS/WRF/Dom2*.nc")
-  print("Done rm!")
-system ("mv  /ServerData/OWGIS/WRF/nuevo/Dom2*.nc  /ServerData/OWGIS/WRF/")
-  print("Done mv!")
+;system ("rm -f /ServerData/OWGIS/WRF/Dom2*.nc")
+ ; print("Done rm!")
+;system ("mv  /ServerData/OWGIS/WRF/nuevo/Dom2*.nc  /ServerData/OWGIS/WRF/")
+  ;print("Done mv!")
  else
   print("no hay salidas de hoy para dom2")
 end if

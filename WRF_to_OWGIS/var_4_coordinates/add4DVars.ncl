@@ -12,6 +12,7 @@ procedure add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat, dim_lon) begin
             origVar@standar_name = "cloud_liquid_water_mixing_ratio";atributes
         end if
 
+
         filevardef(fout, varNames(varIdx) ,typeof(origVar), (/"Time","Depth","Latitude","Longitude" /)) ; time dimension
         delete_VarAtts(origVar, (/"coordinates"/))    
         filevarattdef(fout,varNames(varIdx),origVar); copy T attributes

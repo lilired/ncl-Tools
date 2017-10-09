@@ -9,7 +9,7 @@ procedure add3DComposedVars(varNames, fin,fout, dim_time, dim_lat, dim_lon) begi
         ;;;;;;; ---------- For U----------
         if(varNames(varIdx) .eq. "U") then
           
-                u = fin->uwnd
+                u = fin[:]->uwnd
 
           	u@long_name = "U" ;;atributes
 		u@standard_name = "eastward_wind_ten_velocity" ;;atributes
@@ -30,7 +30,7 @@ procedure add3DComposedVars(varNames, fin,fout, dim_time, dim_lat, dim_lon) begi
 	;;;;;;; ---------- For V ----------
         if(varNames(varIdx) .eq. "V") then
           
-                v = fin->vwnd
+                v = fin[:]->vwnd
 		v@long_name = "V" ;;atributes
 		v@standard_name = "northward_wind_ten_velocity" ;;atributes
 		v@globwave_name = "northward_wind" ;;atributes

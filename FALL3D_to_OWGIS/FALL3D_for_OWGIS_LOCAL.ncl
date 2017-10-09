@@ -4,7 +4,7 @@ loadscript ("./configuration.txt")
 print("Done!")
 
 print("Loading files.....")
-loadscript ("./init/tools.ncl")
+loadscript ("../TOOLS/tools.ncl")
 loadscript ("./init/createTime.ncl")
 loadscript ("./init/createLon.ncl")
 loadscript ("./init/createLat.ncl")

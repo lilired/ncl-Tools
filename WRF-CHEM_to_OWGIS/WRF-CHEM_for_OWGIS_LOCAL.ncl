@@ -31,8 +31,8 @@ print("Loading files.....")
 loadscript ("/ServerScripts/WRF-CHEM_to_OWGIS/var_1_coordinates/addVar.ncl")
 print("Done!")
 
-dia=14
-mes=8
+;dia=14
+;mes=8
 
 ;------- Setting the proper input and output filenames ------
 print("Configuring file names...")
@@ -49,7 +49,7 @@ outputFolder=out
 inputFolder=dataFolder;+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
 
 ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
-dim_time = 45 ; define the  variable dim_time 
+dim_time = 73 ; define the  variable dim_time 
 
 ;start of domanis cycle 
 ;;;;; Iterate over the 2 domains
@@ -209,3 +209,11 @@ do dominio=1,1;2  ;
       delete(dim_lat)
       delete(Time)
 end do
+
+ system ("mv  /ServerData/OWGIS/WRF-CHEM/Dom*_"+thisDay(0)+"-"+sprintf("%02g",thisDay(1))+"-"+sprintf("%02g",thisDay(2))+".nc  /ServerData/OWGIS/WRF-CHEM/nuevo/")
+  print("Done mv!")
+system ("rm -f /ServerData/OWGIS/WRF-CHEM/*.nc")
+  print("Done rm!")
+system ("mv  /ServerData/OWGIS/WRF-CHEM/nuevo/*.nc  /ServerData/OWGIS/WRF-CHEM/")
+  print("Done mv!")
+ 

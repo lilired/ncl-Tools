@@ -19,8 +19,8 @@ anio=`date +%Y`
 #out=\"/ServerData/OWGIS/WRF/\"
 
 
-in=\"/TEMPOMETEOTL/EXTERNO-salidas/WRF-CHEM/mexico/\"
-out=\"/ServerData/OWGIS/WRF/\"
+in=\"/ServerData/PronosticosExt/EXTERNO-salidas/WRF-CHEM/\"
+out=\"/ServerData/OWGIS/WRF-CHEM/\"
 
 #COMMAND= "ncl DATE rfile WRF_for_OWGIS_LOCAL.ncl"
 #COMMAND="ls -d -1 /home/lili/Escritorio/repos/ncl-Tools/WRF/* | grep -v '$DATE' | xargs rm -f"
@@ -29,5 +29,6 @@ out=\"/ServerData/OWGIS/WRF/\"
 #COMMAND= ncl rfile=\"/home/lili/Escritorio/repos/ncl/\" dia=$dia mes=$mes anio=$anio WRF_for_OWGIS_LOCAL.ncl
 #eval $COMMAND
 
-ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/WRF-CHEM_to_OWGIS/WRF-CHEM_for_OWGIS_LOCAL.ncl
+ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/WRF-CHEM_to_OWGIS/WRF-CHEM_for_OWGIS_LOCAL.ncl >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+date >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 echo finish WRF-CHEM $dia/$mes/$anio >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
