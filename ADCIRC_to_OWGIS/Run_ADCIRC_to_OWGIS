@@ -1,6 +1,7 @@
 #!/bin/bash
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/usr/local/ncl/bin
 
-dia=`date --date='1 day ago'  +%d`
+dia=`date  +%d`
 mes=`date  +%m`
 anio=`date +%Y`
 
@@ -8,3 +9,5 @@ in=\"/ServerData/Pronosticos/Salidas/ADCIRC/\"
 out=\"/ServerData/OWGIS/ADCIRC/\"
 
 ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/ADCIRC_to_OWGIS/ADCIRC_to_OWGIS.ncl
+date >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+echo finish ADCIRC $dia/$mes/$anio >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
