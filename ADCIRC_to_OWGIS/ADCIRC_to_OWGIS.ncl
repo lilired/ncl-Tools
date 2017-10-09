@@ -30,7 +30,7 @@ inputFolder=dataFolder+year+"_"+month+"_"+day+"_00/salidas/"
 print("Input folder: "+inputFolder)
 
 fileNames = (/"gom-fort.63.nc","pom-fort.63.nc"/)
-outputFiles = (/"gom-owgis.nc","pom-owgis.nc"/)
+outputFiles = (/"gom-owgis_"+day+"-"+month+"-"+year+".nc","pom-owgis_"+day+"-"+month+"-"+year+".nc"/)
 
 TodayDate = systemfunc("date -I")
 thisDay = getDate(TodayDate)
@@ -90,9 +90,35 @@ do idxFile = 0,1
 	fout->zeta   = (/temp /)
 
 	print("Done for this file!....")
-
+        
+if idxFile .eq. 0
+   validar_gom=1
+end if
+if idxFile .eq. 1
+   validar_pom=1
+end if
 end do 
 print("Completely done!")
 
-quit
+if validar_gom .eq. 1 then
+system ("mv  /ServerData/OWGIS/ADCIRC/gom-owgis_"+day+"-"+month+"-"+year+".nc  /ServerData/OWGIS/ADCIRC/nuevo/")
+  print("Done mv!")
+system ("rm -f /ServerData/OWGIS/ADCIRC/gom-owgis_*.nc")
+  print("Done rm!")
+system ("mv  /ServerData/OWGIS/ADCIRC/nuevo/gom-owgis_*.nc  /ServerData/OWGIS/ADCIRC/")
+  print("Done mv!")
+ else
+  print("no hay salidas de hoy para gom")
+end if
 
+if validar_pom .eq. 1 then
+system ("mv  /ServerData/OWGIS/ADCIRC/pom-owgis_"+day+"-"+month+"-"+year+".nc  /ServerData/OWGIS/ADCIRC/nuevo/")
+  print("Done mv!")
+system ("rm -f /ServerData/OWGIS/ADCIRC/pom-owgis_*.nc")
+  print("Done rm!")
+system ("mv  /ServerData/OWGIS/ADCIRC/nuevo/pom-owgis_*.nc  /ServerData/OWGIS/ADCIRC/")
+  print("Done mv!")
+ else
+  print("no hay salidas de hoy para pom")
+end if
+quit
