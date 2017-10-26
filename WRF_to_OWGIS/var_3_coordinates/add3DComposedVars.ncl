@@ -14,6 +14,7 @@ procedure add3DComposedVars(varNames, fin,fout, dim_time, dim_lat, dim_lon) begi
             newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0);declare variable newVar
             newVar = sqrt(u10^2 + v10^2)*3.6 ;assing sqrt(u10^2 + v10^2)*3.6 to newVar 
             newVar@units = "km/hr";atributes
+      
         end if
 
         ;valid if there are variable prec2

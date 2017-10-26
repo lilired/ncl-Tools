@@ -26,7 +26,18 @@ out=\"/ServerData/OWGIS/WRF/\"
 #COMMAND= ncl rfile=\"/home/lili/Escritorio/repos/ncl/\" dia=$dia mes=$mes anio=$anio /ServerScripts/WRF_to_OWGIS/WRF_for_OWGIS_LOCAL.ncl
 #eval $COMMAND
 
-ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/WRF_to_OWGIS/WRF_for_OWGIS_LOCAL.ncl 
+#echo ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/WRF_to_OWGIS/WRF_for_OWGIS_LOCAL.ncl 
+#ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/WRF_to_OWGIS/WRF_for_OWGIS_LOCAL.ncl 
+#date >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt >>
+#echo finish WRF $dia/$mes/$anio  >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+
+echo begin WRF>> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 date >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
-echo finish WRF $dia/$mes/$anio  >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/WRF_to_OWGIS/WRF_for_OWGIS_LOCAL.ncl >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt 
+echo finish WRF >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+date >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+echo  ------------------------------------- >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+echo  ------------------------------------- >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+
+find /ServerData/OWGIS/WRF/ -type f -size 0b -delete
 

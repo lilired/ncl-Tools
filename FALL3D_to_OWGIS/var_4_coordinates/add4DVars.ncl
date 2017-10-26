@@ -3,7 +3,9 @@ procedure add4DVars(varNames,fin,fout,dim_time, dim_lat,dim_lon,dim_depth) begin
     do varIdx =0,dimsizes(varNames)-1,1 ; This loop iterates over the variables
         print("Adding "+varNames(varIdx)+"...")
     ;    print(dim_depth)
-        do contador=0,8;dimsizes(dim_depth)-1
+nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth(0)/), "float", 0)
+
+        do contador=0,4;dimsizes(dim_depth)-1
  
            if  contador .eq. 0 then
                varNamesO=(/"C_GRND"/)
@@ -11,19 +13,19 @@ procedure add4DVars(varNames,fin,fout,dim_time, dim_lat,dim_lon,dim_depth) begin
                origVar = fin->$varNamesO(varIdx)$
                newVar = new((/dim_time,dim_lat,dim_lon/), "float", 0)
                newVar(:,:,:) = (/origVar/)
-	       nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth(0)/), "float", 0)
+	       ;nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/), "float", 0)
                nueva(:,:,:,contador)=  newVar    
                ;printVarSummary(nueva)   	
                ; ---- Copy the original variables 
-               copy_VarAtts(origVar,newVar) ; Copy origial attributes
+              ; copy_VarAtts(origVar,newVar) ; Copy origial attributes
                ;delete_VarAtts(newVar, (/"coordinates"/))
 
-               filevardef(fout, varNames(varIdx) ,typeof(nueva), (/"Time","Latitude","Longitude","Depth"/) ) ; time dimension
-               filevarattdef(fout,varNames(varIdx),nueva); copy T attributes
-               fout->$varNames(varIdx)$ = (/nueva/)
-               delete(newVar)
-               delete(origVar)
-               delete(varNamesO)	
+           ;    filevardef(fout, varNames(varIdx) ,typeof(nueva), (/"Time","Latitude","Longitude","Depth"/) ) ; time dimension
+            ;   filevarattdef(fout,varNames(varIdx),nueva); copy T attributes
+             ;  fout->$varNames(varIdx)$ = (/nueva/)
+              ; delete(newVar)
+               ;delete(origVar)
+               ;;delete(varNamesO)	
                print("Done! 0")
            end if
 
@@ -33,20 +35,20 @@ procedure add4DVars(varNames,fin,fout,dim_time, dim_lat,dim_lon,dim_depth) begin
                origVar = fin->$varNamesO(varIdx)$
                newVar = new((/dim_time,dim_lat,dim_lon/), "float", 0)
                newVar(:,:,:) = (/origVar/)
-               nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/), "float", 0)
+               ;nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/), "float", 0)
                nueva(:,:,:,contador)=  newVar    
                ;printVarSummary(nueva)  	
                ; ---- Copy the original variables 
-               copy_VarAtts(origVar,newVar) ; Copy origial attributes
+             ;  copy_VarAtts(origVar,newVar) ; Copy origial attributes
                ;delete_VarAtts(newVar, (/"coordinates"/))
     
                ;filevardef(fout, varNames(varIdx) ,typeof(nueva), (/"Time","Latitude","Longitude","Depth"/) ) ; time dimension
                ;filevarattdef(fout,varNames(varIdx),nueva); copy T attributes
-               fout->$varNames(varIdx)$ = (/nueva/)
-               delete(newVar)
-               delete(origVar)
-               delete(varNamesO)
-               print("Done! 1")
+               ;fout->$varNames(varIdx)$ = (/nueva/)
+               ;delete(newVar)
+               ;delete(origVar)
+               ;delete(varNamesO)
+               ;print("Done! 1")
            end if
 
            if  contador .eq. 2 then
@@ -55,18 +57,18 @@ procedure add4DVars(varNames,fin,fout,dim_time, dim_lat,dim_lon,dim_depth) begin
                origVar = fin->$varNamesO(varIdx)$
                newVar = new((/dim_time,dim_lat,dim_lon/), "float", 0)
                newVar(:,:,:) = (/origVar/)
-	       nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/), "float", 0)
+	      ; nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/), "float", 0)
                nueva(:,:,:,contador)=  newVar    
                ; ---- Copy the original variables 
-               copy_VarAtts(origVar,newVar) ; Copy origial attributes
+               ;copy_VarAtts(origVar,newVar) ; Copy origial attributes
                ;delete_VarAtts(newVar, (/"coordinates"/))
 
                ;filevardef(fout, varNames(varIdx) ,typeof(nueva), (/"Time","Latitude","Longitude","Depth"/) ) ; time dimension
                ;filevarattdef(fout,varNames(varIdx),nueva); copy T attributes
-               fout->$varNames(varIdx)$ = (/nueva/)
-               delete(newVar)
-               delete(varNamesO)
-               delete(origVar)
+               ;fout->$varNames(varIdx)$ = (/nueva/)
+               ;delete(newVar)
+               ;delete(varNamesO)
+               ;delete(origVar)
                print("Done! 2")
            end if
            if  contador .eq. 3 then
@@ -75,17 +77,17 @@ procedure add4DVars(varNames,fin,fout,dim_time, dim_lat,dim_lon,dim_depth) begin
                origVar = fin->$varNamesO(varIdx)$
                newVar = new((/dim_time,dim_lat,dim_lon/), "float", 0)
                newVar(:,:,:) = (/origVar/)
-	       nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/), "float", 0)
+	      ; nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/), "float", 0)
                nueva(:,:,:,contador)=  newVar    
                ; ---- Copy the original variables 
-               copy_VarAtts(origVar,newVar) ; Copy origial attributes
+               ;copy_VarAtts(origVar,newVar) ; Copy origial attributes
                ;delete_VarAtts(newVar, (/"coordinates"/))
 
                ;filevardef(fout, varNames(varIdx) ,typeof(nueva), (/"Time","Latitude","Longitude","Depth"/) ) ; time dimension
                ;filevarattdef(fout,varNames(varIdx),nueva); copy T attributes
-               fout->$varNames(varIdx)$ = (/nueva/)
-               delete(newVar)
-               delete(origVar)
+               ;fout->$varNames(varIdx)$ = (/nueva/)
+               ;delete(newVar)
+               ;delete(origVar)
                print("Done! 3")
            end if
 
@@ -95,18 +97,18 @@ procedure add4DVars(varNames,fin,fout,dim_time, dim_lat,dim_lon,dim_depth) begin
                origVar = fin->$varNamesO(varIdx)$
                newVar = new((/dim_time,dim_lat,dim_lon/), "float", 0)
                newVar(:,:,:) = (/origVar/)
-	       nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/), "float", 0)
+	      ; nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/), "float", 0)
                nueva(:,:,:,contador)=  newVar    
                ; ---- Copy the original variables 
-               copy_VarAtts(origVar,newVar) ; Copy origial attributes
+               ;copy_VarAtts(origVar,newVar) ; Copy origial attributes
                ;delete_VarAtts(newVar, (/"coordinates"/))
 
               ; filevardef(fout, varNames(varIdx) ,typeof(nueva), (/"Time","Latitude","Longitude","Depth"/) ) ; time dimension
                ;filevarattdef(fout,varNames(varIdx),nueva); copy T attributes
-               fout->$varNames(varIdx)$ = (/nueva/)
-               delete(newVar)
-               delete(origVar)
-delete(varNamesO)
+               ;fout->$varNames(varIdx)$ = (/nueva/)
+               ;delete(newVar)
+               ;delete(origVar)
+;delete(varNamesO)
                print("Done! 4")
            end if
            if  contador .eq. 5 then
@@ -115,19 +117,19 @@ delete(varNamesO)
                origVar = fin->$varNamesO(varIdx)$
                newVar = new((/dim_time,dim_lat,dim_lon/), "float", 0)
                newVar(:,:,:) = (/origVar/)
-	       nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/), "float", 0)
+	      ; nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/), "float", 0)
                nueva(:,:,:,contador)=  newVar    
                ; ---- Copy the original variables 
-               copy_VarAtts(origVar,newVar) ; Copy origial attributes
+               ;copy_VarAtts(origVar,newVar) ; Copy origial attributes
                ;delete_VarAtts(newVar, (/"coordinates"/))
 
             ;   filevardef(fout, varNames(varIdx) ,typeof(nueva), (/"Time","Latitude","Longitude","Depth"/) ) ; time dimension
              ;  filevarattdef(fout,varNames(varIdx),nueva); copy T attributes
-               fout->$varNames(varIdx)$ = (/nueva/)
-               delete(newVar)
-               delete(origVar)
+               ;fout->$varNames(varIdx)$ = (/nueva/)
+               ;delete(newVar)
+               ;delete(origVar)
                print("Done! 5")
-delete(varNamesO)
+;delete(varNamesO)
            end if
            if  contador .eq. 6 then
                varNamesO=(/"C_FL300"/)
@@ -135,18 +137,18 @@ delete(varNamesO)
                origVar = fin->$varNamesO(varIdx)$
                newVar = new((/dim_time,dim_lat,dim_lon/), "float", 0)
                newVar(:,:,:) = (/origVar/)
-	       nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/), "float", 0)
+	       ;nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/), "float", 0)
                nueva(:,:,:,contador)=  newVar    
                ; ---- Copy the original variables 
-               copy_VarAtts(origVar,newVar) ; Copy origial attributes
+             ;  copy_VarAtts(origVar,newVar) ; Copy origial attributes
                ;delete_VarAtts(newVar, (/"coordinates"/))
       
               ; filevardef(fout, varNames(varIdx) ,typeof(nueva), (/"Time","Latitude","Longitude","Depth"/) ) ; time dimension
               ; filevarattdef(fout,varNames(varIdx),nueva); copy T attributes
-               fout->$varNames(varIdx)$ = (/nueva/)
-delete(varNamesO)               
-delete(newVar)
-               delete(origVar)
+              ; fout->$varNames(varIdx)$ = (/nueva/)
+;delete(varNamesO)               
+;delete(newVar)
+               ;delete(origVar)
                print("Done! 6")
            end if
            if  contador .eq. 7 then
@@ -155,18 +157,18 @@ delete(newVar)
                origVar = fin->$varNamesO(varIdx)$
                newVar = new((/dim_time,dim_lat,dim_lon/), "float", 0)
                newVar(:,:,:) = (/origVar/)
-	       nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/), "float", 0)
+	       ;nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/), "float", 0)
                nueva(:,:,:,contador)=  newVar    
                ; ---- Copy the original variables 
-               copy_VarAtts(origVar,newVar) ; Copy origial attributes
+              ; copy_VarAtts(origVar,newVar) ; Copy origial attributes
                ;delete_VarAtts(newVar, (/"coordinates"/))
 
              ;  filevardef(fout, varNames(varIdx) ,typeof(nueva), (/"Time","Latitude","Longitude","Depth"/) ) ; time dimension
               ; filevarattdef(fout,varNames(varIdx),nueva); copy T attributes
-               fout->$varNames(varIdx)$ = (/nueva/)
-               delete(newVar)
-               delete(origVar)
-               print("Done! 7")
+               ;fout->$varNames(varIdx)$ = (/nueva/)
+               ;delete(newVar)
+               ;delete(origVar)
+               ;print("Done! 7")
            end if
            if  contador .eq. 8 then
                varNamesO=(/"C_FL400"/)
@@ -174,17 +176,17 @@ delete(newVar)
                origVar = fin->$varNamesO(varIdx)$
                newVar = new((/dim_time,dim_lat,dim_lon/), "float", 0)
                newVar(:,:,:) = (/origVar/)
-	       nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/), "float", 0)
+	     ;  nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/), "float", 0)
                nueva(:,:,:,contador)=  newVar    
                ; ---- Copy the original variables 
-               copy_VarAtts(origVar,newVar) ; Copy origial attributes
+               ;copy_VarAtts(origVar,newVar) ; Copy origial attributes
                ;delete_VarAtts(newVar, (/"coordinates"/))
      
               ; filevardef(fout, varNames(varIdx) ,typeof(nueva), (/"Time","Latitude","Longitude","Depth"/) ) ; time dimension
                ;filevarattdef(fout,varNames(varIdx),nueva); copy T attributes
-               fout->$varNames(varIdx)$ = (/nueva/)
-               delete(newVar)
-               delete(origVar)
+               ;fout->$varNames(varIdx)$ = (/nueva/)
+               ;delete(newVar)
+               ;delete(origVar)
                print("Done! 8")
            end if
 

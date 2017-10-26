@@ -1,12 +1,12 @@
 ;start fuction addDepth
 function addDepth(fin,fout) begin
     ; Adding latitude variable
-    ZNU = fin->ZNU;get variable in fin
+    ZNU =  (/850, 700, 500, 200/);fin->ZNU;get variable in fin
     temp = dimsizes(ZNU)
 
-    dim_depth = temp(1)
+    dim_depth = temp(0)
     depth = new(dim_depth,float)
-    depth = ZNU(0,:)
+    depth = ZNU
     delete_VarAtts(depth,-1)
     depth@standard_name = "depth";atributes
     depth@long_name= "ZNU";atributes

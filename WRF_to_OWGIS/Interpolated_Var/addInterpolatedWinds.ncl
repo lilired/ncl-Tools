@@ -26,13 +26,13 @@ procedure addInter(fin,fout,dim_time, dim_lat, dim_lon) begin
         u_plane@FieldType = 104 ;;atributes
         u_plane@MemoryOrder = "XY " ;;atributes
         u_plane@description = "U at "+pressure_levels(varIdx)+" hPA" ;;atributes
-        u_plane@units = "m s-1" ;;atributes
+        u_plane@units = "Km/hr" ;;atributes
         u_plane@standard_name = "eastward_wind_"+pressure_levels(varIdx);atributes
 
         v_plane@FieldType = 104 ;;atributes
         v_plane@MemoryOrder = "XY " ;;atributes
         v_plane@description = "V at "+pressure_levels(varIdx)+" hPA" ;;atributes
-        v_plane@units = "m s-1" ;;atributes
+        v_plane@units = "Km/hr" ;;atributes
         v_plane@standard_name = "northward_wind_"+pressure_levels(varIdx);atributes
 
         ;Aqui se realizan los calculaos de velocidad a cierto nivel de presion y se convierten a km/hr

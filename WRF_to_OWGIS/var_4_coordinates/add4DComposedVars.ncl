@@ -18,31 +18,91 @@ procedure add4DComposedVars(varNames, fin,fout, dim_time, dim_depth, dim_lat, di
        ;valid if there are variables RH
        ; ---------- For RH ----------
         if(varNames(varIdx) .eq. "RH") then
-           qv = fin->QVAPOR               ;get variable in fin
-           P  = fin->P                     ; perturbation;get variable in fin
-           Pb = fin->PB                    ; base state pressure;get variable in fin
-           P  = P + Pb                   ; total pressure;get variable in fin
+nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/),"float", 0)
 
-           theta = fin->T                  ; perturbation potential temperature (theta+t0);get variable in fin
-           theta = theta + 300.  ;calculate
+            newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0);declare variable newVar
+            presion=(/850, 700, 500, 200/)
+            do nivel=0,3
 
-           TK = wrf_tk (P, theta);function wrf for calculate tk
-           RH = wrf_rh (qv, P, TK);function wrf for calculate rh
+               QVAPOR = fin->QVAPOR               ;get variable in fin
+               P  = fin->P                     ; perturbation;get variable in fin
+               Pb=fin->PB
+               P=P+Pb
+               theta= fin->T
+               theta=theta+300
+               TK=wrf_tk(P,theta)
+               RH=wrf_rh(QVAPOR,P,TK)
 
-           ;printVarSummary(RH)
+               humedad = wrf_user_intrp3d(RH,P,"h",presion(nivel),-1.,False)
+               humedad@long_name = "relative_humidity "+presion(nivel);atributes
+               humedad@standard_name = "relative_humidity "+presion(nivel)      ;atributes 
+            
+               delete_VarAtts(humedad, -1)
+                     nueva(:,:,:,nivel)=   wrf_user_intrp3d(RH,P,"h",presion(nivel),-1.,False);humedad 
+        nueva@long_name = "relative_humidity ";+presion(nivel);atributes
+               nueva@standard_name = "relative_humidity ";+presion(nivel)      ;atributes 
+            
+               delete_VarAtts(nueva, -1)
+               rhName = "RHat"+presion(nivel)
 
-           newVar = new( (/dim_time, dim_depth, dim_lat, dim_lon/),"float", 0);declare variable newVar
-           newVar = RH            ;assing RH to newVar 
-           newVar@long_name = "relative_humidity";atributes
-           newVar@standard_name = "relative_humidity"      ;atributes 
+               filevardef(fout, rhName,typeof(humedad), (/"Time","Latitude","Longitude"/) ) ; time dimension
+               filevarattdef(fout,rhName,humedad); copy T attributes
+               fout->$rhName$ = (/humedad/);add in file fout
+
+               delete(humedad)
+if nivel .eq. 3 then
+print("LLEGUE A 200")
+end if
+       
+            end do
+
+    nueva@long_name = "relative_humidity ";+presion(nivel);atributes
+               nueva@standard_name = "relative_humidity ";+presion(nivel)      ;atributes 
+   filevardef(fout, varNames(varIdx) ,typeof(nueva), (/"Time","Latitude","Longitude","Depth"/) ) ; time dimension
+               filevarattdef(fout,varNames(varIdx),nueva); copy T attributes
+               fout->$varNames(varIdx)$ = (/nueva/)
         end if
- 
-        filevardef(fout, varNames(varIdx) ,typeof(newVar), (/"Time","Depth","Latitude","Longitude" /) ) ; time dimension
-        filevarattdef(fout,varNames(varIdx),newVar); copy T attributes
-        fout->$varNames(varIdx)$ = (/newVar/);add in file fout
 
-        delete(newVar)
+ ;valid if there are variables tem-pot-eq
+       ; ---------- For tem-pot-eq ----------
+        if(varNames(varIdx) .eq. "TPE") then
+            newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0);declare variable newVar
+            presion=(/850, 700, 500, 200/)
+            do nivel=0,3
+
+               QVAPOR = fin->QVAPOR               ;get variable in fin
+               P  = fin->P                     ; perturbation;get variable in fin
+               Pb=fin->PB
+               P=P+Pb
+               theta= fin->T
+               theta=theta+273.15
+               TC=wrf_tk(P,theta)
+    eth = wrf_eth ( QVAPOR, TC, P )
+    eth_plane = wrf_user_intrp3d(eth,P,"h",presion(nivel),-1.,False)
+
+
+      delete_VarAtts(eth_plane, -1)
+    
+      eth_plane@description=""
+      eth_plane@_FillValue =9.96921e+36
+      eth_plane@long_name = "Temp_Pot_Eq_at_"+presion(nivel);atributes
+      eth_plane@standard_name = "Temp_Pot_Eq_at_"+presion(nivel)      ;atributes 
+      
+      delete_VarAtts(eth_plane, -1)
+              
+      tpeName = "Temp_Pot_Eq_at"+presion(nivel)
+
+               filevardef(fout, tpeName,typeof(eth_plane), (/"Time","Latitude","Longitude" /) ) ; time dimension
+               filevarattdef(fout,tpeName,eth_plane); copy T attributes
+               fout->$rhName$ = (/eth_plane/);add in file fout
+
+               delete(humedad)
+       
+            end do
+        end if
+
         print("Done!")
+
     end do
     ;end of variables cycle 
 end

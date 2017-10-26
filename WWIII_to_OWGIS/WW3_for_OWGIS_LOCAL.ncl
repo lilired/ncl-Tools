@@ -58,8 +58,21 @@ print(dia_inicial)
      files = systemfunc(" ls "+inputFolder+"/*"+dom + "*.nc")  
      fin = addfiles(files,"r")
 
-     dim_time = 121
+     ;dim_time = 97;121
  
+     T=fin->XLAT(:,0,0)
+     dimT=dimsizes(T)
+     ;print(dimT)  
+
+     if dimT .eq. 97 then
+        ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
+        dim_time = 97 ; define the  variable dim_time 
+     else
+        ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
+        dim_time = 121 ; define the  variable dim_time 
+     end if
+
+
      ; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
 
      outputFile= outputFolder+"/"+dom+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"

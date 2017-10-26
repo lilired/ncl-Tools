@@ -1,5 +1,6 @@
 ;----------- Reading ncl File configuration--------
 print("Loading file configuration.....")
+;loadscript ("/ServerScripts/WRF_to_OWGIS/configuration_p.txt")
 loadscript ("/ServerScripts/WRF_to_OWGIS/configuration.txt")
 print("Done!")
 
@@ -31,15 +32,14 @@ print("Loading file the procedure for variables in 4 coordinates(Time,Depth,Lati
 print("Loading files.....")
 loadscript ("/ServerScripts/WRF_to_OWGIS/var_4_coordinates/add4DVars.ncl")
 loadscript ("/ServerScripts/WRF_to_OWGIS/var_4_coordinates/add4DComposedVars.ncl")
-loadscript ("/ServerScripts/WRF_to_OWGIS/var_4_coordinates/add4DVarsA.ncl")
+
 print("Done!")
 
 print("Loading file the procedure for variables in 1 coordinate(Time")
 print("Loading files.....")
 loadscript ("/ServerScripts/WRF_to_OWGIS/var_1_coordinates/addVar.ncl")
 print("Done!")
-
-
+;dia=10
 ;------- Setting the proper input and output filenames ------
 print("Configuring file names...")
 begTime = get_cpu_time()
@@ -53,9 +53,9 @@ outputFolder=out
 
 ; The file path in add folders
 inputFolder=dataFolder+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
-
+t
 ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
-dim_time = 121 ; define the  variable dim_time 
+;dim_time = 97;121 ; define the  variable dim_time 
 
 ;start of domanis cycle 
 ;;;;; Iterate over the 2 domains
@@ -70,6 +70,19 @@ do dominio=1,2  ;
     fin = addfile(inputFile,"r"); open the file wrf
     system("rm -f " +outputFile)    ; remove if exists
     fout = addfile(outputFile,"c"); open the file NetCDF 
+
+    T=fin->XLAT(:,0,0)
+    dimT=dimsizes(T)
+    ;print(dimT)  
+ 
+    if dimT .eq. 97 then
+       ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
+       dim_time = 97 ; define the  variable dim_time 
+    else
+       ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
+       dim_time = 121 ; define the  variable dim_time 
+    end if
+
 
     ; ------- Setting global attributes for netCDF file -----
     fout@Conventions = "CF-1.6"
@@ -224,27 +237,7 @@ do dominio=1,2  ;
           delete(varNames)
         end if
       end do 
-      ;end of variables in 4 dimesions composed cycle 
-     dim_presion=(/4/)
-      presion = (/850, 700, 500, 200/)
-
-     ;start of variables in 4 dimesions composed cycle 
-     ;;;;;;; ---------- For Variables the 4 coordinates  ADD----------
-     ;;;;;;;; Iterate over of variables in 4 dimensions composed 
-      do conVar4A = 0,dimsizes(var4A)-1
-        ;valid if there are variables in 4 dimensions composed
-        if(var4A(conVar4A) .eq. "none")
-          print("No variable 4 coordinates add")
-        else   
-          ; ------- Adding 4D composed variables  -------------------
-          varNames =var4A(conVar4A); ;valid variables in file configuration.txt (/"RH","PA","WS"/)
-          add4DVarsA(varNames, fin,fout,dim_time, presion, dim_lat, dim_lon);procedure
-          print("Done!") 
-          delete(varNames)
-        end if
-      end do 
-      ;end of variables in 4 dimesions composed cycle 
-        
+      ;end of variables in 4 dimesions composed cycle       
 
       delete(dim_lon)
       delete(dim_lat)
@@ -267,6 +260,8 @@ system ("mv  /ServerData/OWGIS/WRF/nuevo/Dom1*.nc  /ServerData/OWGIS/WRF/")
   print("Done mv!")
  else
   print("no hay salidas de hoy para dom1")
+;system ("rm  /ServerData/OWGIS/WRF/Dom1*_"+thisDay(0)+"-"+sprintf("%02g",thisDay(1))+"-"+sprintf("%02g",thisDay(2))+".nc")
+ ; print("Done mv!")
 end if
 
 if validar_dom2 .eq. 1 then
