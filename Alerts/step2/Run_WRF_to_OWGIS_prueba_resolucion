@@ -5,19 +5,12 @@ dia=`date  +%d`
 mes=`date  +%m`
 anio=`date +%Y`
 
-
-
 in_otro=\"/ServerData/OWGIS/percentiles\"
 in=\"/ServerData/Pronosticos/Salidas/WRF/\"
 out=\"/ServerData/OWGIS/WRF/\"
 
 echo begin WRF>> /ServerScripts/Logs/log_day2_$dia-$mes-$anio.txt
 date >> /ServerScripts/Logs/log_day2_$dia-$mes-$anio.txt
-ncl dia=$dia mes=$mes anio=$anio "in=${in}" "in_otro=${in_otro}" "out=${out}" /ServerScripts/WRF_to_OWGIS/WRF_for_OWGIS_LOCAL_prueba_resolucion.ncl #>> /ServerScripts/Logs/log_day2_$dia-$mes-$anio.txt 
-#echo finish WRF >> /ServerScripts/Logs/log_day2_$dia-$mes-$anio.txt
-#date >> /ServerScripts/Logs/log_day2_$dia-$mes-$anio.txt
-#echo  ------------------------------------- >> /ServerScripts/Logs/log_day2_$dia-$mes-$anio.txt
-#echo  ------------------------------------- >> /ServerScripts/Logs/log_day2_$dia-$mes-$anio.txt
+ncl dia=$dia mes=$mes anio=$anio "in=${in}" "in_otro=${in_otro}" "out=${out}" /ServerScripts/WRF_to_OWGIS/WRF_for_OWGIS_LOCAL_prueba_resolucion.ncl 
 
-#find /ServerData/OWGIS/WRF/ -type f -size 0b -delete
 
