@@ -53,7 +53,6 @@ outputFolder=out
 
 ; The file path in add folders
 inputFolder=dataFolder+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
-t
 ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
 ;dim_time = 97;121 ; define the  variable dim_time 
 

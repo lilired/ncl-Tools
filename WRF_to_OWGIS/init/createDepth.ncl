@@ -9,6 +9,7 @@ function addDepth(fin,fout) begin
     depth = ZNU
     delete_VarAtts(depth,-1)
     depth@standard_name = "depth";atributes
+    depth@units = "Pressure";atributes
     depth@long_name= "ZNU";atributes
     depth@axis = "Z";atributes
     filedimdef(fout, (/"Depth"/), dim_depth , (/ False /))

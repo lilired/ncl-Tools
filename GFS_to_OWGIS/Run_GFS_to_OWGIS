@@ -6,15 +6,15 @@ mes=`date  +%m`
 anio=`date +%Y`
 
 
-echo begin GFS >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
-date >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+echo begin GFS >> /ServerScripts/Logs/log_day1_$dia-$mes-$anio.txt
+date >> /ServerScripts/Logs/log_day1_$dia-$mes-$anio.txt
 
-ncl /ServerScripts/GFS_to_OWGIS/GribToNetcdfOWGIS.ncl  #>> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+ncl /ServerScripts/GFS_to_OWGIS/GribToNetcdfOWGIS.ncl  >> /ServerScripts/Logs/log_day1_$dia-$mes-$anio.txt
 
-echo finish GFS $dia/$mes/$anio >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
-date >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
-echo  ------------------------------------- >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
-echo  ------------------------------------- >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+echo finish GFS $dia/$mes/$anio >> /ServerScripts/Logs/log_day1_$dia-$mes-$anio.txt
+date >> /ServerScripts/Logs/log_day1_$dia-$mes-$anio.txt
+echo  ------------------------------------- >> /ServerScripts/Logs/log_day1_$dia-$mes-$anio.txt
+echo  ------------------------------------- >> /ServerScripts/Logs/log_day1_$dia-$mes-$anio.txt
 
-find /ServerData/OWGIS/GFS/ -type f -size 0b -delete
+#find /ServerData/OWGIS/GFS/ -type f -size 0b -delete
 

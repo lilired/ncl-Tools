@@ -1,4 +1,6 @@
 #!/bin/bash
+#!/bin/bash
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/usr/local/ncl/bin
 
 dia=`date  +%d`
 mes=`date  +%m`
@@ -29,19 +31,19 @@ out=\"/ServerData/OWGIS/WRF-CHEM/\"
 #COMMAND= ncl rfile=\"/home/lili/Escritorio/repos/ncl/\" dia=$dia mes=$mes anio=$anio WRF_for_OWGIS_LOCAL.ncl
 #eval $COMMAND
 
-echo begin WRF-CHEM>> /ServerScripts/Logs/log_day1_$dia-$mes-$anio.txt
-date >> /ServerScripts/Logs/log_day1_$dia-$mes-$anio.txt
-ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/WRF-CHEM_to_OWGIS/WRF-CHEM_for_OWGIS_LOCAL.ncl >> /ServerScripts/Logs/log_day1_$dia-$mes-$anio.txt 
-echo finish WRF-CHEM >> /ServerScripts/Logs/log_day1_$dia-$mes-$anio.txt
-date >> /ServerScripts/Logs/log_day1_$dia-$mes-$anio.txt
-echo  ------------------------------------- >> /ServerScripts/Logs/log_day1_$dia-$mes-$anio.txt
-echo  ------------------------------------- >> /ServerScripts/Logs/log_day1_$dia-$mes-$anio.txt
+echo begin WRF-CHEM>> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+date >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/WRF-CHEM_to_OWGIS/WRF-CHEM_for_OWGIS_LOCAL.ncl #>> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt 
+echo finish WRF-CHEM >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+date >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+echo  ------------------------------------- >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+echo  ------------------------------------- >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 
 #DATE=`date --date="5 day ago" +%d`
-#find /ServerScripts/Logs/log_day1_$DATE-$mes-$anio.txt    -delete
+#find /ServerScripts/Logs/log_day_$DATE-$mes-$anio.txt    -delete
 
 DAY=`date --date="5 day ago" +%d`
 MONTH=`date --date="5 day ago" +%m`
 YEAR=`date --date="5 day ago" +%y`
-find /ServerScripts/Logs/log_day1_$DAY-$MONTH-$YEAR.txt    -delete
+find /ServerScripts/Logs/log_day_$DAY-$MONTH-$YEAR.txt    -delete
 

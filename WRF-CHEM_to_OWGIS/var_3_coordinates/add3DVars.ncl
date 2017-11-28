@@ -15,7 +15,7 @@ printVarSummary(origVar)
 		; --- Add specific attributes ----
         ; ---------- For U10 ----------
         if(varNames(varIdx) .eq. "U10") then
-			newVar@units = "m/s" ;
+			newVar@units = "km/hr" ;
 			newVar@long_name= "U at 10 M" ;
 			newVar@standard_name = "eastward_wind_ten_velocity" ;
 			varNames(varIdx) = "Uat10"
@@ -24,7 +24,7 @@ printVarSummary(origVar)
 
         ; ---------- For V10 ----------
         if(varNames(varIdx) .eq. "V10") then
-			newVar@units = "m/s" ;
+			newVar@units = "km/hr" ;
 			newVar@long_name= "V at 10 M" ;
 			newVar@standard_name = "northward_wind_ten_velocity" ;
 			varNames(varIdx) = "Vat10"
@@ -40,9 +40,16 @@ printVarSummary(origVar)
 			;varNames(varIdx) = "Vat10"
         	print("Adding as "+varNames(varIdx)+"...")
         end if
+   
+        ; ---------- For PBLH ----------
+        if(varNames(varIdx) .eq. "PBLH") then
+			newVar@long_name= "boundary layer height" ;
+			newVar@standard_name = "PBLH" ;
+			newVar@units = "m" 
+        	print("Adding as "+varNames(varIdx)+"...")
+        end if
 
-
-
+             
 
         filevardef(fout, varNames(varIdx) ,typeof(newVar), (/"Time","Latitude","Longitude" /) ) ; time dimension
 

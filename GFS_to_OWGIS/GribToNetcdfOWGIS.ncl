@@ -7,9 +7,9 @@ end
 
 begTime = get_cpu_time()
 TodayDate = systemfunc("date -I --date='0 days ago'")
-thisDay = getDate(TodayDate)
+thisDay =getDate(TodayDate)
 ;; Reads all the files
-files = "/ServerData/Pronosticos/Salidas/GFS/"+toint(thisDay(0))+"_"+sprintf("%02g",toint(thisDay(1)))+"_"+sprintf("%02g",toint(thisDay(2))-1)+"_00/gfs.t00z.pgrb2*"
+files = "/ServerData/Pronosticos/Salidas/GFS/"+toint(thisDay(0))+"_"+sprintf("%02g",toint(thisDay(1)))+"_"+sprintf("%02g",toint(thisDay(2))-1)+"_00/gfs.t00z.pgrb2.0p25.f*"   ;gfs.t00z.pgrb2*"
 print("Files to be used: "+files)
 
 print("Reading files............")

@@ -14,7 +14,7 @@ procedure add3DComposedVars(varNames, fin,fout, dim_time, dim_lat, dim_lon) begi
           	u@long_name = "U" ;;atributes
 		u@standard_name = "eastward_wind_ten_velocity" ;;atributes
 		u@globwave_name = "eastward_wind";;atributes
-		u@units = "m s-1" ;;atributes
+		u@units = "km/hr" ;;atributes
 		u@valid_min = -990 ;;atributes
 		u@valid_max = 990 ;;atributes
 		u@comment = "cur=sqrt(U**2+V**2)" ; ;atributes
@@ -22,7 +22,10 @@ procedure add3DComposedVars(varNames, fin,fout, dim_time, dim_lat, dim_lon) begi
          	print("Adding as "+varNames(varIdx)+"...")
 
                 newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0);declare variable newVar
-                newVar = u  ;assing u to newVar 
+                newVar = u*3.6  ;assing u to newVar 
+                newVar@long_name = "U" ;;atributes
+		newVar@standard_name = "eastward_wind_ten_velocity" ;;atributes
+		newVar@units = "km/hr" ;;atributes
      
         end if
 
@@ -34,13 +37,16 @@ procedure add3DComposedVars(varNames, fin,fout, dim_time, dim_lat, dim_lon) begi
 		v@long_name = "V" ;;atributes
 		v@standard_name = "northward_wind_ten_velocity" ;;atributes
 		v@globwave_name = "northward_wind" ;;atributes
-		v@units = "m s-1" ;;atributes
+		v@units = "km/hr" ;;atributes
 		v@comment = "cur=sqrt(U**2+V**2)" ;;atributes
                 v@long_name= "V";;atributes
 		v@standard_name = "northward_wind_ten_velocity";;atributes
 			
                 newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0);declare variable newVar
-                newVar = v;assing v to newVar 
+                newVar = v*3.6;assing v to newVar 
+         	newVar@long_name = "V" ;;atributes
+		newVar@standard_name = "northward_wind_ten_velocity" ;;atributes
+		newVar@units = "km/hr" ;;atributes
      
         end if
 

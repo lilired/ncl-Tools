@@ -39,27 +39,41 @@ procedure add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat, dim_lon) begin
                filevarattdef(fout,varNames(varIdx),nueva); copy T attributes
                fout->$varNames(varIdx)$ = (/nueva/)
         end if
-       if(varNames(varIdx) .eq. "QCLOUD2") then
- cloud = new( (/dim_time, dim_lat, dim_lon/),"float", 0);declare variable newVar
-cloud_fraccion=fin->CLDFRA
-do it=0, dim_time-1
-cloud(it,:,:)=cloud_fraccion(it,0,:,:)+cloud_fraccion(it,1,:,:)+cloud_fraccion(it,2,:,:)+cloud_fraccion(it,3,:,:)+\
-cloud_fraccion(it,4,:,:)+cloud_fraccion(it,5,:,:)+cloud_fraccion(it,6,:,:)+2*(cloud_fraccion(it,7,:,:)+cloud_fraccion(it,8,:,:)+\
-cloud_fraccion(it,9,:,:)+cloud_fraccion(it,10,:,:)+cloud_fraccion(it,11,:,:))+3*(cloud_fraccion(it,12,:,:)+cloud_fraccion(it,13,:,:)+\
-cloud_fraccion(it,14,:,:)+cloud_fraccion(it,15,:,:)+cloud_fraccion(it,16,:,:))+2*(cloud_fraccion(it,17,:,:)+cloud_fraccion(it,18,:,:)+\
-cloud_fraccion(it,19,:,:)+cloud_fraccion(it,20,:,:)+cloud_fraccion(it,21,:,:))+cloud_fraccion(it,22,:,:)+cloud_fraccion(it,23,:,:)+\
-cloud_fraccion(it,24,:,:)+cloud_fraccion(it,25,:,:)+cloud_fraccion(it,26,:,:)
-wrf_smooth_2d (cloud, 3 )
-end do
-;print(cloud)
-cloud=(cloud/25)*100
-   cloud@long_name = "cloud_liquid_water_mixing_ratio";atributes
-               cloud@standar_name = "cloud_liquid_water_mixing_ratio";atributes
-               delete_VarAtts(cloud, -1)
 
-               filevardef(fout, varNames(varIdx) ,typeof(cloud), (/"Time","Latitude","Longitude"/) ) ; time dimension
-               filevarattdef(fout,varNames(varIdx),cloud); copy T attributes
-               fout->$varNames(varIdx)$ = (/cloud/)
+       if(varNames(varIdx) .eq. "QCLOUD2") then
+        cloud2 = new( (/dim_time, dim_lat, dim_lon/),"float", 0);declare variable newVar
+        
+        cloud_fraccion=fin->CLDFRA
+
+        do it=0, dim_time-1
+           cloud = cloud_fraccion(it,0,:,:)*0
+           ;printVarSummary(cloud)
+           do nivels = 0,49-1
+              cloud= cloud + cloud_fraccion(it,nivels,:,:)
+           end do
+
+cloud = (cloud )*6
+
+if (any(cloud.gt.1.)) then
+       cloud1D      = ndtooned (cloud)                  ; convert to 1D array
+       i50      = ind(cloud1D.gt.1.)               ; all indices x1D > 50 
+      ; print(i50)
+       cloud1D(i50) = cloud1D(i50) + 30.                           ; set all  array syntax
+       cloud        = onedtond(cloud1D, dimsizes(cloud)); return to the original array
+       delete (cloud1D)                             ; x1D no longer needed
+       delete (i50)                             ; i50 no longer needed
+   end if
+cloud2(it,:,:)=cloud
+end do
+
+               cloud2@long_name = "cloud_liquid_water_mixing_ratio";atributes
+               cloud2@standar_name = "cloud_liquid_water_mixing_ratio";atributes
+               cloud2@units = "%" 
+               delete_VarAtts(cloud2, -1)
+
+               filevardef(fout, varNames(varIdx) ,typeof(cloud2), (/"Time","Latitude","Longitude"/) ) ; time dimension
+               filevarattdef(fout,varNames(varIdx),cloud2); copy T attributes
+               fout->$varNames(varIdx)$ = (/cloud2/)
 end if 
         print("Done!")
     end do

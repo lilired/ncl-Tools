@@ -25,7 +25,9 @@ print("Loading file the procedure for variables in 3 coordinates(Time,Latitude,L
 print("Loading files.....")
 loadscript ("/ServerScripts/WRF_to_OWGIS/var_3_coordinates/add3DVars.ncl")
 loadscript ("/ServerScripts/WRF_to_OWGIS/var_3_coordinates/add3DComposedVars.ncl")
+loadscript ("/ServerScripts/WRF_to_OWGIS/var_3_coordinates/addPComposedVars.ncl")
 loadscript ("/ServerScripts/WRF_to_OWGIS/Interpolated_Var/addInterpolatedWinds.ncl")
+loadscript ("/ServerScripts/WRF_to_OWGIS/Interpolated_Var/addVarLevelsInterpolatedWinds.ncl")
 print("Done!")
 
 print("Loading file the procedure for variables in 4 coordinates(Time,Depth,Latitude,Longitude) .....")
@@ -59,7 +61,7 @@ inputFolder=dataFolder+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
 do dominio=1,2  ;
     ; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
     inputFile= inputFolder+"wrfout_d0"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+"_00.nc"
-    outputFile= outputFolder+"/nuevo/Dom_otro2"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"
+    outputFile= outputFolder+"/nuevo/Dom_otro22"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"
 
     print("Reading this file:"+ inputFile)
     print("Writing to this file:"+ outputFile)
@@ -153,6 +155,8 @@ end if
             if(var3C(conVar3C) .eq. "WS10")
              ; ------- Adding interpolated Winds  -------------------
               addInter(fin,fout,dim_time, dim_lat, dim_lon);procedure
+              addVarLevelsInter(fin,fout,dim_time, dim_lat, dim_lon,dim_depth);procedure
+             
             end if
         
             ; ---------- For Variables the initial for Precipitation----------
@@ -232,7 +236,27 @@ end if
           delete(varNames)
         end if
       end do 
+      ;end of variables in 4 dimesions composed cycle
+       
+;**************************************************
+     ;start of variables in 3 dimesions composed cycle 
+     ;;;;;;; ---------- For Variables the 4 coordinates  composed----------
+     ;;;;;;;; Iterate over of variables in 4 dimensions composed 
+      do conVarP = 0,dimsizes(varP)-1
+        ;valid if there are variables in 4 dimensions composed
+        if(varP(conVarP) .eq. "none")
+          print("No variable percentil coordinates composed")
+        else   
+          ; ------- Adding P composed variables  -------------------
+          varNames =varP(conVarP); ;valid variables in file configuration.txt
+          addPComposedVars(varNames, fin,fout,dim_time, dim_lat, dim_lon);procedure
+          print("Done!") 
+          delete(varNames)
+        end if
+      end do 
       ;end of variables in 4 dimesions composed cycle       
+;*****************************************
+
 
       delete(dim_lon)
       delete(dim_lat)

@@ -10,7 +10,7 @@ out=\"/ServerData/OWGIS/ADCIRC/\"
 
 echo begin ADCIRC >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 date >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
-ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/ADCIRC_to_OWGIS/ADCIRC_to_OWGIS.ncl #>> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/ADCIRC_to_OWGIS/ADCIRC_to_OWGIS.ncl >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 echo finish ADCIRC $dia/$mes/$anio >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 date >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 echo  ------------------------------------- >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
@@ -21,4 +21,4 @@ echo  ------------------------------------- >> /ServerScripts/Logs/log_day_$dia-
 #YEAR=`date date="1 day ago" +%Y`
 #rm /ServerScripts/Logs/log_day_$DAY-$MONTH-$YEAR.txt
 
-find /ServerData/OWGIS/ACDIRC/ -type f -size 0b -delete
+find /ServerData/OWGIS/ACDIRC/ -type f -size 27M -delete

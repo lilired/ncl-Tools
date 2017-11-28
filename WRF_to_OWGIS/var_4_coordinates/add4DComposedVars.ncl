@@ -45,9 +45,9 @@ nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/),"float", 0)
                delete_VarAtts(nueva, -1)
                rhName = "RHat"+presion(nivel)
 
-               filevardef(fout, rhName,typeof(humedad), (/"Time","Latitude","Longitude"/) ) ; time dimension
-               filevarattdef(fout,rhName,humedad); copy T attributes
-               fout->$rhName$ = (/humedad/);add in file fout
+               ;filevardef(fout, rhName,typeof(humedad), (/"Time","Latitude","Longitude"/) ) ; time dimension
+               ;filevarattdef(fout,rhName,humedad); copy T attributes
+              ; fout->$rhName$ = (/humedad/);add in file fout
 
                delete(humedad)
 if nivel .eq. 3 then
@@ -58,6 +58,7 @@ end if
 
     nueva@long_name = "relative_humidity ";+presion(nivel);atributes
                nueva@standard_name = "relative_humidity ";+presion(nivel)      ;atributes 
+               nueva@units = "%" 
    filevardef(fout, varNames(varIdx) ,typeof(nueva), (/"Time","Latitude","Longitude","Depth"/) ) ; time dimension
                filevarattdef(fout,varNames(varIdx),nueva); copy T attributes
                fout->$varNames(varIdx)$ = (/nueva/)
@@ -66,39 +67,57 @@ end if
  ;valid if there are variables tem-pot-eq
        ; ---------- For tem-pot-eq ----------
         if(varNames(varIdx) .eq. "TPE") then
+nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/),"float", 0)
+
             newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0);declare variable newVar
             presion=(/850, 700, 500, 200/)
             do nivel=0,3
+     T = wrf_user_getvar(fin,"T",-1)
+     P = wrf_user_getvar(fin,"P",-1)
+     PB = wrf_user_getvar(fin,"PB",-1)
+     qv = wrf_user_getvar(fin,"QVAPOR",-1)
 
-               QVAPOR = fin->QVAPOR               ;get variable in fin
-               P  = fin->P                     ; perturbation;get variable in fin
-               Pb=fin->PB
-               P=P+Pb
-               theta= fin->T
-               theta=theta+273.15
-               TC=wrf_tk(P,theta)
-    eth = wrf_eth ( QVAPOR, TC, P )
-    eth_plane = wrf_user_intrp3d(eth,P,"h",presion(nivel),-1.,False)
-
+     T  = T -273.15          ; potential temperature in c.
+      P  = P + PB          ; full pressure in Pa.   
+      tk = wrf_tk( P , T ) ; temperature in K.
+      eth = wrf_eth ( qv, tk, P )
+      ;plevs = nivel
+      eth_plane = wrf_user_intrp3d(eth,p,"h",presion(nivel),0.,False)
 
       delete_VarAtts(eth_plane, -1)
     
       eth_plane@description=""
       eth_plane@_FillValue =9.96921e+36
-      eth_plane@long_name = "Temp_Pot_Eq_at_"+presion(nivel);atributes
-      eth_plane@standard_name = "Temp_Pot_Eq_at_"+presion(nivel)      ;atributes 
-      
+              nueva(:,:,:,nivel)= wrf_user_intrp3d(eth,p,"h",presion(nivel),0.,False)
+        nueva@long_name = "Temp_Pot_Eq";+presion(nivel);atributes
+               nueva@standard_name = "Temp_Pot_Eq ";+presion(nivel)      ;atributes 
+            
+               delete_VarAtts(nueva, -1)
+
       delete_VarAtts(eth_plane, -1)
+    
+     ; eth_plane@description=""
+      ;eth_plane@_FillValue =9.96921e+36
+      ;eth_plane@long_name = "Temp_Pot_Eq_at_"+presion(nivel);atributes
+      ;eth_plane@standard_name = "Temp_Pot_Eq_at_"+presion(nivel)      ;atributes 
+      
+      ;delete_VarAtts(eth_plane, -1)
               
-      tpeName = "Temp_Pot_Eq_at"+presion(nivel)
+      ;tpeName = "Temp_Pot_Eq_at"+presion(nivel)
 
-               filevardef(fout, tpeName,typeof(eth_plane), (/"Time","Latitude","Longitude" /) ) ; time dimension
-               filevarattdef(fout,tpeName,eth_plane); copy T attributes
-               fout->$rhName$ = (/eth_plane/);add in file fout
+       ;        filevardef(fout, tpeName,typeof(eth_plane), (/"Time","Latitude","Longitude" /) ) ; time dimension
+        ;       filevarattdef(fout,tpeName,eth_plane); copy T attributes
+         ;      fout->$rhName$ = (/eth_plane/);add in file fout
 
-               delete(humedad)
+          ;     delete(humedad)
        
             end do
+     nueva@long_name = "Temp_Pot_Eq";+presion(nivel);atributes
+               nueva@standard_name = "Temp_Pot_Eq ";+presion(nivel)      ;atributes 
+               nueva@units = "C" 
+   filevardef(fout, varNames(varIdx) ,typeof(nueva), (/"Time","Latitude","Longitude","Depth"/) ) ; time dimension
+               filevarattdef(fout,varNames(varIdx),nueva); copy T attributes
+               fout->$varNames(varIdx)$ = (/nueva/)
         end if
 
         print("Done!")

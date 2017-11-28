@@ -41,7 +41,7 @@ do dominio=1,3
 
    mes_inicial=mes
 
-thisDay1 = (/anio,mes_inicial,dia_inicial/);(/2016,10,24/)
+     thisDay1 = (/anio,mes_inicial,dia_inicial/);(/2016,10,24/)
 
      thisDay = (/anio,mes,dia/);(/2016,10,24/)
      months=(/"01_enero","02_febrero","03_marzo","04_abril","05_mayo","06_junio","07_julio","08_agosto","09_septiembre","10_octubre","11_noviembre","12_diciembre"/)
@@ -49,8 +49,8 @@ thisDay1 = (/anio,mes_inicial,dia_inicial/);(/2016,10,24/)
      ; Reads all the files
      dataFolder=in
      outputFolder=out
-print(mes_inicial)
-print(dia_inicial)
+     print(mes_inicial)
+     print(dia_inicial)
      inputFolder=dataFolder+"salidas_wwiii_"+anio+"-"+sprintf("%02g",mes_inicial)+"-"+sprintf("%02g",dia_inicial)+"_00/"
 
      ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
@@ -58,20 +58,11 @@ print(dia_inicial)
      files = systemfunc(" ls "+inputFolder+"/*"+dom + "*.nc")  
      fin = addfiles(files,"r")
 
-     ;dim_time = 97;121
- 
-     T=fin->XLAT(:,0,0)
-     dimT=dimsizes(T)
-     ;print(dimT)  
+     ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
+     ; dim_time = 97 ; define the  variable dim_time 
 
-     if dimT .eq. 97 then
-        ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
-        dim_time = 97 ; define the  variable dim_time 
-     else
-        ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
-        dim_time = 121 ; define the  variable dim_time 
-     end if
-
+     ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
+     dim_time = 121 ; define the  variable dim_time 
 
      ; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
 
