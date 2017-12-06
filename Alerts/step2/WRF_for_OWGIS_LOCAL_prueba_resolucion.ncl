@@ -18,7 +18,6 @@ print("Loading file the procedure for precipítation.....")
 print("Loading files.....")
 loadscript ("/ServerScripts/WRF_to_OWGIS/resolucion/regrid_liliana.ncl")
 
-;dia=10
 ;------- Setting the proper input and output filenames ------
 print("Configuring file names...")
 begTime = get_cpu_time()
@@ -98,40 +97,9 @@ do dominio=1,2  ;
            end if
     end do
     ;end of variables in 3 dimensions cycle
-
-    
-
       delete(dim_lon)
       delete(dim_lat)
       delete(Time)
-if dominio .eq. 1
-   validar_dom1=1
-end if
-if dominio .eq. 2
-   validar_dom2=1
-end if
-
 end do
 ;end of domanis cycle 
 
-if validar_dom1 .eq. 2 then
-  system ("mv  /ServerData/OWGIS/WRF/Dom1*_"+thisDay(0)+"-"+sprintf("%02g",thisDay(1))+"-"+sprintf("%02g",thisDay(2))+".nc  /ServerData/OWGIS/WRF/nuevo/")
-  print("Done mv!")
-system ("rm -f /ServerData/OWGIS/WRF/Dom1*.nc")
-  print("Done rm!")
-system ("mv  /ServerData/OWGIS/WRF/nuevo/Dom1*.nc  /ServerData/OWGIS/WRF/")
-  print("Done mv!")
- else
-  print("no hay salidas de hoy para dom1")
-end if
-
-if validar_dom2 .eq. 2 then
-  system ("mv  /ServerData/OWGIS/WRF/Dom2*_"+thisDay(0)+"-"+sprintf("%02g",thisDay(1))+"-"+sprintf("%02g",thisDay(2))+".nc  /ServerData/OWGIS/WRF/nuevo/")
-  print("Done mv!")
-system ("rm -f /ServerData/OWGIS/WRF/Dom2*.nc")
-  print("Done rm!")
-;system ("mv  /ServerData/OWGIS/WRF/nuevo/Dom2*.nc  /ServerData/OWGIS/WRF/")
-  print("Done mv!")
- else
-  print("no hay salidas de hoy para dom2")
-end if
