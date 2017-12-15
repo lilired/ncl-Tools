@@ -1,6 +1,6 @@
 ;----------- Reading ncl File configuration--------
 print("Loading file configuration.....")
-loadscript ("/ServerScripts/WRF_to_OWGIS/configuration_p.txt")
+loadscript ("/ServerScripts/WRF_to_OWGIS/configuration_r.txt")
 ;loadscript ("/ServerScripts/WRF_to_OWGIS/configuration.txt")
 print("Done!")
 
@@ -79,7 +79,7 @@ do dominio=1,2  ;
    ; print("Adding depth ...")
     ;dim_depth = addDepth(fin,fout);function
     ;print("Done!")
-    
+    Dom=dominio
      ;start of variables in 3 dimesions cycle 
      ;;;;;;; ---------- For Variables the 3 coordinates ----------
      ;;;;;;;; Iterate over of variables in 3 dimensions
@@ -90,9 +90,9 @@ do dominio=1,2  ;
            else 
              ; ---------- Adding 3 coordinates variables from file
              varNames=var3(conVar3);valid variables in file configuration.txt (/"U10","V10","PBLH","SWDOWN","GLW","RAINC","T2","SST"/)
-                      varNames2=var3Por(conVar3)
+                      ;varNames2=var3Por(conVar3)
              ;add3DVars(varNames,fin,fout,dim_time, dim_lat, dim_lon);procedure
-              addresolucion(varNames,varNames2,fin,fin1,fout,dim_time, dim_lat, dim_lon)
+              addresolucion(varNames,var3Por,fin,fin1,fout,dim_time, dim_lat, dim_lon,thisDay,Dom)
               delete(varNames)
            end if
     end do
