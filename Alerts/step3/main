@@ -1,0 +1,13 @@
+#!/bin/bash
+
+#se exporta la ruta de python
+export PATH=$PATH:/usr/bin:/usr/local/anaconda/bin/python
+
+#archivo donde se encuentran los percentiles
+PER_FILE="/ServerData/OutTempRaul/percentil/Percentiles.nc"
+#archivo donde se encuentran los pronosticos
+FCT_FILE="/ServerData/Pronosticos/Salidas/WRF"
+#archivo de salida
+OUT=""
+
+python percentiles.py "$OUT" "$FCT_FILE" "$PER_FILE"
