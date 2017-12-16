@@ -16,5 +16,11 @@ date >> /ServerScripts/Logs/log_day1_$dia-$mes-$anio.txt
 echo  ------------------------------------- >> /ServerScripts/Logs/log_day1_$dia-$mes-$anio.txt
 echo  ------------------------------------- >> /ServerScripts/Logs/log_day1_$dia-$mes-$anio.txt
 
-#find /ServerData/OWGIS/GFS/ -type f -size 0b -delete
+#find /ServerData/OWGIS/GFS/ -type f -size -10M -delete
+pwd
+cd /ServerData	
+cd OWGIS
+cd GFS
+pwd
+find  -name "*.nc" -size -10M -delete
 

@@ -12,7 +12,7 @@ do varIdxPercentil =0,dimsizes(var3Por)-1,1 ; This loop iterates over the variab
 ;************************
 
 domm      = "d01"
-arch1     = "/ServerData/OWGIS/percentiles/Percentiles_a2000.nc"
+arch1     = "/ServerData/OWGIS/percentiles/Percentiles_99.9.nc"
 
 ;"/LUSTRE/HOME/fernando/operativo/EXTERNO-salidas/WRF/2017/11_noviembre/wrfout_"+domm+"_2017-11-21_00.nc"
 
@@ -69,7 +69,7 @@ print(arch2)
 nm              = wrf_user_getvar(wrf_dom2 ,"WS10",24)
 end if
 
-nm              = nm-273
+;nm              = nm-273
 
 nm@description  = ""
 printVarSummary(nm) ; [south_north | 156] x [west_east | 273]
@@ -84,7 +84,15 @@ lon_wrf_1d2 = lon2b(1,:)
 ;***************
 ; Interpolación
 
-nueva= linint2(lon_wrf_1d1,lat_wrf_1d1,m,True,lon_wrf_1d2,lat_wrf_1d2,0) 
+;nueva= linint2(lon_wrf_1d1,lat_wrf_1d1,m,True,lon_wrf_1d2,lat_wrf_1d2,0)
+;nueva= linint2_Wrap(lon_wrf_1d1,lat_wrf_1d1,m,True,lon_wrf_1d2,lat_wrf_1d2,0) 
+;nueva= area_hi2lores_Wrap(lon_wrf_1d1,lat_wrf_1d1,m, lon_wrf_1d2,lat_wrf_1d2, False) 
+if Dom .eq. 1 then
+ nueva  = f2gsh_Wrap(m(:,:),(/262,338/),0)
+else
+ nueva  = f2gsh_Wrap(m(:,:),(/156,273/),0)
+end if
+
 
 nm := nueva
 

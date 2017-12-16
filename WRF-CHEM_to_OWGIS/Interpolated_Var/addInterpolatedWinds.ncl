@@ -7,9 +7,13 @@ procedure addInter(fin,fout,dim_time, dim_lat, dim_lon) begin
     ;tc = wrf_user_getvar(f,"T2C",-1)        ; T in C
 
     print("Creating average variables...")
-    u  = wrf_user_getvar(fin,"ua",-1)        ; u averaged to mass points
-    v  = wrf_user_getvar(fin,"va",-1)        ; v averaged to mass points
-    p  = wrf_user_getvar(fin, "pressure",-1) ; pressure is our vertical coordinate
+    u_1  = wrf_user_getvar(fin,"ua",-1)        ; u averaged to mass points
+    v_1  = wrf_user_getvar(fin,"va",-1)        ; v averaged to mass points
+    p_1  = wrf_user_getvar(fin, "pressure",-1) ; pressure is our vertical coordinate
+
+     u=u_1(:,:,2:86,2:86)
+     v=v_1(:,:,2:86,2:86)
+     p=p_1(:,:,2:86,2:86)
 
     ;Distintos niveles de Presion
     pressure_levels =(/250, 500, 700, 850/)

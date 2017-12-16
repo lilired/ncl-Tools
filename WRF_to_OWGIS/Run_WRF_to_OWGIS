@@ -15,21 +15,8 @@ anio=`date +%Y`
 #in=\"/ServerData/WRF-OMETEOTL/EXTERNO-salidas/WRF/\"
 #out=\"/home/liliana/out/WRF/\"
 
-
 in=\"/ServerData/Pronosticos/Salidas/WRF/\"
 out=\"/ServerData/OWGIS/WRF/\"
-
-#COMMAND= "ncl DATE rfile WRF_for_OWGIS_LOCAL.ncl"
-#COMMAND="ls -d -1 /home/lili/Escritorio/repos/ncl-Tools/WRF/* | grep -v '$DATE' | xargs rm -f"
-#echo "Removing files with: $COMMAND"
-
-#COMMAND= ncl rfile=\"/home/lili/Escritorio/repos/ncl/\" dia=$dia mes=$mes anio=$anio /ServerScripts/WRF_to_OWGIS/WRF_for_OWGIS_LOCAL.ncl
-#eval $COMMAND
-
-#echo ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/WRF_to_OWGIS/WRF_for_OWGIS_LOCAL.ncl 
-#ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/WRF_to_OWGIS/WRF_for_OWGIS_LOCAL.ncl 
-#date >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt >>
-#echo finish WRF $dia/$mes/$anio  >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 
 echo begin WRF>> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 date >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
@@ -39,5 +26,10 @@ date >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 echo  ------------------------------------- >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 echo  ------------------------------------- >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 
-find /ServerData/OWGIS/WRF/ -type f -size 0b -delete
-
+#find /ServerData/OWGIS/WRF/ -type f -size -600M -delete
+pwd
+cd /ServerData	
+cd OWGIS
+cd WRF
+pwd
+find  -name "*.nc" -size -600M -delete

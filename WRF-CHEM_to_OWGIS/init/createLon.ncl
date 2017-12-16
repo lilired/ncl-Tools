@@ -5,14 +5,17 @@ function addLon(fin,fout) begin
     dim_lon = temp(2)
     lon = new(dim_lon,float)
     lon = XLONG(0,0,:)
-    delete_VarAtts(lon,-1)
-    lon@standard_name = "longitude"
-    lon@long_name= "Longitude"
-    lon@units = "degrees_east"
+lon2=lon (2:86)
+temp = dimsizes(lon2)
+dim_lon= temp(1)
+    delete_VarAtts(lon2,-1)
+    lon2@standard_name = "longitude"
+    lon2@long_name= "Longitude"
+    lon2@units = "degrees_east"
 
     filedimdef(fout, (/"Longitude"/), dim_lon, (/ False /))
-    filevardef(fout, "Longitude" ,typeof(lon),"Longitude") ; lon dimension
-    filevarattdef(fout,"Longitude",lon)                  ; copy longitude attributes
-    fout->Longitude  = (/lon/)
+    filevardef(fout, "Longitude" ,typeof(lon2),"Longitude") ; lon dimension
+    filevarattdef(fout,"Longitude",lon2)                  ; copy longitude attributes
+    fout->Longitude  = (/lon2/)
     return dim_lon
 end

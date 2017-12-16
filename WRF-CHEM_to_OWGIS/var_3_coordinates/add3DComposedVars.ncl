@@ -5,9 +5,10 @@ procedure add3DComposedVars(varNames, fin,fout, dim_time, dim_lat, dim_lon) begi
 
         ; ---------- For WS10 ----------
         if(varNames(varIdx) .eq. "WS10") then
-            u10= fin->U10
-            v10= fin->U10
-
+            u10_1= fin->U10
+            v10_1= fin->U10
+u10=u10_1(:,2:86,2:86)
+v10=v10_1(:,2:86,2:86)
             newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0)
             newVar = sqrt(u10^2 + v10^2)*3.6
             newVar@units = "km/hr"
@@ -15,8 +16,10 @@ procedure add3DComposedVars(varNames, fin,fout, dim_time, dim_lat, dim_lon) begi
 
         ; ---------- For PREC2 ----------
         if(varNames(varIdx) .eq. "PREC2") then
-            rainc= fin->RAINC
-            rainnc= fin->RAINNC
+            rainc_1= fin->RAINC
+            rainnc_1= fin->RAINNC
+rainc=rainc_1(:,2:86,2:86)
+rainnc=rainnc_1(:,2:86,2:86)
 
             newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0)
             newVar = rainc+rainnc
@@ -24,7 +27,9 @@ procedure add3DComposedVars(varNames, fin,fout, dim_time, dim_lat, dim_lon) begi
 
         ; ---------- For T2C ----------
         if(varNames(varIdx) .eq. "T2C") then
-            t2= fin->T2
+            t2_1= fin->T2
+t2=t2_1(:,2:86,2:86)
+
             newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0)
             newVar = t2-273.15
             newVar@units = "C"
@@ -32,7 +37,9 @@ procedure add3DComposedVars(varNames, fin,fout, dim_time, dim_lat, dim_lon) begi
 
         ; ---------- For SSTC----------
         if(varNames(varIdx) .eq. "SSTC") then
-            sst= fin->SST
+            sst_1= fin->SST
+sst=sst_1(:,2:86,2:86)
+
             newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0)
             newVar = sst-273.15
             newVar@units = "C"
@@ -40,7 +47,9 @@ procedure add3DComposedVars(varNames, fin,fout, dim_time, dim_lat, dim_lon) begi
 
         ; ---------- For PREC2B----------
         if(varNames(varIdx) .eq. "PREC2B") then
-            temp= fout->PREC2
+            temp_1= fout->PREC2
+temp=temp_1(:,2:86,2:86)
+
             newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0)
             newVar = temp*1
         end if

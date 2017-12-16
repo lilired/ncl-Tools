@@ -5,8 +5,10 @@ procedure add4DComposedVars(varNames, fin,fout, dim_time, dim_depth, dim_lat, di
 
         ; ---------- For PA ----------
         if(varNames(varIdx) .eq. "PA") then
-            p= fin->P
-            pb= fin->PB
+            p_1= fin->P
+            pb_1= fin->PB
+     p= p_1(:,:,2:86,2:86)
+     pb=pb_1(:,:,2:86,2:86)
 
             newVar = new( (/dim_time, dim_depth, dim_lat, dim_lon/),"float", 0)
             newVar = p+pb
@@ -14,9 +16,12 @@ procedure add4DComposedVars(varNames, fin,fout, dim_time, dim_depth, dim_lat, di
 
        ; ---------- For NOX ----------
         if(varNames(varIdx) .eq. "NOX") then
-            no= fin->no
-            no2= fin->no2
+            no_1= fin->no
+            no2_1= fin->no2
              
+     no= no_1(:,:,2:86,2:86)
+     no2= no2_1(:,:,2:86,2:86)
+
             newVar = new( (/dim_time, dim_depth, dim_lat, dim_lon/),"float", 0)
             newVar = (no2+no)*1000
         end if       
@@ -31,11 +36,18 @@ nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/),"float", 0)
             presion=(/850, 700, 500, 200/)
             do nivel=0,3
 
-               QVAPOR = fin->QVAPOR               ;get variable in fin
-               P  = fin->P                     ; perturbation;get variable in fin
-               Pb=fin->PB
+               QVAPOR_1 = fin->QVAPOR               ;get variable in fin
+   QVAPOR= QVAPOR_1(:,:,2:86,2:86)
+               P_1  = fin->P                     ; perturbation;get variable in fin
+               Pb_1=fin->PB
+     P= P_1(:,:,2:86,2:86)
+     Pb= Pb_1(:,:,2:86,2:86)
+
                P=P+Pb
-               theta= fin->T
+
+               theta_1= fin->T
+      theta= theta_1(:,:,2:86,2:86)
+
                theta=theta+300
                TK=wrf_tk(P,theta)
                RH=wrf_rh(QVAPOR,P,TK)

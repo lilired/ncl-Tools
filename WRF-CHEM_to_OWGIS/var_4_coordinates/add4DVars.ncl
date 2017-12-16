@@ -2,12 +2,15 @@ procedure add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat, dim_lon) begin
     ; Iterate over all the files and add each variable
     do varIdx =0,dimsizes(varNames)-1,1 ; This loop iterates over the variables
         print("Adding "+varNames(varIdx)+"...")
-        origVar = fin->$varNames(varIdx)$
+                origVar2 = fin->$varNames(varIdx)$
+   
+        origVar=origVar2(:,:,2:86,2:86)
 
 
         if(varNames(varIdx) .eq. "QCLOUD") then
           cloud = new( (/dim_time, dim_lat, dim_lon/),"float", 0);declare variable newVar
-          cloud_fraccion=fin->CLDFRA
+          cloud_fraccion_1=fin->CLDFRA
+ cloud_fraccion=cloud_fraccion_1(:,2:86,2:86)
           do it=0, dim_time-1 
              cloud(it,:,:)=cloud_fraccion(it,0,:,:)+cloud_fraccion(it,1,:,:)+cloud_fraccion(it,2,:,:)+cloud_fraccion(it,3,:,:)+\
              cloud_fraccion(it,4,:,:)+cloud_fraccion(it,5,:,:)+cloud_fraccion(it,6,:,:)+2*(cloud_fraccion(it,7,:,:)+cloud_fraccion(it,8,:,:)+\

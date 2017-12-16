@@ -33,4 +33,11 @@ date  >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 echo  ------------------------------------- >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 echo  ------------------------------------- >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 
-find /ServerData/OWGIS/WWIII/ -type f -size 0b -delete
+#find /ServerData/OWGIS/WWIII/ -type f -size -10M -delete
+pwd
+cd /ServerData	
+cd OWGIS
+cd WWIII
+pwd
+find  -name "*.nc" -size -10M -delete
+
