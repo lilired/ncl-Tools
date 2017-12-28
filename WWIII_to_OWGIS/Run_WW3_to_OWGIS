@@ -25,7 +25,19 @@ out=\"/ServerData/OWGIS/WWIII/\"
 #COMMAND= ncl rfile=\"/home/lili/Escritorio/repos/ncl/\" dia=$dia mes=$mes anio=$anio WW3_for_OWGIS_LOCAL.ncl
 #eval $COMMAND
 
-ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/WWIII_to_OWGIS/WW3_for_OWGIS_LOCAL.ncl
-
+echo begin WWIII >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 date  >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
-echo finish wwiii $dia/$mes/$anio >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/WWIII_to_OWGIS/WW3_for_OWGIS_LOCAL.ncl >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+echo finish WWIII $dia/$mes/$anio >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+date  >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+echo  ------------------------------------- >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+echo  ------------------------------------- >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+
+#find /ServerData/OWGIS/WWIII/ -type f -size -10M -delete
+pwd
+cd /ServerData	
+cd OWGIS
+cd WWIII
+pwd
+find  -name "*.nc" -size -10M -delete
+

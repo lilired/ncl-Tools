@@ -25,37 +25,49 @@ begTime = get_cpu_time()
 
 dataFolder=in
 outputFolder=out
-dia=30
-mes=6
+
 inputFolder=dataFolder+anio+sprintf("%02g",mes)+sprintf("%02g",dia)+"/";+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
 ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
 print(inputFolder)
 
 
-hour=1
+;hour=1
 ; Iterate over the 3 domains
 do metros=0,2
 
 if metros .eq. 0 then
     metro=3
+dim_time=342
   end if
 if metros .eq. 1 then
-    metro=5		
+    metro=5	
+dim_time=352	
   end if
 if metros .eq. 2 then
     metro=10
+dim_time=360
   end if
 
 
-dim_time=10
-    ; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
-    inputFile= inputFolder+"p_"+sprintf("%02g",hour)+"h_"+sprintf("%02g",metro)+"M.res.nc"
-    outputFile= outputFolder+"p"+sprintf("%02g",hour)+"h_"+sprintf("%02g",metro)+".nc"
 
-    print("Reading this file:"+ inputFile)
+    ; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
+ ;   inputFile= inputFolder;+"p_"+sprintf("%02g",hour)+"h_"+sprintf("%02g",metro)+"M.res.nc"
+   
+
+   ;  inputFolder=dataFolder+"salidas_wwiii_"+anio+"-"+sprintf("%02g",mes_inicial)+"-"+sprintf("%02g",dia_inicial)+"_00/"
+
+     ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
+     print(inputFolder)
+;p_01h_03M.res.nc
+     files = systemfunc(" ls "+inputFolder+"/p_*h_"+sprintf("%02g",metro)+"M.res.nc")  
+     fin = addfiles(files,"r")
+
+ outputFile= outputFolder+"p_"+sprintf("%02g",metro)+".nc"
+
+  ;  print("Reading this file:"+ inputFile)
     print("Writing to this file:"+ outputFile)
 
-    fin = addfile(inputFile,"r"); Abre el archivo wrf
+  ;  fin = addfile(inputFile,"r"); Abre el archivo wrf
     system("rm -f " +outputFile)    ; remove if exists
     fout = addfile(outputFile,"c"); Abre el archivo NetCDF 
 
@@ -109,7 +121,11 @@ dim_time=10
              delete(varNames)
            end if
     end do
+;consentracion=fout->consentracion
+;print(consentracion)
      delete(dim_lon)
     delete(dim_lat)
     delete(Time)
+     delete(files)
+    delete(fin)
 end do

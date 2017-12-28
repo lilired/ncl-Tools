@@ -1,34 +1,37 @@
 #!/bin/bash
+#!/bin/bash
+export PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin:/usr/local/ncl/bin
 
 dia=`date  +%d`
 mes=`date  +%m`
 anio=`date +%Y`
 
 #<<<<<<< HEAD
-#in=\"/home/lili/Escritorio/repos/ncl/\"
-#out=\"/home/lili/Escritorio/repos/ncl/out/wrf/\"
-
-#in=\"/home/CENAPRED/Data/WRF/\"
-#out=\"/home/CENAPRED/Data/WRF/out/\"
-
-#in=\"/ServerData/WRF-OMETEOTL/EXTERNO-salidas/WRF/\"
-#out=\"/home/liliana/out/WRF/\"
-
-
-#in=\"/ServerData/Pronosticos/Salidas/WRF/\"
-#out=\"/ServerData/OWGIS/WRF/\"
-
 
 in=\"/ServerData/PronosticosExt/EXTERNO-salidas/WRF-CHEM/\"
 out=\"/ServerData/OWGIS/WRF-CHEM/\"
 
-#COMMAND= "ncl DATE rfile WRF_for_OWGIS_LOCAL.ncl"
-#COMMAND="ls -d -1 /home/lili/Escritorio/repos/ncl-Tools/WRF/* | grep -v '$DATE' | xargs rm -f"
-#echo "Removing files with: $COMMAND"
 
-#COMMAND= ncl rfile=\"/home/lili/Escritorio/repos/ncl/\" dia=$dia mes=$mes anio=$anio WRF_for_OWGIS_LOCAL.ncl
-#eval $COMMAND
-
-ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/WRF-CHEM_to_OWGIS/WRF-CHEM_for_OWGIS_LOCAL.ncl >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+echo begin WRF-CHEM>> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 date >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
-echo finish WRF-CHEM $dia/$mes/$anio >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/WRF-CHEM_to_OWGIS/WRF-CHEM_for_OWGIS_LOCAL.ncl # >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt 
+echo finish WRF-CHEM >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+date >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+echo  ------------------------------------- >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+echo  ------------------------------------- >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
+
+DATE=`date --date="1 day ago" +%d`
+echo $DATE
+#find /ServerScripts/Logs/log_day_$DATE-$mes-$anio.txt    -delete
+
+#find /ServerData/OWGIS/WRF-CHEM/ -type f -size -300M -delete
+pwd
+cd /ServerData	
+cd OWGIS
+cd WRF-CHEM
+pwd
+find  -name "*.nc" -size -300M -delete
+cd /ServerScripts
+cd Logs
+pwd
+find  -name "*$DATE-$mes-$anio.txt"  -delete

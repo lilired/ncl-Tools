@@ -5,25 +5,29 @@ procedure add3DVars(varNames,fin,fout,dim_time, dim_lat, dim_lon) begin
     do varIdx =0,dimsizes(varNames)-1,1 ; This loop iterates over the variables
         print("Adding "+varNames(varIdx)+"...")
         origVar = fin->$varNames(varIdx)$;get variable in fin
-
+printVarSummary(origVar)
         newVar = new((/dim_time, dim_lat, dim_lon/), "float", 0);declare variable newVar
+printVarSummary(newVar)
         newVar(:,:,:) = (/origVar/);assing origVar to newVar 
 
 	; --- Add specific attributes ----
         ; ---------- For U10 ----------
         if(varNames(varIdx) .eq. "U10") then
-			newVar@units = "m/s" ;;atributes
+			newVar@units = "km/hr" ;;atributes
 			newVar@long_name= "U at 10 M" ;;atributes
 			newVar@standard_name = "eastward_wind_ten_velocity" ;;atributes
+                        newVar=newVar*3.6
 			varNames(varIdx) = "Uat10";atributes
+                   
         	print("Adding as "+varNames(varIdx)+"...")
         end if
 
         ; ---------- For V10 ----------
         if(varNames(varIdx) .eq. "V10") then
-			newVar@units = "m/s" ;;atributes
+			newVar@units = "km/hr" ;;atributes
 			newVar@long_name= "V at 10 M" ;;atributes
 			newVar@standard_name = "northward_wind_ten_velocity" ;;atributes;atributes
+                        newVar=newVar*3.6
 			varNames(varIdx) = "Vat10"
         	print("Adding as "+varNames(varIdx)+"...")
         end if

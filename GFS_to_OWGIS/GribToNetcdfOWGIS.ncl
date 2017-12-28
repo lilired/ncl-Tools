@@ -7,16 +7,16 @@ end
 
 begTime = get_cpu_time()
 TodayDate = systemfunc("date -I --date='0 days ago'")
-thisDay = getDate(TodayDate)
-
+thisDay =getDate(TodayDate)
 ;; Reads all the files
-files = "/ServerData/Pronosticos/Salidas/GFS/"+toint(thisDay(0))+"_"+sprintf("%02g",toint(thisDay(1)))+"_"+sprintf("%02g",toint(thisDay(2))-1)+"_00/gfs.t00z.pgrb2*"
+files = "/ServerData/Pronosticos/Salidas/GFS/"+toint(thisDay(0))+"_"+sprintf("%02g",toint(thisDay(1)))+"_"+sprintf("%02g",toint(thisDay(2))-1)+"_00/gfs.t00z.pgrb2.0p25.f*"   ;gfs.t00z.pgrb2*"
 print("Files to be used: "+files)
 
 print("Reading files............")
 filesIn = systemfunc("ls "+files)
 ncdf_out_fname_temp= "/ServerData/OWGIS/GFS/GFSTodayNew.nc" 
-ncdf_out_fname_current = "/ServerData/OWGIS/GFS/GFSToday.nc" 
+ncdf_out_fname_current = "/ServerData/OWGIS/GFS/nuevo/GFSToday_"+thisDay(2)+"-"+thisDay(1)+"-"+thisDay(0)+".nc" 
+print(ncdf_out_fname_current)
 totFiles = dimsizes(filesIn)
 
 grib_in = addfile(filesIn(0)+".grib2","r") ; Start only with the first file
@@ -218,9 +218,15 @@ do varIdx =0,dimsizes(grib_names)-1,1 ; This loop iterates over the variables
     delete(gVar)
     delete(allDim)
     delete(totDim)
+    validar=1
 end do
 
+if validar .eq. 1 then
 print("Deleting yesterday file")
-system("rm -f " + ncdf_out_fname_current) ; remove any pre-existing output file 
+;system("rm -f /ServerData/OWGIS/GFS/GFSToday_"+thisDay(2)-1+"-"+thisDay(1)+"-"+thisDay(0)+".nc" ) ; remove any pre-existing output file 
 system("mv "+ ncdf_out_fname_temp+" "+ncdf_out_fname_current) ; remove any pre-existing output file 
+system("rm -f /ServerData/OWGIS/GFS/GFSToday*.nc" ) ; remove any pre-existing output file 
+system("mv  /ServerData/OWGIS/GFS/nuevo/*.nc  /ServerData/OWGIS/GFS/" ) ; remove any pre-existing output file 
+
+end if
 print("Total time to execute: "+ (get_cpu_time - begTime) +" sec")

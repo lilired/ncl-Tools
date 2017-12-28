@@ -8,8 +8,8 @@ procedure addInter(fin,fout,dim_time, dim_lat, dim_lon) begin
     ;tc = wrf_user_getvar(f,"T2C",-1)        ; T in C;get variable in fin
 
     print("Creating average variables...")
-    u  = wrf_user_getvar(fin,"ua",-1)        ; u averaged to mass points
-    v  = wrf_user_getvar(fin,"va",-1)        ; v averaged to mass points
+    u  = wrf_user_getvar(fin,"ua",-1)  *3.6      ; u averaged to mass points
+    v  = wrf_user_getvar(fin,"va",-1)   *3.6     ; v averaged to mass points
     p  = wrf_user_getvar(fin, "pressure",-1) ; pressure is our vertical coordinate
 
     ;Distintos niveles de Presion
@@ -26,13 +26,13 @@ procedure addInter(fin,fout,dim_time, dim_lat, dim_lon) begin
         u_plane@FieldType = 104 ;;atributes
         u_plane@MemoryOrder = "XY " ;;atributes
         u_plane@description = "U at "+pressure_levels(varIdx)+" hPA" ;;atributes
-        u_plane@units = "m s-1" ;;atributes
+        u_plane@units = "Km/hr" ;;atributes
         u_plane@standard_name = "eastward_wind_"+pressure_levels(varIdx);atributes
 
         v_plane@FieldType = 104 ;;atributes
         v_plane@MemoryOrder = "XY " ;;atributes
         v_plane@description = "V at "+pressure_levels(varIdx)+" hPA" ;;atributes
-        v_plane@units = "m s-1" ;;atributes
+        v_plane@units = "Km/hr" ;;atributes
         v_plane@standard_name = "northward_wind_"+pressure_levels(varIdx);atributes
 
         ;Aqui se realizan los calculaos de velocidad a cierto nivel de presion y se convierten a km/hr
@@ -72,4 +72,5 @@ procedure addInter(fin,fout,dim_time, dim_lat, dim_lon) begin
     ;end of variables cycle 
 end
 ;end procedure addInter
+
 

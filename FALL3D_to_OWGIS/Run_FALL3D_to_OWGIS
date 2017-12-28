@@ -14,7 +14,7 @@ out=\"/home/lili/Escritorio/repos/ncl/out/disp_ceniza/\"
 #in=\"/DATA/WRF/\"
 #out=\"/DATA/OUT/WRF/\"
 
-in=\"/TEMPOMETEOTL/EXTERNO-salidas/FALL3D/\"
+in=\"/ServerData/PronosticosExt/EXTERNO-salidas/FALL3D/\"
 out=\"/ServerData/OWGIS/FALL3D/\"
 
 #COMMAND= "ncl DATE rfile WRF_for_OWGIS_LOCAL.ncl"

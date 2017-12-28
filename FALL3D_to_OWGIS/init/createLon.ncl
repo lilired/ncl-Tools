@@ -1,6 +1,6 @@
 function addLon(fin,fout) begin
     ; Adding longitude variable
-    longitude = fin->lon
+    longitude = fin[0]->lon
     temp = dimsizes(longitude)
     dim_lon = temp
     lon = new(dim_lon,double)
