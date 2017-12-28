@@ -9,6 +9,7 @@ __author__="Olmo S. Zavala Romero"
 if __name__ == "__main__":
     now = datetime.today()
 
+    # Previous day
     add = timedelta(days=1)
     # Download the one from the previous day
     newd = now - add
