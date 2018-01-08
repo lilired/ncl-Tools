@@ -5,6 +5,8 @@ function addDepth(fin,fout) begin
 
     dim_depth = temp(1)
     depth = new(dim_depth,float)
+    ; Only if Flipping the depth dimension
+    ;depth = ZNU(0,::-1)
     depth = ZNU(0,:)
     delete_VarAtts(depth,-1)
     depth@standard_name = "depth"
