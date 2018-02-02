@@ -39,7 +39,8 @@ print("Loading file the procedure for variables in 1 coordinate(Time")
 print("Loading files.....")
 loadscript ("/ServerScripts/WRF_to_OWGIS/var_1_coordinates/addVar.ncl")
 print("Done!")
-;dia=10
+;dia=31
+;mes=1
 ;------- Setting the proper input and output filenames ------
 print("Configuring file names...")
 begTime = get_cpu_time()
@@ -56,6 +57,7 @@ inputFolder=dataFolder+toint(thisDay(0))+"/"+months(toint(thisDay(1))-1)+"/"
 ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
 ;dim_time = 97;121 ; define the  variable dim_time 
 
+inputFolder_sesgo=in_sesgo
 ;start of domanis cycle 
 ;;;;; Iterate over the 2 domains
 do dominio=1,2  ;
@@ -63,12 +65,16 @@ do dominio=1,2  ;
     inputFile= inputFolder+"wrfout_d0"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+"_00.nc"
     outputFile= outputFolder+"Dom"+dominio+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"
 
+    inputFile_sesgo= inputFolder_sesgo+"sesgo_"+sprintf("%02g",mes)+".nc"
+
     print("Reading this file:"+ inputFile)
     print("Writing to this file:"+ outputFile)
 
     fin = addfile(inputFile,"r"); open the file wrf
     system("rm -f " +outputFile)    ; remove if exists
     fout = addfile(outputFile,"c"); open the file NetCDF 
+
+ fin_sesgo = addfile(inputFile_sesgo,"r"); open the file wrf
 
     T=fin->XLAT(:,0,0)
     dimT=dimsizes(T)
@@ -153,7 +159,7 @@ do dominio=1,2  ;
           else
             ; ------- Adding 3D composed variable 
             varNames = var3C(conVar3C);;valid variables in file configuration.txt (/ "WS10", "PREC2", "T2C", "SSTC", "PREC2B" /)
-            add3DComposedVars(varNames, fin,fout,dim_time, dim_lat, dim_lon);procedure
+            add3DComposedVars(varNames, fin_sesgo,dominio,fin,fout,dim_time, dim_lat, dim_lon);procedure
             if(var3C(conVar3C) .eq. "WS10")
              ; ------- Adding interpolated Winds  -------------------
               addInter(fin,fout,dim_time, dim_lat, dim_lon);procedure

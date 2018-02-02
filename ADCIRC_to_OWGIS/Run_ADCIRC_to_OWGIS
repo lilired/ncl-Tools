@@ -15,17 +15,10 @@ echo finish ADCIRC $dia/$mes/$anio >> /ServerScripts/Logs/log_day_$dia-$mes-$ani
 date >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 echo  ------------------------------------- >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 echo  ------------------------------------- >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
-
-#DAY=`date --date="1 day ago" +%d`
-#MONTH=`date --date="1 day ago" +%m`
-#YEAR=`date date="1 day ago" +%Y`
-#rm /ServerScripts/Logs/log_day_$DAY-$MONTH-$YEAR.txt
-
-#find /ServerData/OWGIS/ACDIRC/*.nc -type f -size -1M -delete
+#find /ServerData/OWGIS/ACDIRC/ -type f -size -20M -delete
 pwd
 cd /ServerData	
 cd OWGIS
 cd ADCIRC
 pwd
-find  -name "*.nc" -size -10M -delete
-
+find  -name "*.nc" -size -20M -delete

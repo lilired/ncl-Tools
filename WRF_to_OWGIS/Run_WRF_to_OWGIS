@@ -18,9 +18,11 @@ anio=`date +%Y`
 in=\"/ServerData/Pronosticos/Salidas/WRF/\"
 out=\"/ServerData/OWGIS/WRF/\"
 
+in_sesgo=\"/ServerData/OWGIS/SESGO/\"
+
 echo begin WRF>> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 date >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
-ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" /ServerScripts/WRF_to_OWGIS/WRF_for_OWGIS_LOCAL.ncl >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt 
+ncl dia=$dia mes=$mes anio=$anio "in=${in}" "out=${out}" "in_sesgo=${in_sesgo}" /ServerScripts/WRF_to_OWGIS/WRF_for_OWGIS_LOCAL.ncl  #>> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt 
 echo finish WRF >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 date >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
 echo  ------------------------------------- >> /ServerScripts/Logs/log_day_$dia-$mes-$anio.txt
