@@ -1,14 +1,14 @@
-function addTime(fout, dim_time) begin
+function addTime(fout, dim_time2, thisDay1) begin
     ; TODO REMOVE HARD CODED TIME LENGHT
-    
-    Time = createArray(dim_time) ;Total Time steps
-    Time@standard_name = "time"
-    Time@long_name = "time"
-    ;Time@units = "hours since "+thisDay(0)+"-"+thisDay(1)+"-"+(toint(thisDay(2))-1)+" 00:00:00"
-   ; Time@calendar = "gregorian"
+    dim_time=240
 
-	Time@units = "hours since 2017-08-21 00:00:00" ;
-	Time@description = "time after 0000UTC" ;
+   Time = createArray(dim_time2) ;Total Time steps
+    Time@standard_name = "time";atributes
+    Time@long_name = "time";atributes
+    Time@units ="hours since "+thisDay1(0)+"-"+thisDay1(1)+"-"+thisDay1(2)
+    Time@calendar = "gregorian";atributes
+    Time@axis = "T";atributes
+
 
     ntim  = dimsizes(Time)                 ; get dimension sizes  
     dimNames = (/"Time"/)  

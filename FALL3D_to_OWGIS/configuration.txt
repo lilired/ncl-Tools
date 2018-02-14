@@ -1,4 +1,5 @@
+
 ;Possible variables in 3 coordinates(time, latitud , longitud):"FL50","PM05","PM10","PM20","none"
-var3=(/"PM05","PM10","PM20"/)
-;Possible variables in 4 coordinates(time, latitud , longitud,depth):"consentracion",
-var4=(/"consentracion"/)
+var3=(/"PM10","LOAD","AOD"/)
+;Possible variables in 4 coordinates(time, latitud , longitud,depth):"consentracion","CON","none"
+var4=(/"CON", "consentracion"/)

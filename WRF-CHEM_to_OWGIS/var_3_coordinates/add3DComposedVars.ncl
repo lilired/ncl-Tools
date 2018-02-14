@@ -2,7 +2,7 @@ procedure add3DComposedVars(varNames, fin,fout, dim_time, dim_lat, dim_lon) begi
     ; Iterate over all the files and add each variable
     do varIdx =0,dimsizes(varNames)-1,1 ; This loop iterates over the variables
         print("Adding "+varNames(varIdx)+"...")
-
+dim_time=73
         ; ---------- For WS10 ----------
         if(varNames(varIdx) .eq. "WS10") then
             u10_1= fin->U10
@@ -10,6 +10,7 @@ procedure add3DComposedVars(varNames, fin,fout, dim_time, dim_lat, dim_lon) begi
 u10=u10_1(:,2:86,2:86)
 v10=v10_1(:,2:86,2:86)
             newVar = new( (/dim_time, dim_lat, dim_lon/),"float", 0)
+printVarSummary(newVar)
             newVar = sqrt(u10^2 + v10^2)*3.6
             newVar@units = "km/hr"
         end if

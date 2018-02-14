@@ -39,7 +39,10 @@ procedure add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat, dim_lon) begin
             ;newVarRev(:,:,:,:) = (/origVar/)
             ; Only if Flipping the Z dimension
             ;newVar= newVarRev(:,::-1,:,:)
+printVarSummary(origVar)
+printVarSummary(newVar)
             newVar(:,:,:,:) = (/origVar/)
+
             if (varNames(varIdx) .eq. "o3") then
                 newVar=newVar*1000
             end if

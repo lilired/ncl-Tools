@@ -6,11 +6,14 @@ print("Done!")
 print("Loading files.....")
 loadscript ("../TOOLS/tools.ncl")
 loadscript ("./init/createTime.ncl")
+loadscript ("./init/createTime2.ncl")
+loadscript ("./init/createTime0.ncl")
 loadscript ("./init/createLon.ncl")
 loadscript ("./init/createLat.ncl")
 loadscript ("./init/createDepth.ncl")
+loadscript ("./init/createDepth2.ncl")
 
-loadscript ("./var_3_coordinates/add3DVars.ncl")
+loadscript ("./var_3_coordinates/add3Vars.ncl")
 ;loadscript ("./var_3_coordinates/add3DComposedVars.ncl")
 loadscript ("./var_4_coordinates/add4DVars.ncl")
 
@@ -19,7 +22,14 @@ print("Done!")
 ;------- Setting the proper input and output filenames ------
 print("Configuring file names...")
 begTime = get_cpu_time()
+;dia=31
+;mes=1
+;anio=2017
+   dia_inicial=dia
 
+   mes_inicial=mes
+
+     thisDay1 = (/anio,mes_inicial,dia_inicial/);(/2016,10,24/)
 
 ; Reads all the files
 
@@ -33,15 +43,29 @@ print(inputFolder)
 
 ;hour=1
 ; Iterate over the 3 domains
+
+
+    ; --- TODO (COMMENT THIS LINE ON PRODUCTION) Add the following line, to read from an specific date file
+ ;   inputFile= inputFolder;+"p_"+sprintf("%02g",hour)+"h_"+sprintf("%02g",metro)+"M.res.nc"
+   
+
+   ;  inputFolder=dataFolder+"salidas_wwiii_"+anio+"-"+sprintf("%02g",mes_inicial)+"-"+sprintf("%02g",dia_inicial)+"_00/"
+
+     ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
+     print(inputFolder)
+
+
+;hour=1
+; Iterate over the 3 domains
 do metros=0,2
 
 if metros .eq. 0 then
     metro=3
-dim_time=342
+dim_time=352
   end if
 if metros .eq. 1 then
     metro=5	
-dim_time=352	
+dim_time=360	
   end if
 if metros .eq. 2 then
     metro=10
@@ -59,12 +83,11 @@ dim_time=360
      ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
      print(inputFolder)
 ;p_01h_03M.res.nc
-     files = systemfunc(" ls "+inputFolder+"/p_*h_"+sprintf("%02g",metro)+"M.res.nc")  
+     files = systemfunc(" ls "+inputFolder+"p_*h_"+sprintf("%02g",metro)+"M.res.nc")  
      fin = addfiles(files,"r")
 
- outputFile= outputFolder+"p_"+sprintf("%02g",metro)+".nc"
+outputFile= outputFolder+"p_"+sprintf("%02g",metro)+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"
 
-  ;  print("Reading this file:"+ inputFile)
     print("Writing to this file:"+ outputFile)
 
   ;  fin = addfile(inputFile,"r"); Abre el archivo wrf
@@ -78,11 +101,27 @@ dim_time=360
     ; Explicitly declare file definition mode. Improve efficiency.
     setfileoption(fout,"DefineMode",True)
 
+    dim_time2=10
+dim_time3=2
+
     ;------------ Creating Time dimension --------------------------------------
     print("Adding Time dimension....")
-    Time = addTime(fout, dim_time)
+    Time = addTime(fout,dim_time2,thisDay1)
     print("Done!")
 
+    ;------------ Creating Time dimension --------------------------------------
+    print("Adding Time dimension....")
+     addTimes2(fout,fin,dim_time3,thisDay1)
+    print("Done!")
+    ;************************************************************************************
+
+    ;------------ Creating Time dimension --------------------------------------
+    print("Adding Time dimension....")
+    addTimes(fout,fin,dim_time2,dim_time3,thisDay1,metros)
+    print("Done!0")
+  
+    ;************************************************************************************
+   
     ;------------ Creating Latitude dimension --------------------------------------
     print("Adding latitude...")
     dim_lat = addLat(fin,fout)
@@ -100,7 +139,7 @@ dim_time=360
            else 
              ; ---------- Adding 3 coordinates variables from file
              varNames=var3(conVar3);
-             add3DVars(varNames,fin,fout,dim_time,dim_lat,dim_lon)
+             add3Vars(varNames,fin,fout,dim_time,dim_time2,dim_lat,dim_lon)
              delete(varNames)
            end if
     end do
@@ -108,7 +147,11 @@ dim_time=360
     print("Adding Depth...")
     dim_depth = addDepth(fin,fout)
     print("Done!")
-
+    ;------------ Creating Latitude dimension --------------------------------------
+    print("Adding Depth2...")
+    dim_depth2 = addDepth2(fin,fout)
+    print("Done!")
+dim_depth2=0
 
     ; ---------- For Variables the 4 coordinates ----------
     do conVar4 = 0,dimsizes(var4)-1
@@ -117,7 +160,7 @@ dim_time=360
            else 
              ; ---------- Adding 3 coordinates variables from file
              varNames=var4(conVar4);
-           add4DVars(varNames,fin,fout,dim_time,dim_lat,dim_lon,dim_depth)
+           add4DVars(varNames,fin,fout,dim_time,dim_time2,dim_time3,dim_depth2,dim_lat,dim_lon,dim_depth,metros)
              delete(varNames)
            end if
     end do

@@ -26,7 +26,7 @@ print("Done!")
 print("Loading file for variables in 1 coordinate(Time")
 loadscript ("/ServerScripts/WRF-CHEM_to_OWGIS/var_1_coordinates/addVar.ncl")
 print("Done!")
-
+validar=0
 ;dia=6
 ;mes=11
 
@@ -38,6 +38,7 @@ thisDay = (/anio,mes,dia/);(/2016,10,24/)
 inputFolder=in
 outputFolder=out
 
+inputFolder_sesgo=in_sesgo
 ; ------- Setting time dimension (THIS IS HARDCODED, FIND A WAY TO FIX IT!) ---------
 dim_time = 73 ; define the  variable dim_time 
 
@@ -45,10 +46,13 @@ domain=1 ;Here we have only one domain
 inputFile= inputFolder+"wrfout_d0"+domain+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+"_00:00:00"
 outputFile= outputFolder+"Dom"+domain+"_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc"
 
+inputFile_sesgo= inputFolder_sesgo+"sesgo_"+sprintf("%02g",mes)+".nc"
+
 print("Reading this file:"+ inputFile)
 print("Writing to this file:"+ outputFile)
 
 fin = addfile(inputFile,"r"); open the file wrf
+fin_sesgo = addfile(inputFile_sesgo,"r"); open the file wrf
 system("rm -f " +outputFile)    ; remove if exists
 fout = addfile(outputFile,"c"); open the file NetCDF 
 
@@ -79,6 +83,10 @@ print("Adding depth ...")
 dim_depth = addDepth(fin,fout);function
 print("Done!")
 
+times=fin->XTIME
+print(times)
+
+
 ; ---------- For Variables with 3 coordinates ----------
 do conVar3 = 0,dimsizes(var3)-1
     ;valid if there are variables in 3 dimensions
@@ -90,23 +98,10 @@ do conVar3 = 0,dimsizes(var3)-1
         add3DVars(varNames, fin,fout,dim_time, dim_lat, dim_lon);procedure
         delete(varNames)
     end if
+validar=1
 end do
 
-; ---------- For Variables with 1 coordinate ----------
-do conVar1 = 0,dimsizes(var1)-1   
-    ;valid if there are variables in 1 dimensions
-    if(var1(conVar1) .eq. "none") then 
-        print("No 1D coordinate variables")
-    else
-        ; ------- Adding time composed variables
-        varNames =var1(conVar1);;valid variables in file configuration.txt (/"HFX_FORCE","LH_FORCE"/)
-        addVar(varNames, fin,fout,dim_time)
-        delete(varNames)
-    end if
-end do
-
-
- ; ---------- For Variables with 3 coordinates composed----------
+; ---------- For Variables with 3 coordinates composed----------
 do conVar3C = 0,dimsizes(var3C)-1
     ;valid if there are variables in 3 dimensions composed
     if(var3C(conVar3C) .eq. "none") then
@@ -114,53 +109,16 @@ do conVar3C = 0,dimsizes(var3C)-1
     else
         ; ------- Adding 3D composed variable 
         varNames = var3C(conVar3C);;valid variables in file configuration.txt (/ "WS10", "PREC2", "T2C", "SSTC", "PREC2B" /)
-        add3DComposedVars(varNames, fin,fout,dim_time, dim_lat, dim_lon)
+        add3DComposedVars(varNames,fin,fout,dim_time, dim_lat, dim_lon)
         if(var3C(conVar3C) .eq. "WS10")
          ; ------- Adding interpolated Winds  -------------------
             addInter(fin,fout,dim_time, dim_lat, dim_lon)
         end if
         delete(varNames)
     end if
+validar=1
 end do
 
- ; ---------- For Variables the initial for Precipitation----------
- ; Iterate over of variables in 3 dimensions composed for precipitation
-do conVar3C = 0,dimsizes(var3C)-1 
-    ;valid if there are variables in 3 dimensions composed precipitation
-    if(var3C(conVar3C) .eq. "PREC2B") then
-        ; ---------------- Define time for Precipitation every hour ---------------
-        print("Adding PRECH y TimePRECH...")
-        prech = addPRECH(fin,fout,Time, dim_time, dim_lat, dim_lon)
-        print("Done!")              
-    end if
- end do   
-
-; ---------- For Variables the Precipitation----------
-; Iterate over of variables the precipitation in 3 hours and 6 hours
-do conVarP = 0,dimsizes(varP)-1
-    ;valid if there are variables the precipitation in 3 hours and 6 hours
-    if(varP(conVarP) .eq. "none") then
-        print("No variable Precipitation")
-    else
-        if (varP(conVarP) .eq. "preca3") then
-           ; ----------------- Add the PRECA3 variable ------
-           print("Adding PRECA3....")
-           preca3 = addPrecAcu3(prech,fout, dim_lat, dim_lon)
-           print("Done!")
-           delete(preca3)
-        end if
-
-        if (varP(conVarP) .eq. "preca6") then
-           ; ----------------- Add the PRECA6 variable ------
-           print("Adding PRECA6....")
-           preca6 = addPrecAcu6(prech,fout, dim_lat, dim_lon)
-           print("Done!")
-           delete(preca6)
-         end if   
-    end if    
-end do
-
-;delete(prech)
 do conVar4 = 0,dimsizes(var4)-1
     if(var4(conVar4) .eq. "none")
         print("No variable 4 coordinates")
@@ -170,6 +128,7 @@ do conVar4 = 0,dimsizes(var4)-1
         add4DVars(varNames,fin,fout,dim_time,dim_depth,dim_lat, dim_lon)
         print("Done!")
         delete(varNames)
+validar=1
     end if
 end do
   
@@ -182,13 +141,14 @@ do conVar4C = 0,dimsizes(var4C)-1
         add4DComposedVars(varNames, fin,fout,dim_time, dim_depth, dim_lat, dim_lon)
         print("Done!") 
         delete(varNames)
+validar=1
     end if
 end do       
 
 delete(dim_lon)
 delete(dim_lat)
 delete(Time)
-validar=1
+
 
 if validar .eq. 1 then
   system ("mv  /ServerData/OWGIS/WRF-CHEM/Dom1*_"+thisDay(0)+"-"+sprintf("%02g",thisDay(1))+"-"+sprintf("%02g",thisDay(2))+".nc  /ServerData/OWGIS/WRF-CHEM/nuevo/")

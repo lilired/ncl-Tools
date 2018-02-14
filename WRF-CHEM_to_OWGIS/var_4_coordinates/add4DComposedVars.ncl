@@ -2,7 +2,7 @@ procedure add4DComposedVars(varNames, fin,fout, dim_time, dim_depth, dim_lat, di
     ; Iterate over all the files and add each variable
     do varIdx =0,dimsizes(varNames)-1,1 ; This loop iterates over the variables
         print("Adding "+varNames(varIdx)+"...")
-
+dim_time=73
         ; ---------- For PA ----------
         if(varNames(varIdx) .eq. "PA") then
             p_1= fin->P
@@ -44,6 +44,7 @@ nueva=  new((/dim_time,dim_lat,dim_lon,dim_depth/),"float", 0)
      Pb= Pb_1(:,:,2:86,2:86)
 
                P=P+Pb
+;print(P); >> /ServerScripts/Logs/texto_presion.txt
 
                theta_1= fin->T
       theta= theta_1(:,:,2:86,2:86)

@@ -1,4 +1,5 @@
 procedure addInter(fin,fout,dim_time, dim_lat, dim_lon) begin
+dim_time=73
     WS10 = fout->WS10; Carga la variable WS10
     U10 = fout->Uat10; Carga la variable U10
     V10 = fout->Vat10; Carga la variable V10
