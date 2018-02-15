@@ -26,9 +26,9 @@
  and domain 2 file(/ServerData/Pronosticos/Salidas/WRF/\)
 
 The file is generated	
- /ServerData/OWGIS/WRF/Percentil_Dom+ dominio(1 ó 2)+ _"año actual"-"mes actual"+"dia actual"+.nc
+ /ServerData/OWGIS/WRF/Percentil_Dom+ domains(1 ó 2)+ _"año actual"-"mes actual"+"dia actual"+.nc
   
-### STEP 3
+### generation_maps_alert
 
 
 
