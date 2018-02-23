@@ -1,21 +1,21 @@
 ;----------- Reading ncl Files --------
 print("Loading file the configuration init.....")
-loadscript ("./configuration.txt")
+loadscript ("/ServerScripts/FALL3D_to_OWGIS/configuration.txt")
 print("Done!")
 
 print("Loading files.....")
-loadscript ("../TOOLS/tools.ncl")
-loadscript ("./init/createTime.ncl")
-loadscript ("./init/createTime2.ncl")
-loadscript ("./init/createTime0.ncl")
-loadscript ("./init/createLon.ncl")
-loadscript ("./init/createLat.ncl")
-loadscript ("./init/createDepth.ncl")
-loadscript ("./init/createDepth2.ncl")
+loadscript ("/ServerScripts/TOOLS/tools.ncl")
+loadscript ("/ServerScripts/FALL3D_to_OWGIS/init/createTime.ncl")
+loadscript ("/ServerScripts/FALL3D_to_OWGIS/init/createTime2.ncl")
+loadscript ("/ServerScripts/FALL3D_to_OWGIS/init/createTime0.ncl")
+loadscript ("/ServerScripts/FALL3D_to_OWGIS/init/createLon.ncl")
+loadscript ("/ServerScripts/FALL3D_to_OWGIS/init/createLat.ncl")
+loadscript ("/ServerScripts/FALL3D_to_OWGIS/init/createDepth.ncl")
+loadscript ("/ServerScripts/FALL3D_to_OWGIS/init/createDepth2.ncl")
 
-loadscript ("./var_3_coordinates/add3Vars.ncl")
-;loadscript ("./var_3_coordinates/add3DComposedVars.ncl")
-loadscript ("./var_4_coordinates/add4DVars.ncl")
+loadscript ("/ServerScripts/FALL3D_to_OWGIS/var_3_coordinates/add3Vars.ncl")
+;loadscript ("/ServerScripts/FALL3D_to_OWGIS/var_3_coordinates/add3DComposedVars.ncl")
+loadscript ("/ServerScripts/FALL3D_to_OWGIS/var_4_coordinates/add4DVars.ncl")
 
 print("Done!")
 
@@ -102,7 +102,7 @@ outputFile= outputFolder+"p_"+sprintf("%02g",metro)+"_"+anio+"-"+sprintf("%02g",
     setfileoption(fout,"DefineMode",True)
 
     dim_time2=10
-dim_time3=2
+    dim_time3=2
 
     ;------------ Creating Time dimension --------------------------------------
     print("Adding Time dimension....")
@@ -171,4 +171,45 @@ dim_depth2=0
     delete(Time)
      delete(files)
     delete(fin)
+if metros .eq. 0
+   validar_metro3=1
+end if
+if metros .eq. 1
+   validar_metro5=1
+end if
+if metros .eq. 2
+   validar_metro10=1
+end if
 end do
+if validar_metro3 .eq. 1 then
+  system ("mv  /ServerData/OWGIS/FALL3D/p_03_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc  /ServerData/OWGIS/FALL3D/nuevo/")
+  print("Done mv!")
+system ("rm -f /ServerData/OWGIS/FALL3D/p_03*.nc")
+  print("Done rm!")
+system ("mv  /ServerData/OWGIS/FALL3D/nuevo/p_03*.nc  /ServerData/OWGIS/FALL3D/")
+  print("Done mv!")
+ else
+  print("no hay salidas de hoy para 3 metros")
+end if
+
+if validar_metro5 .eq. 1 then
+  system ("mv  /ServerData/OWGIS/FALL3D/p_05_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc  /ServerData/OWGIS/FALL3D/nuevo/")
+  print("Done mv!")
+system ("rm -f /ServerData/OWGIS/FALL3D/p_05*.nc")
+  print("Done rm!")
+system ("mv  /ServerData/OWGIS/FALL3D/nuevo/p_05*.nc  /ServerData/OWGIS/FALL3D/")
+  print("Done mv!")
+ else
+  print("no hay salidas de hoy para 5 metros")
+end if
+
+if validar_metro3 .eq. 1 then
+  system ("mv  /ServerData/OWGIS/FALL3D/p_10_"+anio+"-"+sprintf("%02g",mes)+"-"+sprintf("%02g",dia)+".nc  /ServerData/OWGIS/FALL3D/nuevo/")
+  print("Done mv!")
+system ("rm -f /ServerData/OWGIS/FALL3D/p_10*.nc")
+  print("Done rm!")
+system ("mv  /ServerData/OWGIS/FALL3D/nuevo/p_10*.nc  /ServerData/OWGIS/FALL3D/")
+  print("Done mv!")
+ else
+  print("no hay salidas de hoy para 10 metros")
+end if

@@ -24,6 +24,7 @@ dim_time=73
 
             newVar = new( (/dim_time, dim_depth, dim_lat, dim_lon/),"float", 0)
             newVar = (no2+no)*1000
+newVar@units = "ppm" 
         end if       
 
 

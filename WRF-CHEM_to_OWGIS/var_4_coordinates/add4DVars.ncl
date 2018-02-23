@@ -45,12 +45,15 @@ printVarSummary(newVar)
 
             if (varNames(varIdx) .eq. "o3") then
                 newVar=newVar*1000
+                newVar@units = "ppm" 
             end if
             if (varNames(varIdx) .eq. "so2") then
                 newVar=newVar*1000
+                newVar@units = "ppm" 
             end if
             filevardef(fout, varNames(varIdx) ,typeof(newVar), (/"Time","Depth","Latitude","Longitude" /) ) ; time dimension
-            copy_VarAtts(origVar,newVar) ; Copy origial attributes
+            ;copy_VarAtts(origVar,newVar) ; Copy origial attributes
+              newVar@units = "ppm" 
             delete_VarAtts(newVar, (/"coordinates"/))
 
             filevarattdef(fout,varNames(varIdx),newVar); copy T attributes
