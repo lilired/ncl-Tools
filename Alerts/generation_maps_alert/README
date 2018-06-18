@@ -1,0 +1,72 @@
+Universidad Nacional Autónoma de México
+Centro de Ciencias de la Atmósfera
+
+Autor: Vladimir Gutiérrez
+
+El script genera mapas de alertamiento de 2 diferentes dominios. El primer dominio comprende la región acotada por las latitudes 4.12 y 38, de forma análoga esta acotada por las longitudes -123 y -74. El dominio 2 se encuetra delimitado por los valores 14, 21 de latitud y -106, -93 en longitud.
+
+Se generan 2 mapas, uno por cada una de las variables T2, PREC y VIENTO, teniendo un total de 6 mapas. Para cada mapa se contemplan 
+los percentiles 99.9, 99, 95, 5, 1, 0.1 y para cada uno se tienen 2 variables en el. 
+
+La primera tienen el nombre de la variable, y este genera la alerta de la siguiente manera:
+
+si algun pixel en el mapa de alguna variable mencionada esta por debajo del percentil 5, se activa la alerta 5
+si algun pixel en el mapa de alguna variable mencionada esta por debajo del percentil 1, se activa la alerta 1
+si algun pixel en el mapa de alguna variable mencionada esta por debajo del percentil 0.1, se activa la alerta 0.1
+
+si algun pixel en el mapa de alguna variable mencionada esta por encima del percentil 95, se activa la alerta 95
+si algun pixel en el mapa de alguna variable mencionada esta por encima del percentil 99, se activa la alerta 99
+si algun pixel en el mapa de alguna variable mencionada esta por encima del percentil 99.9, se activa la alerta 99.9
+
+Esta acción se realiza para cada uno de los mapas de entrada por variable(generalmente son 120 mapas por variable)
+
+La segunda tiene le nombre de la variable mas la terminación A, este es solo un mapa que notifica si es que en algun pixel se genero una
+alerta e indica el valor de la alerta activada.
+
+Para lograr este objetivo se utilizaron dos scripts.
+
+El primer script llamado "main" es de configuración y ejecución e indica el lugar donde
+se encuentran lo archivos necesarios(el archivo de los percentiles por cada dominio, los archivos del pronostico, la ubicación de python y del archio Alerta.py) para poder iniciar el programa.
+
+El segundo archivo llamado "Alerta.py" es un script escrito en python 3 para generar los archivos de alertamiento, en este se encuentran las siguiente funciones:
+
+get_file_day(dom, path): obtiene un archio netcdf de la ruta del pronostico del actual dia
+
+get_file_percentiles(pvars, dom, path): obtiene el netcdf de los percentiles
+
+get_var_netcdf(nameVar, netCDF): copia una variable del archivo netcdf
+
+alert_values(forecast, percentiles, percentilesValues): metodo que obtiene los mapas de alertas, para realizar esta acción es necesario contar con el archio netcdf del pronostico actual, el archivo netcdf de los percentiles, así como una lista de valores para cada percentil
+
+create_netcdf_file(name, varsNCDF, dimensions, ow=None): crea un archivo netcdf con nombre name y con las variables de varsNCDF 
+
+netcdf_var_latlon(dom, lat, lon, fillLat=None, fillLon=None): crea los valores de las variables de longitud y Latitud para el formato netcdf
+
+netcdf_dim_latlon(dom, lat=DIMLAT, lon=DIMLON): crea la dimencion de las variables latitud y longitud para el formato netcdf
+
+netCDFVarTime(time, since=SINCE, calendar=CALENDAR, fill=None): crea la variable tiempo para el formato netcdf
+
+netcdf_dim_time(time=None): crea la dimencion de la variable tiempo para el formato netcdf
+
+netcdf_var_t2(value, value2, fill=None): crea una variable T2 con los valores 0.1, 1, 5, 95, 99, 99.9, dependiendo si sobrepasa o esta por debajo de algun percentil
+
+netcdf_var_win(value, value2, fill=None): crea una variable VIENTO con los valores 50, 50, 50, 95, 99, 99.9, dependiendo si sobrepasa o esta por debajo de algun percentil
+
+netcdf_var_prec(value, value2, fill=None): crea una variable PREC con los valores 50, 50, 50, 95, 99, 99.9, dependiendo si pasa sobrepasa o esta por debajo de algun percentil
+
+def netcdf_dim(netcdf, name, size=None): crea una nueva dimencion en un archivo netcdf
+
+netcdf_var(netcdf, name, typ, depends, value, attributes, fill=None): crea una nueva variable en un archivo netcdf
+
+alert_t2(spath, dom, fpath, ppath): genera los mapas de alertas para temperatura
+
+alert_wind(spath, dom, fpath, ppath): genera los mapas de alertas para viento
+
+alert_prec(spath, dom, fpath, ppath): genera los mapas de alertas para precipitación
+
+estep2(path, pvars,  lat, lon, name): función que interpola los datos de los percentiles calculados a los del los dominios 1 y 2
+
+remove(path): Elimina los archivos del dia anterior
+
+main(): función que ejecuta las anteriores
+

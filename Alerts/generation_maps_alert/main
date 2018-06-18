@@ -1,7 +1,11 @@
 #!/bin/bash
 
+
 #se exporta la ruta de python
-export PATH=$PATH:/usr/bin:/usr/local/anaconda/bin/python
+PYTHON="/usr/local/anaconda/bin/python"
+ROOT="/home/vladimir/CENAPRED/Alertas"
+PERCENTILES="Alertas.py"
+
 
 #archivo donde se encuentran los percentiles
 PER_FILE="/ServerData/OutTempRaul/percentil/Percentiles.nc"
@@ -10,4 +14,10 @@ FCT_FILE="/ServerData/Pronosticos/Salidas/WRF"
 #archivo de salida
 OUT=""
 
-python percentiles.py "$OUT" "$FCT_FILE" "$PER_FILE"
+pushd . > /dev/null 2>&1
+
+cd $ROOT
+
+$PYTHON "$PERCENTILES" "$OUT" "$FCT_FILE" "$PER_FILE" > log/backup.txt 2>&1
+
+popd > /dev/null 2>&1
