@@ -42,6 +42,20 @@ The file is generated
  /ServerData/OWGIS/WRF/Percentil_Dom+ domains(1 ó 2)+ _"año actual"-"mes actual"+"dia actual"+.nc
   
 ### generation_maps_alert
+El script genera mapas de alertamiento de 2 diferentes dominios. El primer dominio comprende la región acotada por las latitudes 4.12 y 38, de forma análoga esta acotada por las longitudes -123 y -74. El dominio 2 se encuentra delimitado por los valores 14, 21 de latitud y -106, -93 en longitud.
 
+Se generan 2 mapas, uno por cada una de las variables T2, PREC y VIENTO, teniendo un total de 6 mapas. Para cada mapa se contemplan los percentiles 99.9, 99, 95, 5, 1, 0.1 y para cada uno se tienen 2 variables en él. 
 
+El primer tipo de mapa tienen el nombre de la variable y este genera la alerta de la siguiente manera:
 
+si algún pixel en el mapa de alguna variable mencionada esta por debajo del percentil 5, se activa la alerta 5
+si algún pixel en el mapa de alguna variable mencionada esta por debajo del percentil 1, se activa la alerta 1
+si algún pixel en el mapa de alguna variable mencionada esta por debajo del percentil 0.1, se activa la alerta 0.1
+
+si algún pixel en el mapa de alguna variable mencionada esta por encima del percentil 95, se activa la alerta 95
+si algún pixel en el mapa de alguna variable mencionada esta por encima del percentil 99, se activa la alerta 99
+si algún pixel en el mapa de alguna variable mencionada esta por encima del percentil 99.9, se activa la alerta 99.9
+
+Esta acción se realiza para cada uno de los mapas de entrada por variable(generalmente son 120 mapas por variable)
+
+La segundo tipo de mapa tiene el nombre de la variable más la terminación A, este es solo un mapa que notifica si en algún pixel previamente se había generado una alerta e indica el valor de esta.
