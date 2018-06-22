@@ -1,15 +1,13 @@
 #!/bin/bash
-
 #############################################
-# Centro de Ciencias de la Atmosfera
+# Centro de Ciencias de la Atmosfera, UNAM
 # Raúl Medina Peña
 # raulmp@ciencias.unam.mx
 # Script que ejecuta en paralelo los codigos 
 # ncl que calculan los histogramas (T2,PREC,V)
 #############################################
 
-#!/bin/bash
-#SBATCH -J Histogramas_NCL_OlmoZavala 
+#SBATCH -J Histogramas_NCL 
 #SBATCH -p id
 #SBATCH -N 5 # Numero de Nodos 
 #SBATCH --ntasks-per-node 24 # Número de tareas por nodo

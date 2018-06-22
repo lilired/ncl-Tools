@@ -1,15 +1,13 @@
 #!/bin/bash
-
 #############################################
-# Centro de Ciencias de la Atmosfera
+# Centro de Ciencias de la Atmosfera, UNAM
 # Raúl Medina Peña
 # raulmp@ciencias.unam.mx
 # Script que mezcla los histogramas en un  
 # solo netCDF.
 #############################################
 
-#!/bin/bash
-#SBATCH -J Merge_Histo_NCL_OlmoZavala 
+#SBATCH -J Merge_Histo_NCL
 #SBATCH -p id
 #SBATCH -N 1 # Numero de Nodos 
 #SBATCH --ntasks-per-node 1 # Número de tareas por nodo

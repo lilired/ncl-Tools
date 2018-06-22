@@ -146,10 +146,7 @@ begin
     dimNames = (/ "Latitude", "Longitude", "Depth_1", "Depth_2", "Depth_3"/)
     dimSizes = (/ nlat      ,  nlon      ,  ndepth1 , ndepth2  , ndepth3/)
     dimUnLim = (/ False     ,  False     ,  False   , False    , False/)
-
-    ;dimNames = (/ "Latitude", "Longitude", "Depth_1", "Depth_3"/)
-    ;dimSizes = (/ nlat      ,  nlon      ,  ndepth1 , ndepth3/)
-    ;dimUnLim = (/ False     ,  False     ,  False   , False/)
+    
     filedimdef(fout, dimNames, dimSizes, dimUnLim)
 
     ;----------------------------------------------------------------------
