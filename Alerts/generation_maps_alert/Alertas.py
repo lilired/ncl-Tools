@@ -76,13 +76,13 @@ def get_var_netcdf(nameVar, netCDF):
     raise ValueError("variable not found: " + nameVar)
 
 #obtiene los valores de alerta segun la variable
-def alert_values(forecast, percentiles, percentilesValues):
+def alert_values(forecast, percentiles, percentilesValues, percentilesVars):
     aler = np.empty(forecast.shape)
     aler.fill(50)
     k = 0
     for dayforecast in forecast:#itera sobre las horas
         i = 0
-        for ky in percentiles.keys():#sobre los percentiles
+        for ky in percentilesVars:#sobre los percentiles
             percentil = percentiles[ky]
             if(len(percentil.shape) == (len(dayforecast.shape) + 1)):
                 percentil = percentil[0]
@@ -141,23 +141,7 @@ def netcdf_var_latlon(dom, lat, lon, fillLat=None, fillLon=None):
                                         "standard_name": "longitude"}}
     return net
 
-
-
- ["T2_5", "T2_1", "T2_0_1", "T2_95", "T2_99", "T2_99_9"
-PYTHON="/usr/local/anaconda/bin/python"
-ROOT="/home/vladimir/CENAPRED/Alertas"
-PERCENTILES="Alertas.py"
-
-
-#archivo donde se encuentran los percentiles
-PER_FILE="/ServerData/OutTempRaul/percentil/Percentiles.nc"
-#archivo donde se encuentran los pronosticos
-FCT_FILE="/ServerData/Pronosticos/Salidas/WRF"
-#archivo de salida
-OUT=""
-
-
-#crea la dimencion de las variables latitud y longitud para el formato netcdf
+#crea la dimension de las variables latitud y longitud para el formato netcdf
 def netcdf_dim_latlon(dom, lat=DIMLAT, lon=DIMLON):
     if dom != 1:
         lat = DIMLAT_2
@@ -183,7 +167,7 @@ def netCDFVarTime(time, since=SINCE, calendar=CALENDAR, fill=None):
                                        "long_name": "Time", 
                                        "standard_name": "time"}}}
 
-#crea la dimencion de la variable tiempo para el formato netcdf
+#crea la dimension de la variable tiempo para el formato netcdf
 def netcdf_dim_time(time=None):
     return {"Time": {"size": time},
             "OTime" : {"size": None}}
@@ -246,7 +230,7 @@ def netcdf_var_prec(value, value2, fill=None):
                                        "standard_name": "Precipitacion"}}}
 
 
-#crea una nueva dimencion en un archivo netcdf
+#crea una nueva dimension en un archivo netcdf
 def netcdf_dim(netcdf, name, size=None):
     netcdf.createDimension(name, size)
 
@@ -264,14 +248,17 @@ def alert_t2(spath, dom, fpath, ppath):
     forecast = get_var_netcdf("T2", netcdf) - 273.15#se cambia de grados kelvin a celcius
     #percentiles = get_file_percentiles(T2VARS, dom, ppath)
     percentiles = estep2(ppath, T2VARS, get_var_netcdf("XLAT", netcdf)[0,::,0], get_var_netcdf("XLONG", netcdf)[0][0,:], "T2_dom" + str(dom))
-    alert = alert_values(forecast, percentiles, T2VALUES)
+    alert = alert_values(forecast, percentiles, T2VALUES, T2VARS)
     if dom == 1:
         alert[:,0:50,:] = 50
         alert[:,222:,:] = 50
     var = {}
     var.update(netCDFVarTime(np.arange(121), datetime.today().strftime(FORMAT) + " 00:00:00"))
     var.update(netcdf_var_latlon(dom, get_var_netcdf("XLAT", netcdf)[0,::,0], get_var_netcdf("XLONG", netcdf)[0][0,:]))
-    var.update(netcdf_var_t2(alert, np.array([np.amax(alert, axis=0)])))
+    alertMaxMin = np.amax(alert, axis=0)
+    alertMin = np.amin(alert, axis=0)
+    alertMaxMin[alertMaxMin <= 50] = alertMin[alertMaxMin<=50]    
+    var.update(netcdf_var_t2(alert, np.array([alertMaxMin])))    
     dim = {}
     dim.update(netcdf_dim_latlon(dom))
     dim.update(netcdf_dim_time())
@@ -285,7 +272,7 @@ def alert_wind(spath, dom, fpath, ppath):
     forecast = np.sqrt(np.power(U10, 2) + np.power(V10, 2))
     #percentiles = get_file_percentiles(WINVARS, dom, ppath)
     percentiles = estep2(ppath, WINVARS, get_var_netcdf("XLAT", netcdf)[0,::,0], get_var_netcdf("XLONG", netcdf)[0][0,:], "VIENTO_dom" + str(dom))
-    alert = alert_values(forecast, percentiles, WINVALUES)
+    alert = alert_values(forecast, percentiles, WINVALUES, WINVARS)
     if dom == 1:
         alert[:,0:50,:] = 50
         alert[:,222:,:] = 50
@@ -311,7 +298,7 @@ def alert_prec(spath, dom, fpath, ppath):
         forecast[j:] = forecast[j:] - forecast[res]
     #percentiles = get_file_percentiles(WINVARS, dom, ppath)
     percentiles = estep2(ppath, PRECVARS, get_var_netcdf("XLAT", netcdf)[0,::,0], get_var_netcdf("XLONG", netcdf)[0][0,:], "PREC_dom" + str(dom))
-    alert = alert_values(forecast, percentiles, PRECVALUES)
+    alert = alert_values(forecast, percentiles, PRECVALUES, PRECVARS)
     if dom == 1:
         alert[:,0:50,:] = 50
         alert[:,222:,:] = 50
@@ -326,7 +313,7 @@ def alert_prec(spath, dom, fpath, ppath):
 
 
 
-#funcion que ajusta los puntos interpolando dados por Raul 
+#funcion que ajusta los puntos interpolando el netCDF de los percentiles (Percentiles.nc)
 def estep2(path, pvars,  lat, lon, name):
     if not os.path.isfile(path):
         raise IOError("main percentiles file not found ", path)

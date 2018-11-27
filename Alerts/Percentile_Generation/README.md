@@ -11,7 +11,7 @@ El orden en que se ejecutaran los scripts es el siguiente:
 
 	** histo_paralelo.ncl
 
-		*** Ruta de archivos de entrada: "/KRAKEN/DATOS3/"
+		*** Ruta de archivos de entrada: "SERVIDOR_ROOT/KRAKEN/DATOS3/"
 		
 		*** Se crean las matrices donde se almacenaran los resultados. 
 			Por ejemplo, T2_RES = new ((/Latitude, Longitude, Rango_Valores/), float)
@@ -30,21 +30,21 @@ El orden en que se ejecutaran los scripts es el siguiente:
 			guardarHisto(T2_RES, PREC_RES, VIENTO_RES, myDay), donde myDay es el núemero de día del año 
 			que se proceso.
 		
-		*** Ruta de salida: "/home/rmedina/out/out-Histogramas-Total/"	
+		*** Ruta de salida: "/ROOT/out/out-Histogramas-Total/"	
 ------------------------------------------------------------------------------------------------
 
 2. run_merge_histogramas.sh:
 	Ejecuta el script merge_histo.ncl en un solo core.
 
 	** merge_paralelo.ncl
-		*** Ruta de archivos de entrada: "/home/rmedina/out/out-Histogramas-Total/tmp/"
+		*** Ruta de archivos de entrada: "/ROOT/out/out-Histogramas-Total/tmp/"
 	
 		*** Se carga cada archivo del directorio y se obtienen las variables para despues sumarlas 
 			y asi obtener el numero total de frecuencias de cada variable durante el periodo completo (1986-2016)
 	
 		*** Por útlimo se guarda la información en un archivo netCDF: "Histograma_Merge.nc"
 	
-		*** Ruta de salida : "/home/rmedina/out/out-Histogramas-Merge/"
+		*** Ruta de salida : "/ROOT/out/out-Histogramas-Merge/"
 
 ------------------------------------------------------------------------------------------------
 
@@ -52,7 +52,7 @@ El orden en que se ejecutaran los scripts es el siguiente:
 	
 	Calcula los percentiles a partir de los histogramas de cada variable.
 	
-	** Ruta de archivos de entrada: "/home/rmedina/out/out-Histogramas-Merge/"
+	** Ruta de archivos de entrada: "/ROOT/out/out-Histogramas-Merge/"
 	
 	** Archivo de entrada : "Histograma_Merge.nc"
 	
@@ -63,7 +63,7 @@ El orden en que se ejecutaran los scripts es el siguiente:
 			determinar el valor de la variable que esta por debajo de dicho percentil para cada punto 
 			del dominio.
 	
-	** Ruta de archivos de salida: "/home/rmedina/out/percentiles/"
+	** Ruta de archivos de salida: "/ROOT/out/percentiles/"
 	
 	** Archivo de salida : "Percentiles.nc"
 
